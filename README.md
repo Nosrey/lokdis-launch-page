@@ -133,3 +133,28 @@ For any questions or suggestions, please reach out to us at:
   <p>Made with ❤️ by the LokDis Team</p>
   <p>© 2024 LokDis. All Rights Reserved.</p>
 </div>
+
+# Lokdis Launch Page
+
+Este es el repositorio de la página de lanzamiento de Lokdis. La aplicación está diseñada para solicitar y compartir fotos y videos en tiempo real.
+
+## Demo
+
+El sitio web está publicado en: [https://nosrey.github.io/lokdis-launch-page/](https://nosrey.github.io/lokdis-launch-page/)
+
+## Desarrollo
+
+Este proyecto fue creado con React y desplegado utilizando GitHub Pages.
+
+Para ejecutar localmente:
+
+```bash
+npm install
+npm start
+```
+
+Para desplegar:
+
+```bash
+npm run deploy
+```
