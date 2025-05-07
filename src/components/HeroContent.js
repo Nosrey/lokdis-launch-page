@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../utils/i18n';
 import PhoneImage from '../assets/svg/phone.svg';
 import qrCode from '../assets/images/qr-code.png';
 import avatar1 from '../assets/images/avatar1.png';
 import avatar2 from '../assets/images/avatar2.png';
 import avatar3 from '../assets/images/avatar3.png';
+import logoSimple from '../assets/images/logo_simple.png';
+import instagramIcon from '../assets/images/instagram_icon.png';
+import tiktokIcon from '../assets/images/tiktok_icon.png';
+import emailIcon from '../assets/images/email_icon.png';
 
 function HeroContent() {
   const { t, language } = useLanguage();
   const [phoneLoaded, setPhoneLoaded] = useState(false);
+  const testimonialsRef = useRef(null);
   
   useEffect(() => {
     // Add a small delay to make the animation more noticeable
@@ -48,103 +53,144 @@ function HeroContent() {
   
   return (
     <>
-      <div className="hero-content">
-        <div className="hero-text">
-          <h1>{t('heroTitle')}</h1>
-          <p>
-            {t('heroSubtitle')}
-          </p>
-          <p>
-            {t('heroDescription')}
-          </p>
-          <button className="try-button">{t('tryButton')}</button>
-          
-          <div className="app-stores">
-            <button className="store-badge">
-              <img src="https://play.google.com/intl/en_us/badges/static/images/badges/es_badge_web_generic.png" 
-                   alt="Disponible en Google Play" 
-                   width="150" />
-            </button>
-            <button className="store-badge">
-              <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/es-es?size=250x83" 
-                   alt="Descargar en App Store" 
-                   width="130" />
-            </button>
-            <div className="qr-code">
-              <img src={qrCode} alt="QR Code" width="90" height="90" />
-            </div>
-          </div>
+    <div className="hero-content">
+        <div className="hero-title-mobile">
+        <h1>{t('heroTitle')}</h1>
         </div>
+        
         <div className="hero-image">
           <div className="phone-container">
             <img 
               src={PhoneImage} 
-              alt="Lokdis App" 
-              className={`phone-image ${phoneLoaded ? 'phone-loaded' : ''}`} 
-              onLoad={() => setPhoneLoaded(true)}
+              alt="Lokdis App"
+              className={`phone-image ${phoneLoaded ? 'phone-loaded' : ''}`}
             />
             <div className="phone-glow"></div>
           </div>
         </div>
-      </div>
-      <div className="main-content">
-        <div className="testimonials-section">
-          {testimonials.map(testimonial => (
-            <div key={testimonial.id} className="testimonial-card">
+        
+        <div className="hero-text">
+          <h1 className="hero-title-desktop">{t('heroTitle')}</h1>
+          <p>{t('heroSubtitle')}</p>
+          <p className="hero-description">{t('heroDescription')}</p>
+          <button className="try-button">
+            {t('tryButton')}
+          </button>
+        <div className="app-stores">
+            <button className="store-badge">
               <img 
-                src={testimonial.avatar} 
-                alt={`${testimonial.name}'s avatar`} 
-                className="testimonial-avatar" 
+                src={require('../assets/images/googleplay_icon.png')} 
+                alt="Google Play" 
+                width="60" 
+                height="60" 
               />
-              <blockquote className="testimonial-quote">
-                {testimonial.quote}
-              </blockquote>
-              <div className="testimonial-author">
-                <strong>{testimonial.name}</strong> {testimonial.age} {t('years')}
-              </div>
-              <div className="testimonial-location">
-                {testimonial.location}
+            </button>
+            <button className="store-badge">
+              <img 
+                src={require('../assets/images/applestore_icon.png')} 
+                alt="App Store" 
+                width="60" 
+                height="60" 
+              />
+            </button>
+          <div className="qr-code">
+              <img 
+                src={qrCode} 
+                alt="QR Code" 
+                width="90" 
+                height="90"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="testimonials-section" ref={testimonialsRef}>
+        {testimonials.map(testimonial => (
+          <div key={testimonial.id} className="testimonial-card">
+        <img 
+              src={testimonial.avatar} 
+              alt={`${testimonial.name}'s avatar`} 
+              className="testimonial-avatar" 
+            />
+            <blockquote className="testimonial-quote">
+              {testimonial.quote}
+            </blockquote>
+            <div className="testimonial-author">
+              <strong>{testimonial.name}</strong> {testimonial.age} {t('years')}
+            </div>
+            <div className="testimonial-location">
+              {testimonial.location}
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div className="main-content">
+        <footer className="footer-section">
+          <div className="footer-content-wrapper">
+            <div className="footer-row">
+              <button className="footer-link">{t('aboutUs')}</button>
+              <button className="footer-link">{t('privacyPolicy')}</button>
+              <button className="footer-link">{t('termsConditions')}</button>
+              <button className="footer-link">{t('faqs')}</button>
+              <button className="footer-link">{t('siteMap')}</button>
+              <div className="footer-social">
+                <a href="#" className="social-icon instagram">
+                  <img src={instagramIcon} alt="Instagram" className="footer-social-img footer-social-img--small" />
+                </a>
+                <a href="#" className="social-icon tiktok">
+                  <img src={tiktokIcon} alt="TikTok" className="footer-social-img footer-social-img--small" />
+                </a>
+                <a href="#" className="social-icon email">
+                  <img src={emailIcon} alt="Email" className="footer-social-img" />
+                </a>
               </div>
             </div>
-          ))}
-        </div>
-
-        <footer className="footer-section">
-          <div className="footer-links">
-            <button className="footer-link">{t('aboutUs')}</button>
-            <button className="footer-link">{t('privacyPolicy')}</button>
-            <button className="footer-link">{t('termsConditions')}</button>
-            <button className="footer-link">{t('faqs')}</button>
-            <button className="footer-link">{t('siteMap')}</button>
-          </div>
-          
-          <div className="footer-logo">
-            <img src={PhoneImage} alt="Lokdis Logo" />
-            <h3>LOKDIS</h3>
-          </div>
-          
-          <div className="footer-stores">
-            <button className="store-badge">
-              <img src="https://play.google.com/intl/en_us/badges/static/images/badges/es_badge_web_generic.png" 
-                   alt="Disponible en Google Play" 
-                   width="150" />
-            </button>
-            <button className="store-badge">
-              <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/es-es?size=250x83" 
-                   alt="Descargar en App Store" 
-                   width="130" />
-            </button>
-          </div>
-          
-          <div className="footer-qr">
-            <img src={qrCode} alt="QR Code" />
-          </div>
-          
-          <div className="footer-copyright">
-            {t('copyright')}
+            
+            <div className="footer-main">
+              <div className="footer-main-content">
+                <div className="footer-logo">
+                  <img 
+                    src={logoSimple} 
+                    alt="Lokdis Logo" 
+                    className="footer-logo-simple" 
+                  />
+                  <div className="footer-logo-text">LOKDIS</div>
+                </div>
+                <div className="footer-download">
+                  <div className="footer-stores">
+                    <a href="#" className="store-badge-footer">
+                      <img 
+                        src={require('../assets/images/googleplay_icon.png')} 
+                        alt="Google Play" 
+                        width="60" 
+                        height="60" 
+                      />
+                    </a>
+                    <a href="#" className="store-badge-footer">
+                      <img 
+                        src={require('../assets/images/applestore_icon.png')} 
+                        alt="App Store" 
+                        width="60" 
+                        height="60" 
+                      />
+                    </a>
+                  </div>
+                  <div className="footer-qr">
+                    <img src={qrCode} alt="QR Code" />
+                  </div>
+                </div>
+              </div>
+              <div className="footer-copyright-row">
+                <div className="footer-copyright">
+                  {t('copyright')}
+                </div>
+              </div>
+            </div>
           </div>
         </footer>
-      </div>
+    </div>
     </>
   );
 }
