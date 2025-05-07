@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/lokdis-launch-page/static/css/main.fd414662.css",
+    "main.js": "/lokdis-launch-page/static/js/main.fac4aaee.js",
+    "static/js/453.f4e0e058.chunk.js": "/lokdis-launch-page/static/js/453.f4e0e058.chunk.js",
+    "static/media/background-animated.gif": "/lokdis-launch-page/static/media/background-animated.0ae41682e817db50154e.gif",
+    "static/media/Poppins-Italic.ttf": "/lokdis-launch-page/static/media/Poppins-Italic.e373f6163127e2d469af.ttf",
+    "static/media/Poppins-Regular.ttf": "/lokdis-launch-page/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
+    "static/media/Poppins-Bold.ttf": "/lokdis-launch-page/static/media/Poppins-Bold.cdb29a5d7ccf57ff05a3.ttf",
+    "static/media/phone.svg": "/lokdis-launch-page/static/media/phone.1de44fab018d3bf6b34a07943e3e5af0.svg",
+    "static/media/logo_simple.png": "/lokdis-launch-page/static/media/logo_simple.0289200cf449fac8aa42.png",
+    "static/media/background.jpg": "/lokdis-launch-page/static/media/background.0a1b165da5281fb3d1e3.jpg",
+    "static/media/qr-code.png": "/lokdis-launch-page/static/media/qr-code.98c1edfcfd356b39dde3.png",
+    "index.html": "/lokdis-launch-page/index.html",
+    "main.fd414662.css.map": "/lokdis-launch-page/static/css/main.fd414662.css.map",
+    "main.fac4aaee.js.map": "/lokdis-launch-page/static/js/main.fac4aaee.js.map",
+    "453.f4e0e058.chunk.js.map": "/lokdis-launch-page/static/js/453.f4e0e058.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fd414662.css",
+    "static/js/main.fac4aaee.js"
+  ]
+}
