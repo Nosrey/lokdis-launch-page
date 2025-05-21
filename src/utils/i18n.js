@@ -17,6 +17,9 @@ const translations = {
     testimonial1: 'Con LokDis puedo saber cuánta gente hay en cada playa, así sé la mejor hora para ir.',
     testimonial2: 'Uso LokDis para ver si hay aparcamiento en la calle a la que quiero ir, pido un momento real y lo veo.',
     testimonial3: 'Como hay muchas noticias falsas en las redes sociales, utilizo LokDis para verificar si algo que he leído es verdad o no.',
+    testimonial4: 'LokDis me ha permitido encontrar sitios poco concurridos para hacer senderismo. Pido vídeos de diferentes rutas y elijo la que está más tranquila.',
+    testimonial5: 'Antes de ir a un restaurante, siempre compruebo en LokDis cómo está el ambiente real y si hay mucha cola. Me ahorra tiempo y disgustos.',
+    testimonial6: 'Gracias a LokDis pude ver el estado de mi barrio durante las inundaciones cuando estaba fuera de la isla. Fue muy útil para preparar mi regreso.',
     swipeForMore: 'Desliza para más',
     // Footer
     aboutUs: 'Sobre nosotros',
@@ -42,6 +45,9 @@ const translations = {
     testimonial1: 'With LokDis I can know how many people are at each beach, so I know the best time to go.',
     testimonial2: 'I use LokDis to see if there is parking on the street I want to go to, I request a real-time view and I see it.',
     testimonial3: 'As there is a lot of fake news on social media, I use LokDis to verify if something I read is true or not.',
+    testimonial4: 'LokDis has allowed me to find uncrowded places for hiking. I request videos of different trails and choose the most peaceful one.',
+    testimonial5: 'Before going to a restaurant, I always check on LokDis what the real atmosphere is like and if there\'s a long queue. It saves me time and disappointment.',
+    testimonial6: 'Thanks to LokDis I was able to see the condition of my neighborhood during the floods when I was away from the island. It was very useful to prepare for my return.',
     swipeForMore: 'Swipe for more',
     // Footer
     aboutUs: 'About Us',
@@ -70,7 +76,7 @@ export const LanguageProvider = ({ children }) => {
   };
   
   return (
-    <LanguageContext.Provider value={{ language, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, toggleLanguage, t, setLanguage }}>
       {children}
     </LanguageContext.Provider>
   );

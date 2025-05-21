@@ -17,7 +17,7 @@ function BackgroundImage() {
   return (
     <div className="background-image" style={{position: 'relative', width: '100%', height: '100%'}}>
       {!hasError ? (
-        <img 
+      <img 
           src={animatedBackground} 
           alt="Animated Background" 
           style={{ 
@@ -30,9 +30,9 @@ function BackgroundImage() {
       {/* Fallback: solo mientras el gif no cargue */}
       {(!isLoaded || hasError) && (
         <>
-          <img 
-            src={staticBackground} 
-            alt="Background" 
+        <img 
+          src={staticBackground} 
+        alt="Background" 
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', position: 'absolute', top: 0, left: 0, zIndex: 1 }}
           />
           <div style={{

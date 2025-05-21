@@ -14,6 +14,8 @@
   overflow: auto;
   gap: 32px;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 20;
 }
 
 .hero-title-mobile {
@@ -62,7 +64,7 @@
 
 .try-button {
   background-color: white;
-  color: #3c145a;
+  color: #143c5a;
   border: none;
   padding: 18px 60px;
   font-size: 1.3rem;
@@ -132,6 +134,7 @@
   margin-right: 5%;
   order: 2;
   max-width: 340px;
+  max-height: 60vh;
 }
 
 .phone-container {
@@ -140,10 +143,12 @@
   height: 100%;
   display: flex;
   justify-content: flex-end;
+  flex-shrink: 1;
+  max-height: 60vh;
 }
 
 .phone-image {
-  max-height: 600px;
+  max-height: 55vh;
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.25));
@@ -151,6 +156,7 @@
   opacity: 0;
   transform: translateY(20px);
   margin-left: auto;
+  max-width: 100%;
 }
 
 .phone-image.phone-loaded {
@@ -184,38 +190,226 @@
   margin-top: 0;
 }
 
+/* Testimonials background container */
+.testimonials-background {
+  width: 100%;
+  background-color: white;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  box-shadow: 0px -15px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 30;
+  overflow: hidden;
+}
+
+/* Smooth transition to white background */
+.testimonials-background::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, rgba(18, 5, 41, 0) 0%, rgba(255, 255, 255, 0.95) 80%, rgba(255, 255, 255, 1) 100%);
+  z-index: 29;
+}
+
 /* Testimonials section */
 .testimonials-section {
-  padding: 2rem 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 1.5rem;
+  padding: 3rem 0;
   position: relative;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  white-space: normal;
-  padding-top: 2.5rem;
-  background-color: white;
+  background-color: transparent;
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge */
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 2rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  white-space: nowrap;
+  touch-action: pan-x;
+  scroll-snap-type: x proximity;
+  z-index: 30;
+  scroll-padding-left: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* Ocultar la barra de desplazamiento en Chrome/Safari */
+.testimonials-section::-webkit-scrollbar {
+  display: none;
+}
+
+/* Wrapper to ensure proper spacing */
+.testimonials-wrapper {
+  padding: 0 20px;
+  display: block;
+  width: max-content; /* This is critical - allow it to grow as needed */
+  min-width: 100%;
+  position: relative;
+  background-color: transparent;
+}
+
+/* Remove the previous after pseudo-element */
+.testimonials-section::after {
+  display: none;
+}
+
+/* Remove the previous before pseudo-element */
+.testimonials-section::before {
+  display: none;
+}
+
+/* Contenedor para las tarjetas del carrusel */
+.testimonials-container {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 1.5rem;
+  padding: 0;
+  white-space: nowrap;
+  width: max-content; /* This allows it to expand to fit all cards */
+  min-width: 100%;
+}
+
+/* Testimonials in landscape mode */
+@media (orientation: landscape) and (max-height: 500px) {
+  .testimonials-section {
+    padding: 2rem 0;
+  }
+  
+  .testimonials-background {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+  
+  .testimonials-wrapper {
+    padding: 0 15px;
+  }
+  
+  .testimonials-container {
+    gap: 1rem;
+  }
+  
+  .testimonial-card {
+    min-width: 250px;
+    width: 250px;
+    height: auto;
+    min-height: 200px;
+    margin: 0 0.5rem;
+    padding: 1.5rem 1.2rem 1rem 1.2rem;
+    scroll-snap-align: start;
+  }
+  
+  .testimonial-quote {
+    font-size: 0.9rem;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+  
+  .testimonial-author {
+    font-size: 0.9rem;
+  }
+  
+  .testimonial-location {
+    font-size: 0.8rem;
+  }
+}
+
+.testimonial-card {
+  display: inline-flex;
+  flex-direction: column;
+  border-radius: 12px;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  min-width: 280px;
+  width: 280px;
+  height: 250px;
+  flex: 0 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 0.5rem;
+  position: relative;
+  z-index: 32;
+  justify-content: flex-start;
+  white-space: normal;
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+.testimonial-card:first-child {
+  margin-left: 0;
+}
+
+.testimonial-card:last-child {
+  margin-right: 20px;
+}
+
+/* Colores específicos para cada testimonio */
+.testimonial-card:nth-of-type(6n+1) {
+  background-color: #fff8f0; /* Beige claro */
+}
+
+.testimonial-card:nth-of-type(6n+2) {
+  background-color: #f5eaff; /* Lila claro */
+}
+
+.testimonial-card:nth-of-type(6n+3) {
+  background-color: #ffeeee; /* Rosa claro */
+}
+
+.testimonial-card:nth-of-type(6n+4) {
+  background-color: #e6f7ff; /* Azul claro */
+}
+
+.testimonial-card:nth-of-type(6n+5) {
+  background-color: #efffef; /* Verde menta claro */
+}
+
+.testimonial-card:nth-of-type(6n+6) {
+  background-color: #fffde6; /* Amarillo pálido */
 }
 
 /* Footer section styles */
 .footer-section {
   width: 100%;
-  background-color: transparent;
-  background-image: linear-gradient(to bottom, #010033, #00001a);
+  background-image: linear-gradient(to top, #000011, #000022, #000033, #000044);
   color: white;
   padding: 2rem 0 1.5rem;
   box-sizing: border-box;
   border-radius: 0;
   margin-top: 0;
+  position: relative;
+}
+
+/* Añadir bordes redondeados en la parte superior del footer */
+.footer-section::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background-color: #000033;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+/* Relleno en los laterales para los bordes redondeados */
+.footer-section::after {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background-color: transparent;
+  box-shadow: 
+    30px 0 0 0 #000033,
+    -30px 0 0 0 #000033;
+  z-index: -1;
 }
 
 .footer-content-wrapper {
@@ -225,49 +419,51 @@
   flex-direction: column;
   align-items: center;
   padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .footer-row {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 3rem;
-  gap: 2rem;
+  margin-bottom: 2rem;
+  gap: 1.5rem;
   padding: 0;
   box-sizing: border-box;
-  min-height: 48px;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .footer-links {
-  align-items: center;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 2rem;
   flex-wrap: wrap;
-  align-self: center;
+  align-items: center;
   text-align: center;
-  flex: 0 1 auto;
-  width: auto;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
 
 .footer-social {
-  flex: 0 1 auto;
-  gap: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
   flex-direction: row;
-  display: flex;
   align-items: center;
+  margin-left: auto;
 }
 
 .footer-link {
   color: white;
   text-decoration: none;
   transition: opacity 0.2s;
-  font-size: 0.9rem;
+  font-size: 1rem;
   background: none;
   border: none;
   padding: 0;
@@ -292,8 +488,8 @@
 }
 
 .footer-social-img {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: block;
   border: none;
   background: none;
@@ -306,27 +502,31 @@
 }
 
 .footer-social-img--small {
-  width: 24px;
-  height: 24px;
-}
-
-.icon {
-  font-size: 16px;
+  width: 28px;
+  height: 28px;
 }
 
 .footer-main {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+}
+
+.footer-main-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .footer-copyright-row {
   width: 100%;
   text-align: left;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   display: flex;
   justify-content: flex-start;
 }
@@ -336,8 +536,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  margin: 0 auto;
+  width: auto;
+  margin: 0 auto 1.5rem;
 }
 
 .footer-logo-simple {
@@ -361,64 +561,45 @@
   color: white;
 }
 
+.footer-copyright {
+  text-align: left;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
 .footer-download {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
 .footer-stores {
   display: flex;
   flex-direction: row;
-  gap: 0.8rem;
-}
-
-.store-badge-footer {
-  display: block;
-  transition: all 0.3s ease;
-  text-decoration: none;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .store-badge-footer img {
-  width: 154px;
-  height: 54px;
-  object-fit: contain;
-  margin-right: 2.5rem;
-}
-
-.store-badge-footer:last-child img {
-  margin-right: 0;
+  width: 150px;
+  height: auto;
 }
 
 .footer-qr {
-  display: flex;
-  align-items: center;
-  margin-right: 0;
-  margin-left: 2.5rem;
+  display: block;
 }
 
 .footer-qr img {
-  width: 110px;
-  height: 110px;
-  display: block;
+  width: 100px;
+  height: 100px;
   border: none;
-  background: none;
+  border-radius: 0;
+  box-shadow: none;
   padding: 0;
   margin: 0;
-}
-
-.footer-copyright {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.85rem;
-}
-
-.footer-main-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  background: none;
 }
 
 /* Responsive design - Large screens */
@@ -556,250 +737,405 @@
   }
 }
 
-/* Responsive design - Mobile */
-@media (max-width: 768px) {
+/* Responsive design - Mobile en portrait*/
+@media (max-width: 768px) and (orientation: portrait) {
   .hero-content {
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-    padding-top: 50px;
-    padding-bottom: 40px;
-    gap: 20px;
-    min-height: auto;
+    padding-top: 0;
+    height: calc(100vh - 70px);
+    justify-content: space-around;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+    gap: 10px;
   }
   
   .hero-title-mobile {
-    display: block;
-    margin-bottom: 15px;
-    margin-top: 20px;
-    padding: 0 8px;
-  }
-  
-  .hero-title-desktop {
-    display: none;
-  }
-  
-  .hero-text {
-    flex: 0 1 auto;
-    order: 2;
-    max-width: 90%;
-    margin-left: 0;
-    padding: 0 20px;
-  }
-  
-  .hero-image {
-    flex: 0 1 auto;
-    order: 1;
-    max-width: 65%;
-    margin-right: 0;
-    margin-bottom: 10px;
-    margin-top: 10px;
-  }
-  
-  .phone-container {
-    justify-content: center;
-  }
-  
-  .phone-image {
-    max-height: 450px;
-    margin-left: 0;
-  }
-  
-  .app-stores {
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .store-badge img {
-    width: 200px;
-  }
-  
-  .qr-code {
-    display: none;
+    display: block !important;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0;
+    width: 100%;
   }
   
   .hero-title-mobile h1 {
-    font-size: 2rem;
-    margin-bottom: 1.2rem;
+    font-size: 2.2rem;
+    margin-bottom: 0;
+    padding: 0;
+    line-height: 1.2;
+  }
+  
+  .hero-title-desktop {
+    display: none !important;
   }
   
   .hero-text h1 {
-    font-size: 2rem;
-    margin-bottom: 1.2rem;
+    display: none !important;
+  }
+  
+  .hero-image {
+    flex: 0 0 auto;
+    order: 1;
+    max-width: 65%;
+    margin: 0 auto;
+    padding: 5px 0;
+    margin-bottom: -5px;
+    margin-top: -5px;
+  }
+  
+  .phone-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .phone-image {
+    max-height: 45vh;
+    margin: 0 auto;
+    padding: 0;
+    min-width: 0;
+    width: 100%;
+    object-fit: contain;
+  }
+  
+  .hero-text {
+    flex: 0 0 auto;
+    order: 2;
+    max-width: 90%;
+    margin: 0;
+    padding: 0;
+    margin-top: -5px;
   }
   
   .hero-text p {
     font-size: 1rem;
-    margin-bottom: 0.8rem;
-    line-height: 1.4;
+    margin-bottom: 8px;
+    line-height: 1.3;
   }
   
   .hero-description {
-    margin-bottom: 1.5rem;
+    margin-bottom: 10px;
   }
   
   .try-button {
-    padding: 14px 40px;
+    padding: 12px 30px;
     font-size: 1.1rem;
-    margin-top: 1.2rem;
-    margin-bottom: 1.5rem;
-    min-width: 240px;
-    width: 90%;
-    max-width: 300px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    min-width: 220px;
+    transform: scale(1.2);
+    width: 85%;
+    max-width: 320px;
+  }
+
+  .app-stores {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 5px;
   }
   
-  .footer-row {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.2rem;
-  }
-  .footer-main-content {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-  }
-  .footer-links, .footer-social {
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    text-align: center;
-  }
-  .footer-logo {
-    align-items: center;
-    justify-content: center;
-  }
-  .footer-download {
-    display: none;
-  }
-  .footer-logo-simple {
-    min-width: 80px;
-    min-height: 80px;
-    height: 80px !important;
-    width: 80px !important;
-    display: block;
-    margin: 0 auto 0.5rem auto;
-    filter: brightness(0) invert(1);
-    object-fit: contain;
-  }
-  .footer-logo-text {
-    font-size: 1.2rem;
-  }
-  .footer-copyright-row {
-    justify-content: center;
-    text-align: center;
-  }
-  .footer-section {
-    padding-bottom: 3rem;
-  }
-  
-  .testimonials-section {
-    justify-content: flex-start;
-    padding-left: 1rem;
-    padding-right: 1rem;
+  .store-badge img {
+    width: 130px;
+    height: auto;
   }
 }
 
 /* Responsive design - Mobile */
 @media (max-width: 480px) {
   .hero-content {
-    padding: 40px 10px 30px 10px;
-  }
-  
-  .hero-text h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .hero-text p {
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-  }
-  
-  .try-button {
-    padding: 13px 35px;
-    font-size: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
-    min-width: 220px;
-    width: 80%;
-  }
-  
-  .hero-image {
-    max-width: 75%;
-  }
-  
-  .phone-image {
-    max-height: 350px;
-  }
-  
-  .app-stores {
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .store-badge img {
-    width: 180px;
+    max-height: 100vh;
+    overflow: visible;
+    padding-bottom: 5px;
+    justify-content: space-between;
   }
   
   .hero-title-mobile h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    margin-top: 10px;
-    padding: 0 5px;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    line-height: 1.2;
   }
   
-  .testimonials-section {
-    padding-left: 1rem;
-    padding-right: 1rem;
+  .hero-image {
+    max-width: 40%;
+  }
+  
+  .phone-image {
+    max-height: 35vh;
+  }
+  
+  .hero-text p {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .qr-code {
+    margin-left: 5px;
+    flex-shrink: 1;
+  }
+  
+  .qr-code img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .app-stores {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .store-badge {
+    flex-shrink: 1;
+  }
+  
+  .store-badge img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .try-button {
+    max-width: 90%;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 
 /* Responsive design - Small mobile */
 @media (max-width: 360px) {
   .hero-content {
-    padding-top: 70px;
+    padding-top: 0;
+    height: calc(100vh - 50px);
+    justify-content: space-around;
+    gap: 3px;
   }
   
-  .hero-text h1 {
-    font-size: 1.6rem;
+  .hero-title-mobile h1 {
+    font-size: 1.7rem;
+    margin-bottom: 0;
+    line-height: 1.2;
+    margin-top: 0;
+  }
+  
+  .hero-text {
+    margin-top: -5px;
+  }
+  
+  .hero-text p {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    line-height: 1.3;
+  }
+  
+  .try-button {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    min-width: 170px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    transform: scale(1.2);
+    width: 85%;
+    max-width: 250px;
+  }
+  
+  .hero-image {
+    max-width: 55%;
+    margin-bottom: -5px;
+    margin-top: -5px;
+    padding: 2px 0;
+  }
+  
+  .phone-image {
+    max-height: 38vh;
+    min-width: 0;
+    width: 100%;
+    object-fit: contain;
+  }
+  
+  .store-badge img {
+    width: 110px;
+  }
+  
+  .hero-description {
+    margin-bottom: 6px;
+  }
+  
+  .app-stores {
+    margin-top: 20px;
+  }
+}
+
+/* AJUSTES ESPECÍFICOS PARA IPHONE XR, XS MAX, 11, 12, 13 (414x896) */
+@media screen and (width: 414px) and (height: 896px),
+       screen and (device-width: 414px) and (device-height: 896px),
+       screen and (width: 414px) and (height: 736px),
+       screen and (device-width: 414px) and (device-height: 736px) {
+  .phone-image {
+    max-height: 40vh !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    object-fit: contain !important;
+  }
+  
+  .hero-image {
+    max-width: 55% !important;
+    margin-top: -5px !important;
+    margin-bottom: -5px !important;
+  }
+  
+  .hero-title-mobile h1 {
+    font-size: 1.8rem !important;
+  }
+  
+  .hero-text {
+    margin-top: -5px !important;
+  }
+  
+  .try-button {
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
+    transform: scale(1.2) !important;
+  }
+  
+  .app-stores {
+    margin-top: 20px !important;
+  }
+}
+
+/* Específicamente para la resolución 375x667 (iPhone 6/7/8) */
+@media screen and (width: 375px) and (height: 667px) {
+  .hero-content {
+    padding-top: 0;
+    height: calc(100vh - 60px);
+    gap: 0;
+  }
+  
+  .hero-title-mobile {
+    margin-top: -5px;
+    margin-bottom: -5px;
+  }
+  
+  .hero-title-mobile h1 {
+    font-size: 1.8rem;
+  }
+  
+  .hero-image {
+    max-width: 55%;
+    padding: 0;
+  }
+  
+  .phone-image {
+    max-height: 40vh;
+    min-width: 0;
+    width: 100%;
+    object-fit: contain;
+  }
+  
+  .hero-text {
+    margin-top: -8px;
   }
   
   .hero-text p {
     font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+  
+  .hero-description {
+    margin-bottom: 5px;
   }
   
   .try-button {
-    padding: 12px 30px;
+    padding: 9px 20px;
     font-size: 0.95rem;
-    min-width: 180px;
-    width: 80%;
-  }
-  
-  .hero-image {
-    max-width: 220px;
-  }
-  
-  .phone-image {
-    max-height: 320px;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    min-width: 200px;
   }
   
   .store-badge img {
-    width: 160px;
+    width: 110px;
   }
   
   .qr-code img {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* SOLUCIÓN ESPECÍFICA PARA IPHONE 6/7/8 a 375x667 con mayor prioridad */
+@media screen and (width: 375px) and (height: 667px),
+       screen and (device-width: 375px) and (device-height: 667px) {
+  .phone-image {
+    max-height: 35vh !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    object-fit: contain !important;
+  }
+  
+  .hero-image {
+    max-width: 50% !important;
+    max-height: 40vh !important;
+    padding: 0 !important;
+    margin-top: -5px !important;
+    margin-bottom: -5px !important;
+  }
+  
+  .hero-title-mobile {
+    margin-top: -10px !important;
+    margin-bottom: -5px !important;
   }
   
   .hero-title-mobile h1 {
-    font-size: 1.6rem;
+    font-size: 1.4rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  .hero-text {
+    margin-top: -15px !important;
+  }
+  
+  .hero-text p {
+    font-size: 0.85rem !important;
+    margin-bottom: 4px !important;
+    line-height: 1.2 !important;
+  }
+  
+  .try-button {
+    padding: 8px 20px !important;
+    font-size: 0.95rem !important;
+    margin-top: 20px !important;
+    margin-bottom: 10px !important;
+    width: 90% !important;
+    max-width: 250px !important;
+    min-width: 200px !important;
+    transform: scale(1.2) !important;
+  }
+  
+  .app-stores {
+    margin-top: 10px !important;
+    gap: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+  }
+  
+  .store-badge img {
+    width: 100px !important;
+  }
+  
+  .qr-code {
+    margin-left: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .qr-code img {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 0 auto !important;
   }
 }
 
@@ -807,11 +1143,16 @@
 @media (max-height: 500px) and (orientation: landscape) {
   .hero-content {
     flex-direction: row;
-    padding-top: 70px;
+    padding: 20px 3%;
     min-height: auto;
-    height: auto;
-    padding-bottom: 30px;
-    gap: 40px;
+    height: calc(100vh - 60px);
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+    overflow: hidden;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .hero-title-mobile {
@@ -819,59 +1160,189 @@
   }
   
   .hero-title-desktop {
-    display: block;
+    display: block !important;
   }
   
   .hero-text {
     flex: 1;
     text-align: left;
+    order: 2;
+    padding: 0;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    margin-right: 3%;
+    padding-top: 15px;
   }
   
   .hero-text h1 {
-    font-size: 1.8rem;
+    display: block !important;
+    font-size: 1.7rem !important;
+    margin-bottom: 8px !important;
+    line-height: 1.2 !important;
+  }
+  
+  .hero-text p {
+    font-size: 0.95rem;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  
+  .hero-description {
+    margin-bottom: 8px;
+  }
+  
+  .try-button {
+    padding: 8px 20px;
+    font-size: 0.95rem;
+    min-width: 180px;
+    margin-top: 8px;
+    margin-bottom: 12px;
   }
   
   .hero-image {
-    flex: 0 0 250px;
-    max-height: 250px;
+    flex: 0 0 42%;
+    order: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0 10px;
+    height: 100%;
+  }
+  
+  .phone-container {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
   }
   
   .phone-image {
-    max-height: 250px;
+    max-height: 70vh;
+    width: auto;
+    max-width: 100%;
+    margin: 0 auto;
+    object-fit: contain;
+  }
+  
+  .app-stores {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    width: 100%;
+  }
+  
+  .store-badge img {
+    width: 130px;
+    height: auto;
+  }
+  
+  .qr-code {
+    display: none;
+  }
+}
+
+/* Fix específico para dispositivos más pequeños en landscape */
+@media (max-height: 400px) and (orientation: landscape) {
+  .hero-content {
+    padding: 15px 3%;
+    height: calc(100vh - 50px);
+    gap: 0;
+  }
+  
+  .hero-text {
+    max-width: 52%;
+    margin-right: 3%;
+    padding-top: 10px;
+  }
+  
+  .hero-text h1 {
+    display: block !important;
+    font-size: 1.4rem !important;
+    margin-bottom: 5px !important;
+    line-height: 1.2 !important;
+  }
+  
+  .hero-text p {
+    font-size: 0.85rem;
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+  
+  .try-button {
+    padding: 6px 15px;
+    font-size: 0.85rem;
+    min-width: 150px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+  }
+  
+  .hero-image {
+    flex: 0 0 38%;
+    padding: 0 5px;
+  }
+  
+  .phone-image {
+    max-height: 60vh;
+  }
+  
+  .store-badge img {
+    width: 110px;
+  }
+  
+  .app-stores {
+    gap: 10px;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  
+  .footer-logo {
+    align-items: flex-start;
+    text-align: left;
+  }
+  
+  .footer-logo-simple {
+    min-width: 40px;
+    min-height: 40px;
+    height: 40px !important;
+    width: 40px !important;
+    margin: 0 0 0.15rem 0;
+  }
+  
+  .footer-logo-text {
+    font-size: 0.8rem;
+    letter-spacing: 0.8px;
+    text-align: left;
   }
 }
 
 /* Responsive design for footer */
 @media (max-width: 768px) {
-  .footer-main {
+  .footer-row {
     flex-direction: column;
-    gap: 2rem;
-  }
-  
-  .footer-download {
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 1.5rem;
   }
   
-  .footer-stores {
-    flex-direction: row;
-    gap: 1rem;
-  }
-  
-  .store-badge-footer img {
-    width: 130px;
-  }
-  
-  .footer-qr img {
-    width: 100px;
-    height: 100px;
+  .footer-links {
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+    text-align: center;
   }
   
   .footer-social {
-    margin-left: 0;
     justify-content: center;
-    width: 100%;
-    margin-top: 1rem;
+    gap: 1.2rem;
+    margin-left: 0;
   }
   
   .footer-logo-simple {
@@ -879,10 +1350,38 @@
     min-height: 80px;
     height: 80px !important;
     width: 80px !important;
-    display: block;
-    margin: 0 auto 0.5rem auto;
-    filter: brightness(0) invert(1);
-    object-fit: contain;
+  }
+  
+  .footer-logo-text {
+    font-size: 1.2rem;
+  }
+  
+  .footer-copyright-row {
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .footer-copyright {
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  
+  .footer-main-content {
+    flex-direction: column;
+  }
+  
+  .footer-download {
+    display: none;
+  }
+  
+  /* Ajustar el radio de los bordes para pantallas más pequeñas */
+  .footer-section::before {
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+  
+  .footer-section {
+    padding-bottom: 2.5rem;
   }
 }
 
@@ -911,6 +1410,29 @@
     margin: 0 auto 0.5rem auto;
     filter: brightness(0) invert(1);
     object-fit: contain;
+  }
+  
+  /* Ajustar el radio de los bordes para pantallas aún más pequeñas */
+  .footer-section::before {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    top: -15px;
+    height: 15px;
+  }
+  
+  .footer-section::after {
+    top: -15px;
+    height: 15px;
+  }
+  
+  .footer-section {
+    padding-bottom: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-section {
+    padding-bottom: 3.5rem;
   }
 }
 
@@ -969,22 +1491,6 @@
   }
 }
 
-.testimonial-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 12px;
-  padding: 1.5rem 1.5rem 1rem 1.5rem;
-  min-width: 280px;
-  width: 280px;
-  flex-shrink: 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  margin-bottom: 0.5rem;
-  position: relative;
-  z-index: 1;
-  justify-content: flex-start;
-}
-
 .testimonial-author {
   margin-bottom: 0.2rem;
   margin-top: auto;
@@ -999,4 +1505,1597 @@
   font-size: 0.85rem;
   font-weight: bold;
   text-align: left;
+}
+
+.testimonial-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 3px solid #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.testimonial-quote {
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 1.8rem;
+  margin-top: 0.5rem;
+  color: #333;
+  text-align: center;
+  font-style: italic;
+  flex-grow: 1;
+  overflow: visible;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  height: auto;
+}
+
+/* Removing unnecessary classes */
+.carousel-arrow,
+.carousel-arrow-prev,
+.carousel-arrow-next,
+.testimonial-card.active,
+.testimonial-card-spacer {
+  display: none !important;
+}
+
+/* Testimonial cards - Mobile styles */
+@media (max-width: 768px) {
+  .testimonial-card {
+    min-width: 280px;
+    width: 280px;
+    height: 250px;
+    padding: 2rem 1.8rem 1.2rem 1.8rem;
+    margin-top: 25px;
+    padding-top: 3rem;
+    overflow-y: visible;
+  }
+  
+  .testimonial-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .testimonial-quote {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 1.2rem;
+    margin-top: 0.5rem;
+    -webkit-line-clamp: 4;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonial-card {
+    min-width: 260px;
+    width: 260px;
+    height: 240px;
+    padding: 1.8rem 1.6rem 1rem 1.6rem;
+    padding-top: 2.8rem;
+    overflow-y: visible;
+  }
+  
+  .testimonial-avatar {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .testimonial-quote {
+    font-size: 0.95rem;
+    line-height: 1.3;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    -webkit-line-clamp: 4;
+    max-height: none;
+    height: auto;
+    overflow: visible;
+  }
+  
+  .testimonial-author {
+    font-size: 1.05rem;
+    margin-top: auto;
+  }
+  
+  .testimonial-location {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .testimonial-card {
+    min-width: 240px;
+    width: 240px;
+    height: 230px;
+    padding-top: 2.5rem;
+    overflow-y: visible;
+  }
+  
+  .testimonial-avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .testimonial-quote {
+    font-size: 0.9rem;
+    line-height: 1.3;
+    margin-top: 0.4rem;
+    margin-bottom: 0.8rem;
+    -webkit-line-clamp: 4;
+    max-height: none;
+    height: auto;
+    overflow: visible;
+  }
+  
+  .testimonial-author {
+    font-size: 1rem;
+  }
+  
+  .testimonial-location {
+    font-size: 0.85rem;
+  }
+}
+
+/* Responsive design - Mobile */
+@media (max-width: 768px) {
+  .testimonials-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    justify-content: flex-start;
+    scroll-padding-left: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonials-section {
+    padding-top: 3.5rem;
+    padding-bottom: 4.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    justify-content: flex-start;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .testimonial-card {
+    scroll-snap-align: start;
+    margin-right: 0.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .testimonials-section {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+    justify-content: flex-start;
+  }
+}
+
+/* Landscape mode testimonial fixes */
+@media (max-height: 500px) and (orientation: landscape) {
+  .testimonials-section {
+    padding: 2.5rem 1rem;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .testimonial-card {
+    min-width: 240px;
+    width: 240px;
+    height: 310px;
+    padding: 2rem 1.4rem 1rem 1.4rem;
+    margin-top: 25px;
+    padding-top: 3rem;
+  }
+  
+  .testimonial-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .testimonial-quote {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 1.2rem;
+    margin-top: 0.5rem;
+    max-height: 180px;
+    overflow-y: auto;
+  }
+}
+
+@media (max-height: 400px) and (orientation: landscape) {
+  .testimonials-section {
+    padding: 2rem 0.8rem;
+    justify-content: center;
+  }
+  
+  .testimonial-card {
+    min-width: 220px;
+    width: 220px;
+    height: 280px;
+    padding: 1.8rem 1.2rem 0.8rem 1.2rem;
+    padding-top: 2.8rem;
+  }
+  
+  .testimonial-avatar {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .testimonial-quote {
+    font-size: 0.95rem;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+    max-height: 160px;
+  }
+  
+  .testimonial-author {
+    font-size: 1rem;
+  }
+  
+  .testimonial-location {
+    font-size: 0.9rem;
+  }
+}
+
+/* Footer layout for landscape mobile - REMOVING THESE STYLES */
+@media (max-height: 500px) and (orientation: landscape) {
+  /* Removing all footer-specific styles for landscape mode */
+  
+  /* Adding just the footer logo alignment */
+  .footer-logo {
+    align-self: flex-start;
+    margin-right: auto;
+    margin-left: 0;
+    align-items: flex-start;
+    text-align: left;
+  }
+  
+  .footer-logo-simple {
+    margin-left: 0;
+  }
+  
+  .footer-logo-text {
+    text-align: left;
+    margin-left: 0;
+  }
+  
+  /* Reduce social icons and footer text size */
+  .footer-social-img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .footer-social-img--small {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .footer-social {
+    gap: 12px;
+  }
+  
+  .footer-link {
+    font-size: 0.9rem;
+  }
+  
+  .footer-links {
+    gap: 18px;
+  }
+  
+  .footer-copyright {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-height: 400px) and (orientation: landscape) {
+  /* Removing all footer-specific styles for landscape mode */
+}
+
+/* Fix específico para resolución 667x335 en modo horizontal - MAYOR PRIORIDAD */
+@media screen and (width: 667px) and (height: 335px),
+       screen and (device-width: 667px) and (device-height: 335px),
+       screen and (max-width: 667px) and (max-height: 335px) and (orientation: landscape) {
+  body .hero-content .hero-text h1.landscape-title,
+  body .hero-content .hero-text h1.hero-title-desktop {
+    display: block !important;
+    visibility: visible !important;
+    font-size: 1.2rem !important;
+    margin-bottom: 4px !important;
+    line-height: 1.3 !important;
+    color: white !important;
+    opacity: 1 !important;
+  }
+
+  /* Otros estilos */
+  .hero-content {
+    padding: 10px 3%;
+    height: calc(100vh - 40px);
+    gap: 0;
+  }
+  
+  .hero-image {
+    flex: 0 0 35%;
+    padding: 0 3px;
+  }
+  
+  .hero-text {
+    max-width: 55%;
+    margin-right: 2%;
+    padding-top: 5px;
+  }
+}
+
+.landscape-title {
+  /* Por defecto, la clase se comporta como hero-title-desktop */
+  /* No establecer display por defecto, sino solo en media queries específicos */
+}
+
+@media (orientation: landscape) {
+  .landscape-title {
+    display: block !important;
+  }
+  
+  .hero-title-desktop {
+    display: block !important;
+  }
+}
+
+@media screen and (width: 667px) and (height: 335px),
+       screen and (device-width: 667px) and (device-height: 335px),
+       screen and (max-width: 667px) and (max-height: 335px) and (orientation: landscape) {
+  .landscape-title {
+    display: block !important;
+    font-size: 1.2rem !important;
+    margin-bottom: 4px !important;
+    line-height: 1.3 !important;
+    color: white !important;
+  }
+}
+
+/* Corregir vista vertical */
+@media (max-width: 768px) and (orientation: portrait) {
+  .hero-title-desktop,
+  .landscape-title {
+    display: none !important;
+  }
+  
+  .hero-title-mobile {
+    display: block !important;
+  }
+  
+  .hero-text h1 {
+    display: none !important;
+  }
+}
+
+/* Mantener los estilos de landscape solo para orientación landscape */
+@media (orientation: landscape) {
+  .landscape-title {
+    display: block;
+  }
+}
+
+/* Específico para dispositivos pequeños en landscape (667x335) */
+@media screen and (max-width: 667px) and (max-height: 450px) and (orientation: landscape) {
+  /* Ajustar distribución general */
+  html body .hero-content {
+    padding: 5px 3% !important;
+    height: calc(100vh - 40px) !important;
+    gap: 0 !important;
+    align-items: center !important;
+  }
+  
+  /* Alta especificidad para el título */
+  html body .hero-content .hero-text h1.landscape-title,
+  html body .hero-content .hero-text h1.hero-title-desktop {
+    display: block !important;
+    visibility: visible !important;
+    font-size: 1.2rem !important;
+    margin-bottom: 4px !important;
+    line-height: 1.3 !important;
+    color: white !important;
+    opacity: 1 !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  /* Ocultar título móvil en landscape */
+  html body .hero-content .hero-title-mobile {
+    display: none !important;
+  }
+  
+  /* Ajustar espacio para texto */
+  html body .hero-content .hero-text {
+    max-width: 58% !important;
+    margin-right: 1% !important;
+    padding-top: 2px !important;
+  }
+  
+  /* Ajustar tamaño de texto del subtítulo y descripción */
+  html body .hero-content .hero-text p {
+    font-size: 0.7rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 4px !important;
+    margin-top: 4px !important;
+  }
+  
+  html body .hero-content .hero-text .hero-description {
+    font-size: 0.65rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 6px !important;
+    margin-top: 4px !important;
+  }
+  
+  /* Ajustar espacio para la imagen */
+  html body .hero-content .hero-image {
+    flex: 0 0 32% !important;
+    padding: 0 !important;
+  }
+  
+  /* Ajustar botón */
+  html body .hero-content .hero-text .try-button {
+    padding: 6px 15px !important;
+    font-size: 0.85rem !important;
+    min-width: 150px !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    transform: none !important;
+  }
+  
+  /* Ajustar los botones de tienda */
+  html body .hero-content .hero-text .app-stores {
+    gap: 6px !important;
+    margin-top: 2px !important;
+  }
+  
+  html body .hero-content .hero-text .app-stores .store-badge img {
+    width: 90px !important;
+    transform: scale(0.85) !important;
+  }
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+  .landscape-title {
+    display: none !important;
+  }
+}
+
+/* Específico para resolución de móviles pequeños en landscape */
+@media (max-height: 450px) and (orientation: landscape) {
+  .footer-main-content {
+    width: auto !important;
+    margin: 0 auto !important;
+  }
+  
+  .footer-logo {
+    align-items: center !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+  
+  .footer-logo-simple {
+    margin: 0 auto 0.5rem auto !important;
+  }
+  
+  .footer-logo-text {
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Específico SOLO para dispositivos extremadamente pequeños en landscape (667x335) */
+@media screen and (max-width: 667px) and (max-height: 335px) and (orientation: landscape) {
+  .footer-main-content {
+    width: auto !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Asegurar alineación a la izquierda para dispositivos medianos y grandes en landscape */
+@media screen and (min-height: 336px) and (orientation: landscape),
+       screen and (min-width: 668px) and (orientation: landscape) {
+  .footer-main-content {
+    width: 100% !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+  }
+  
+  .footer-logo {
+    align-items: flex-start !important;
+    text-align: left !important;
+    margin: 0 !important;
+  }
+  
+  .footer-logo-text {
+    text-align: left !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* SOLO móviles muy pequeños horizontales como 667x375 - centrado */
+@media screen and (width: 667px) and (height: 375px),
+       screen and (max-width: 667px) and (max-height: 375px) and (orientation: landscape) {
+  .footer-main-content {
+    width: auto !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Todos los demás móviles en landscape - alineados a la izquierda */
+@media screen and (min-width: 668px) and (orientation: landscape),
+       screen and (min-height: 376px) and (orientation: landscape) {
+  .footer-main-content {
+    width: 100% !important;
+  }
+}
+
+/* Espaciador al final del carrusel */
+.testimonial-card-spacer {
+  min-width: 280px;
+  width: 280px;
+  height: 250px;
+  flex: 0 0 auto;
+  margin: 0 0.5rem;
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* Media query para móviles */
+@media (max-width: 768px) {
+  .testimonial-card-spacer {
+    min-width: 150px;
+    width: 150px;
+  }
+  
+  .testimonials-section {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap;
+    touch-action: pan-x !important;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE y Edge */
+  }
+  
+  /* Ocultar la barra de desplazamiento en Chrome/Safari */
+  .testimonials-section::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Add specific styles for mid-size mobile devices (380-420px) */
+@media screen and (min-width: 380px) and (max-width: 420px) {
+  .hero-content {
+    padding: 0 8px 10px 8px;
+    gap: 0;
+  }
+  
+  .hero-image {
+    max-width: 45%; /* Reduce phone size */
+    margin-bottom: -5px;
+    margin-top: -5px;
+    padding: 0;
+  }
+  
+  .phone-container {
+    max-height: 40vh;
+  }
+  
+  .phone-image {
+    max-height: 35vh;
+    width: auto;
+    max-width: 100%;
+  }
+  
+  .hero-text {
+    margin-top: -10px;
+  }
+  
+  .hero-text p {
+    font-size: 0.9rem;
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+  
+  .try-button {
+    padding: 8px 20px;
+    font-size: 0.95rem;
+    transform: scale(1.1);
+    margin-top: 15px;
+    margin-bottom: 10px;
+    width: 85%;
+    max-width: 280px;
+    min-width: 0; /* Remove min-width */
+  }
+  
+  .app-stores {
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  .store-badge img {
+    width: 110px;
+  }
+  
+  .qr-code img {
+    width: 65px;
+    height: 65px;
+  }
+}
+
+/* Improve general mobile responsiveness to ensure images resize properly */
+@media (max-width: 480px) {
+  .phone-image {
+    min-width: 0; /* Remove min-width constraint that was causing issues */
+    width: 100%;
+    object-fit: contain;
+  }
+  
+  .try-button {
+    min-width: 0; /* Remove min-width constraint */
+    width: 85%;
+  }
+}
+
+/* Additional responsive improvements */
+@media (max-width: 480px) {
+  /* Make sure hero content never overflows */
+  .hero-content {
+    max-height: 100vh;
+    overflow: visible;
+  }
+  
+  /* Optimize QR code visibility */
+  .qr-code {
+    margin-left: 5px;
+    flex-shrink: 1;
+  }
+  
+  .qr-code img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Ensure store badges are responsive */
+  .app-stores {
+    flex-wrap: wrap;
+  }
+  
+  .store-badge {
+    flex-shrink: 1;
+  }
+  
+  .store-badge img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Ensure button fits */
+  .try-button {
+    max-width: 90%;
+  }
+  
+  /* Ensure text is readable */
+  .hero-text p {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Better responsive behavior for extra small screens */
+@media (max-width: 380px) {
+  .hero-content {
+    padding: 0 5px 5px 5px;
+  }
+  
+  .hero-image {
+    max-width: 40%;
+  }
+  
+  .phone-image {
+    max-height: 35vh;
+  }
+  
+  .hero-title-mobile h1 {
+    font-size: 1.5rem;
+  }
+  
+  .hero-text p {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  
+  .try-button {
+    padding: 6px 15px;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .store-badge img {
+    width: 100px;
+  }
+  
+  .qr-code img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .app-stores {
+    gap: 5px;
+    margin-top: 5px;
+  }
+}
+
+/* Specific fix for problematic width range (420-430px) */
+@media screen and (min-width: 420px) and (max-width: 450px) {
+  .hero-content {
+    display: flex !important;
+    flex-direction: column !important;
+    text-align: center !important;
+    align-items: center !important;
+    overflow: visible !important;
+    padding: 0 8px 10px 8px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    gap: 0 !important;
+    max-height: none !important;
+  }
+  
+  .hero-title-mobile {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+  
+  .hero-title-desktop {
+    display: none !important;
+  }
+  
+  .hero-text h1 {
+    display: none !important;
+  }
+  
+  .hero-image {
+    flex: 0 0 auto !important;
+    max-width: 40% !important;
+    max-height: 35vh !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    order: 1 !important;
+  }
+  
+  .phone-container {
+    max-height: 35vh !important;
+    justify-content: center !important;
+    width: 100% !important;
+  }
+  
+  .phone-image {
+    max-height: 30vh !important;
+    min-width: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+  
+  .hero-text {
+    flex: 0 0 auto !important;
+    max-width: 95% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    order: 2 !important;
+    text-align: center !important;
+  }
+  
+  .hero-text p {
+    font-size: 0.9rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 4px !important;
+    width: 100% !important;
+  }
+  
+  .try-button {
+    transform: scale(1) !important;
+    margin: 10px auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 90% !important;
+    padding: 8px 15px !important;
+    font-size: 0.95rem !important;
+  }
+  
+  .app-stores {
+    justify-content: center !important;
+    gap: 8px !important;
+    margin-top: 10px !important;
+    width: 100% !important;
+    flex-wrap: wrap !important;
+  }
+  
+  .store-badge img {
+    width: 100px !important;
+  }
+  
+  .qr-code img {
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
+/* Ultra specific fix for exactly 575x810 resolution */
+@media screen and (width: 575px) and (height: 810px),
+       screen and (width: 576px) and (height: 810px),
+       screen and (width: 575px) and (height: 811px),
+       screen and (width: 576px) and (height: 811px) {
+  html body .hero-content {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 10px 10px 10px !important;
+    gap: 10px !important;
+  }
+  
+  html body .hero-content .hero-image {
+    flex: 0 0 auto !important;
+    max-width: 42% !important; /* Even smaller */
+    max-height: 32vh !important; /* Aggressively limit height */
+  }
+  
+  html body .hero-content .hero-image .phone-container {
+    max-height: 32vh !important;
+  }
+  
+  html body .hero-content .hero-image .phone-container .phone-image {
+    max-height: 30vh !important; /* Very conservative */
+    min-width: 0 !important;
+    width: auto !important;
+    max-width: 100% !important;
+  }
+  
+  html body .hero-content .hero-text {
+    padding-top: 0 !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  html body .hero-content .hero-text .try-button {
+    margin-top: 0.8rem !important;
+    margin-bottom: 0.8rem !important;
+    transform: none !important;
+  }
+  
+  html body .hero-content .hero-text .app-stores {
+    margin-top: 0.8rem !important;
+  }
+}
+
+/* Ultra specific fix for exactly 539x810 resolution */
+@media screen and (width: 539px) and (height: 810px),
+       screen and (width: 540px) and (height: 810px),
+       screen and (width: 539px) and (height: 811px),
+       screen and (width: 540px) and (height: 811px) {
+  html body .hero-content {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 10px 10px 10px !important;
+    gap: 10px !important;
+  }
+  
+  html body .hero-content .hero-image {
+    flex: 0 0 auto !important;
+    max-width: 40% !important; /* Slightly smaller than the 575px version */
+    max-height: 30vh !important; /* More aggressive height limit */
+  }
+  
+  html body .hero-content .hero-image .phone-container {
+    max-height: 30vh !important;
+  }
+  
+  html body .hero-content .hero-image .phone-container .phone-image {
+    max-height: 28vh !important; /* Very conservative */
+    min-width: 0 !important;
+    width: auto !important;
+    max-width: 100% !important;
+  }
+  
+  html body .hero-content .hero-text {
+    padding-top: 0 !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  html body .hero-content .hero-text .try-button {
+    margin-top: 0.8rem !important;
+    margin-bottom: 0.8rem !important;
+    transform: none !important;
+  }
+  
+  html body .hero-content .hero-text .app-stores {
+    margin-top: 0.8rem !important;
+  }
+}
+
+/* Password Confirmation Screen Styles */
+.password-confirm-container {
+    display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.password-confirm-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.password-instructions {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.password-form {
+    display: flex;
+    flex-direction: column;
+  gap: 18px;
+    width: 100%;
+  }
+  
+.password-input-group {
+    display: flex;
+  flex-direction: column;
+    width: 100%;
+  }
+  
+.password-input-group label {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.password-field {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.password-field input {
+  width: 100%;
+  padding: 12px 45px 12px 15px;
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.password-field input:focus {
+  border-color: #2c7be5;
+  box-shadow: 0 0 0 2px rgba(44, 123, 229, 0.2);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #666;
+  padding: 2px 5px;
+}
+
+.password-error {
+  color: #e74c3c;
+  font-size: 0.75rem;
+  margin-top: 5px;
+}
+
+.error-message {
+  background-color: rgba(231, 76, 60, 0.1);
+  border-left: 3px solid #e74c3c;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  color: #e74c3c;
+    font-size: 0.85rem;
+  }
+  
+.password-form-buttons {
+    display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 15px;
+}
+
+.back-button, 
+.confirm-button {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid;
+}
+
+.back-button {
+  background-color: transparent;
+}
+
+.back-button:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.confirm-button {
+  color: white;
+}
+
+.confirm-button:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.confirm-button:disabled,
+.back-button:disabled {
+  cursor: not-allowed;
+}
+
+.password-requirements {
+  margin-top: 25px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.password-requirements p {
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.password-requirements ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.password-requirements li {
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .password-confirm-container {
+    padding: 15px;
+    max-width: 100%;
+  }
+  
+  .password-confirm-container h2 {
+    font-size: 1.3rem;
+  }
+  
+  .password-field input {
+    padding: 10px 40px 10px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .password-form-buttons {
+    flex-direction: column;
+  }
+  
+  .back-button, 
+  .confirm-button {
+    width: 100%;
+  }
+  
+  .back-button {
+    order: 2;
+  }
+  
+  .confirm-button {
+    order: 1;
+    margin-bottom: 10px;
+  }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .password-confirm-container {
+    padding: 10px;
+  }
+  
+  .password-confirm-container h2 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  
+  .password-instructions {
+    margin-bottom: 12px;
+    font-size: 0.8rem;
+  }
+  
+  .password-form {
+    gap: 12px;
+  }
+  
+  .password-input-group label {
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+  }
+  
+  .password-field input {
+    padding: 8px 40px 8px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .password-form-buttons {
+    flex-direction: row;
+    margin-top: 8px;
+  }
+  
+  .back-button, 
+  .confirm-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .password-requirements {
+    margin-top: 15px;
+    padding: 10px;
+  }
+  
+  .password-requirements p {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
+  
+  .password-requirements li {
+    font-size: 0.75rem;
+    margin-bottom: 2px;
+  }
 } 
+
+/* Registration Flow Styles */
+.registration-modal {
+    display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  border: 1px solid;
+  position: relative;
+}
+
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+}
+
+.registration-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.registration-instructions {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.registration-form,
+.verification-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #2c7be5;
+  box-shadow: 0 0 0 2px rgba(44, 123, 229, 0.2);
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+    border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+  margin-top: 10px;
+}
+
+.submit-button:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.submit-button:disabled {
+  cursor: not-allowed;
+}
+
+.form-footer {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.form-link {
+    background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0;
+  margin-left: 4px;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.form-logo {
+  width: 60px;
+  height: 60px;
+  margin: 20px auto 0;
+  display: block;
+}
+
+/* Verification code input styles */
+.code-input-container {
+    display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 10px 0 25px;
+}
+
+.code-input {
+  width: 50px;
+  height: 60px;
+  font-size: 1.8rem;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.code-input:focus {
+  border-color: #2c7be5;
+  box-shadow: 0 0 0 2px rgba(44, 123, 229, 0.2);
+}
+
+.verification-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.resend-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.resend-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 5px 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: opacity 0.3s;
+}
+
+.resend-button:disabled {
+  cursor: not-allowed;
+}
+
+/* Success animation */
+.success-animation {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.checkmark {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #4BB543;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0 0 0 #4BB543;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+  position: relative;
+}
+
+.checkmark:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  width: 25%;
+  height: 10%;
+  background-color: #4BB543;
+  transform: translateY(-50%) rotate(45deg);
+  transform-origin: right bottom;
+}
+
+.checkmark:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  width: 50%;
+  height: 10%;
+  background-color: #4BB543;
+  transform: translateY(-50%) rotate(-45deg);
+  transform-origin: left bottom;
+}
+
+.completion-message {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .registration-modal {
+    padding: 15px;
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  
+  .registration-container h2 {
+    font-size: 1.3rem;
+  }
+  
+  .code-input {
+    width: 45px;
+    height: 55px;
+    font-size: 1.6rem;
+  }
+  
+  .submit-button,
+  .back-button {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+  
+  .verification-actions {
+    flex-direction: column;
+  }
+  
+  .back-button {
+    order: 2;
+  }
+  
+  .submit-button {
+    order: 1;
+    margin-bottom: 10px;
+  }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .registration-modal {
+    padding: 15px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .registration-container h2 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+  
+  .registration-instructions {
+    margin-bottom: 12px;
+    font-size: 0.8rem;
+  }
+  
+  .code-input-container {
+    margin: 5px 0 15px;
+  }
+  
+  .code-input {
+    width: 40px;
+    height: 45px;
+    font-size: 1.4rem;
+  }
+  
+  .verification-actions {
+    flex-direction: row;
+  }
+  
+  .back-button {
+    order: 1;
+  }
+  
+  .submit-button {
+    order: 2;
+    margin-bottom: 0;
+  }
+  
+  .form-logo {
+    width: 40px;
+    height: 40px;
+    margin: 10px auto 0;
+  }
+  
+  .success-animation {
+    margin: 10px 0;
+  }
+  
+  .checkmark {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0 0 0 50px #4BB543;
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+} 
+
+/* Mobile Back Arrow for Registration */
+.registration-container .mobile-back-arrow,
+.password-confirm-container .mobile-back-arrow {
+  display: flex !important; /* Siempre visible */
+  position: absolute !important;
+  top: 15px !important;
+  left: 15px !important;
+  background: none !important;
+  border: none !important;
+  color: white !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 100 !important; /* Mayor z-index para asegurar visibilidad */
+  transition: transform 0.2s ease !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  text-indent: -9999px !important; /* Ocultar cualquier texto */
+  outline: none !important;
+  overflow: hidden !important;
+}
+
+/* Mostrar solo el carácter de flecha */
+.registration-container .mobile-back-arrow span,
+.password-confirm-container .mobile-back-arrow span {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  text-indent: 0 !important; /* Resetear text-indent para la flecha */
+  position: absolute !important;
+}
+
+.registration-container .mobile-back-arrow:hover,
+.registration-container .mobile-back-arrow:active,
+.password-confirm-container .mobile-back-arrow:hover,
+.password-confirm-container .mobile-back-arrow:active {
+  transform: translateX(-2px) !important; /* Movimiento sutil al pasar el mouse */
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Ocultar completamente los botones estándar de retroceso */
+.registration-container .back-button,
+.password-confirm-container .back-button,
+.registration-container .cancel-button,
+.password-confirm-container .cancel-button {
+  display: none !important;
+}
+
+/* Add padding to account for the back arrow on all screens */
+.registration-container,
+.password-confirm-container {
+  padding-top: 30px;
+  position: relative;
+}
+
+/* We've standardized back button behavior across all screen sizes above */
+
+/* Estilos para el botón confirm-button */
+.confirm-button {
+  color: white !important; /* Asegurar que el texto sea blanco */
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 50px;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 10px;
+}
+
+.confirm-button:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.confirm-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
