@@ -160,6 +160,27 @@ input:disabled {
   text-decoration: underline;
 }
 
+.terms-text {
+  font-size: 0.75rem; /* Adjust as needed */
+  color: #ccc; /* Lighter gray for less emphasis */
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.terms-link {
+  color: #4080FF; /* Consistent with other links in the modal */
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500; /* Slightly bolder than surrounding text */
+}
+
+.terms-link:hover {
+  color: #6090FF; /* Lighter blue on hover */
+  text-decoration: none; /* Optional: remove underline on hover if preferred */
+}
+
 /* Login options */
 .login-options {
   display: flex;
@@ -237,6 +258,9 @@ input:disabled {
   font-weight: 600;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 }
 
 /* App Store Badges */
@@ -403,6 +427,20 @@ input:disabled {
   .app-download-title {
     font-size: 16px;
     margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .app-download {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
   }
   
   .app-stores {
@@ -412,11 +450,6 @@ input:disabled {
   .store-badge-img {
     width: 48px;
     height: 48px;
-  }
-  
-  .qr-code {
-    width: 100px;
-    height: 100px;
   }
   
   /* Asegurar scroll en contenedores */
@@ -527,6 +560,11 @@ input:disabled {
     width: 100% !important;
     text-align: center !important;
     margin-bottom: 15px !important;
+  }
+  
+  /* Ensure QR is hidden on mobile */
+  .qr-code-container {
+    display: none;
   }
 }
 
@@ -764,9 +802,8 @@ input:disabled {
     height: 40px;
   }
   
-  .qr-code {
-    width: 80px;
-    height: 80px;
+  .qr-code-container {
+    display: none;
   }
   
   /* Ensure QR is at the bottom */
@@ -989,9 +1026,8 @@ input:disabled {
     height: 40px;
   }
   
-  .qr-code {
-    width: 80px;
-    height: 80px;
+  .qr-code-container {
+    display: none;
   }
   
   /* Asegurar scroll en contenedores */
@@ -1169,9 +1205,8 @@ input:disabled {
     height: 36px;
   }
   
-  .qr-code {
-    width: 70px;
-    height: 70px;
+  .qr-code-container {
+    display: none;
   }
   
   .app-download {
@@ -1282,11 +1317,6 @@ input:disabled {
   .store-badge-img {
     width: 45px;
     height: 45px;
-  }
-  
-  .qr-code {
-    width: 90px;
-    height: 90px;
   }
   
   /* Asegurar scroll en contenedores */
@@ -2433,5 +2463,342 @@ input:disabled {
   
   .birthdate-input-container {
     padding: 10px;
+  }
+}
+
+/* Todo debe estar centrado */
+@media screen and (max-width: 600px) {
+  .modal-logo,
+  .modal-title,
+  .modal-text,
+  .login-options,
+  .app-download,
+  .app-download-title,
+  .app-stores,
+  .verification-container,
+  .verification-message,
+  .password-setup-container,
+  .password-message,
+  .password-form,
+  .email-form,
+  .resend-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    position: static !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* Add this media query to ensure QR is hidden across all mobile devices */
+@media (max-width: 768px), (max-height: 600px) and (orientation: landscape) {
+  .qr-code-container {
+    display: none !important;
+  }
+}
+
+/* Tweak small screen optimization for login buttons */
+@media (max-width: 350px) {
+  .login-button {
+    font-size: 13px;
+    padding: 8px 6px;
+    height: 42px;
+  }
+  
+  .button-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 4px;
+  }
+
+  .login-gmail, .login-email {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .modal-text {
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+  
+  .login-options {
+    gap: 10px;
+  }
+}
+
+/* Style for welcome back message */
+.welcome-message {
+  color: #4CAF50 !important; /* Green color for success */
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 8px 12px;
+  background-color: rgba(76, 175, 80, 0.1);
+  border-radius: 4px;
+  width: 90%;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-message::before {
+  content: "✓";
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+/* Ajustes específicos para el formulario de contraseña en mobile */
+@media (max-width: 768px) {
+  .password-setup-container {
+    padding: 0.5rem;
+  }
+
+  .password-message {
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+  }
+
+  .password-form {
+    gap: 0.5rem;
+  }
+
+  .password-input-group {
+    margin-bottom: 0.5rem;
+  }
+
+  .password-input {
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    font-size: 0.9rem;
+    height: 40px;
+  }
+
+  .password-requirements {
+    margin: 0.5rem 0;
+    font-size: 0.8rem;
+    gap: 0.25rem;
+  }
+
+  .requirement {
+    padding: 0.25rem 0;
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .password-strength {
+    margin: 0.25rem 0;
+  }
+
+  .strength-meter {
+    height: 4px;
+    margin: 0.25rem 0;
+  }
+
+  .strength-text {
+    font-size: 0.8rem;
+    margin: 0.25rem 0;
+  }
+
+  .continue-button {
+    margin-top: 0.5rem;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  /* Ajustar espaciado del modal en general para password */
+  .login-modal.password-view {
+    padding: 1rem;
+    padding-top: 2.5rem;
+    max-height: 100vh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .password-view .modal-logo {
+    margin-bottom: 0.5rem;
+  }
+
+  .password-view .logo-circle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .password-view .logo-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .password-view .modal-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Ajustes adicionales para pantallas muy pequeñas */
+@media (max-height: 600px) {
+  .login-modal.password-view {
+    padding: 0.75rem;
+    padding-top: 2.5rem;
+  }
+
+  .password-view .modal-logo {
+    margin-bottom: 0.25rem;
+  }
+
+  .password-view .logo-circle {
+    width: 35px;
+    height: 35px;
+  }
+
+  .password-view .logo-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .password-view .modal-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .password-message {
+    font-size: 0.8rem;
+    margin: 0.25rem 0;
+  }
+
+  .password-input {
+    height: 36px;
+  }
+
+  .continue-button {
+    height: 36px;
+  }
+}
+
+/* Ajustes específicos para iPhone 6/7/8/SE */
+@media screen and (width: 375px) and (height: 667px) {
+  .login-modal.password-view {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+    padding-top: 2.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+  }
+
+  .password-view .password-setup-container {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 0 !important;
+  }
+
+  .password-view .password-form {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  .password-view .continue-button {
+    margin-top: auto !important;
+    margin-bottom: 1rem !important;
+  }
+}
+
+/* Ajustes para dispositivos muy pequeños */
+@media (max-width: 320px) {
+  .login-modal.password-view {
+    padding: 0.5rem !important;
+    padding-top: 2.5rem !important;
+  }
+
+  .password-view .password-requirements {
+    font-size: 0.7rem !important;
+  }
+
+  .password-view .requirement {
+    font-size: 0.7rem !important;
+    line-height: 1.1 !important;
+  }
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .login-modal {
+    padding: 15px;
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  
+  .modal-logo {
+    margin-bottom: 12px;
+  }
+  
+  .modal-title {
+    margin-top: 0 !important;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+  }
+  
+  .modal-text {
+    font-size: 0.85rem;
+    margin-bottom: 45px !important;
+    line-height: 1.4;
+  }
+  
+  .code-input {
+    width: 45px;
+    height: 55px;
+    font-size: 1.6rem;
+  }
+  
+  .submit-button,
+  .back-button {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+  
+  .verification-actions {
+    flex-direction: column;
+  }
+  
+  .back-button {
+    order: 2;
+  }
+  
+  .submit-button {
+    order: 1;
+    margin-bottom: 10px;
+  }
+}
+
+/* Landscape mode adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .modal-title {
+    margin-top: 0 !important;
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+  }
+  
+  .modal-text {
+    font-size: 0.8rem;
+    margin-bottom: 30px !important;
+    line-height: 1.3;
   }
 } 

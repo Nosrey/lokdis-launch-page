@@ -11,11 +11,19 @@ import avatar6 from '../assets/images/avatar6.png';
 import logoSimple from '../assets/images/logo_simple.png';
 import instagramIcon from '../assets/images/instagram_icon.png';
 import tiktokIcon from '../assets/images/tiktok_icon.png';
-import emailIcon from '../assets/images/email_icon.png';
+import whatsappIcon from '../assets/images/whatsapp_icon.png';
 import '../styles/HeroContent.css';
 import LoginModal from './LoginModal';
 import UserProfileModal from './UserProfileModal';
 import AccountSuccessModal from './AccountSuccessModal';
+import FaqModal from './FaqModal';
+import AboutUsModal from './AboutUsModal';
+import PrivacyPolicyModal from './PrivacyPolicyModal';
+import TermsConditionsModal from './TermsConditionsModal';
+import playStoreBadge from '../assets/images/googleplay_icon.png';
+import appStoreBadge from '../assets/images/applestore_icon.png';
+import playStoreBadgeEN from '../assets/images/googleplay_icon_en.png';
+import appStoreBadgeEN from '../assets/images/applestore_icon_en.png';
 
 function HeroContent() {
   const { t, language } = useLanguage();
@@ -27,9 +35,16 @@ function HeroContent() {
   const [userProfile, setUserProfile] = useState(null);
   const testimonialsRef = useRef(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isLandscape, setIsLandscape] = useState(window.innerWidth > window.innerHeight);
+  const [isFaqModalOpen, setIsFaqModalOpen] = useState(false);
+  const [isAboutUsModalOpen, setIsAboutUsModalOpen] = useState(false);
+  const [isPrivacyPolicyModalOpen, setIsPrivacyPolicyModalOpen] = useState(false);
+  const [isTermsConditionsModalOpen, setIsTermsConditionsModalOpen] = useState(false);
+  const [isTallDevicePortrait, setIsTallDevicePortrait] = useState(false);
   
   // Define testimonials array first before any hooks that use it
-  const testimonials = [
+  const baseTestimonials = [
     {
       id: 1,
       name: 'Lu',
@@ -79,17 +94,64 @@ function HeroContent() {
       quote: "Gracias a LokDis pude ver mi barrio durante las inundaciones. Muy útil.",
     },
   ];
+
+  const testimonials = [
+    ...baseTestimonials.map(t => ({ ...t, id: `${t.id}-clone-start` }) ),
+    ...baseTestimonials,
+    ...baseTestimonials.map(t => ({ ...t, id: `${t.id}-clone-end` }) ),
+  ];
+  
+  // Función para establecer la altura real del viewport
+  const setViewportHeight = () => {
+    // Obtener la altura real del viewport
+    let vh = window.innerHeight * 0.01;
+    // Establecer la variable CSS personalizada --vh
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  };
   
   // Effect para detectar cambios en el ancho de la ventana
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      setWindowWidth(width);
+      const currentIsMobile = width < 768;
+      setIsMobile(currentIsMobile);
+      const currentIsLandscape = width > height;
+      setIsLandscape(currentIsLandscape);
+      
+      // Actualizar la altura del viewport real
+      setViewportHeight();
+      
+      // Agregar una clase al body para dispositivos Redmi Note Pro 13 y similares en landscape
+      if ((width >= 1080 && height <= 600 && width > height) || 
+          (width >= 2400 && height <= 1080 && width > height)) {
+        document.body.classList.add('redmi-note-pro-landscape');
+      } else {
+        document.body.classList.remove('redmi-note-pro-landscape');
+      }
+
+      // New logic for tall devices in portrait
+      const aspectRatio = height / width;
+      const isCurrentlyTallDevicePortrait = 
+        !currentIsLandscape && // Make sure it's portrait
+        width >= 350 && width <= 450 && // CSS pixel width range for these devices
+        aspectRatio >= 2.1; // Tall screen aspect ratio
+      
+      setIsTallDevicePortrait(isCurrentlyTallDevicePortrait);
     };
     
+    // Ejecutar al cargar
+    setViewportHeight();
+    
     window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+    handleResize(); // Llamar inicialmente para establecer los valores correctos
     
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
     };
   }, []);
   
@@ -115,6 +177,49 @@ function HeroContent() {
       }, 100);
     }
   }, [windowWidth]);
+  
+  useEffect(() => {
+    const scroller = testimonialsRef.current;
+    if (!scroller) return;
+
+    const itemWidth = scroller.scrollWidth / testimonials.length;
+    // Start scrolling at the beginning of the "middle" set of testimonials
+    const initialScrollLeft = baseTestimonials.length * itemWidth;
+    scroller.scrollLeft = initialScrollLeft;
+
+    let isScrolling = false; // Flag to prevent re-triggering while auto-scrolling
+
+    const handleScroll = () => {
+      if (isScrolling) return;
+
+      const scrollLeft = scroller.scrollLeft;
+      const totalWidth = scroller.scrollWidth;
+      const clientWidth = scroller.clientWidth;
+
+      // Threshold should be at least one item width to make the jump less noticeable
+      const threshold = itemWidth; 
+
+      // Check if near the end of the combined list (end of the third set)
+      // We want to jump back to the end of the second set (the "actual" items)
+      if (scrollLeft + clientWidth >= totalWidth - threshold) {
+        isScrolling = true;
+        // Jump to the corresponding position at the end of the second set
+        scroller.scrollLeft = initialScrollLeft + (scrollLeft - initialScrollLeft * 2) ; 
+        setTimeout(() => { isScrolling = false; }, 50); // Small delay to prevent immediate re-trigger
+      } 
+      // Check if near the beginning of the combined list (beginning of the first set)
+      // We want to jump to the beginning of the second set (the "actual" items)
+      else if (scrollLeft <= threshold) { 
+        isScrolling = true;
+        // Jump to the corresponding position at the beginning of the second set
+        scroller.scrollLeft = initialScrollLeft + scrollLeft;
+        setTimeout(() => { isScrolling = false; }, 50); // Small delay
+      }
+    };
+
+    scroller.addEventListener('scroll', handleScroll);
+    return () => scroller.removeEventListener('scroll', handleScroll);
+  }, [baseTestimonials, testimonials.length]);
   
   // Add handler for opening the login modal
   const openLoginModal = () => {
@@ -160,7 +265,7 @@ function HeroContent() {
     // Save the profile data
     setUserProfile(profileData);
     
-    // Close the profile modal
+    // Close the profile modal FIRST
     setIsProfileModalOpen(false);
     
     // Show success modal ONLY if success flag is true
@@ -180,23 +285,52 @@ function HeroContent() {
     });
   };
   
-  // Add handler for closing the success modal
-  const closeSuccessModal = () => {
+  // Handler para cerrar ambos modales (profile y success)
+  const closeAllModals = () => {
+    setIsProfileModalOpen(false);
     setIsSuccessModalOpen(false);
   };
-  
-  // Add handler for continuing from success screen
-  const handleSuccessContinue = () => {
-    setIsSuccessModalOpen(false);
-    // Here you would typically redirect to main app or dashboard
+
+  const handleOpenFaqModal = () => {
+    setIsFaqModalOpen(true);
+  };
+
+  const handleCloseFaqModal = () => {
+    setIsFaqModalOpen(false);
+  };
+
+  const handleOpenAboutUsModal = () => {
+    setIsAboutUsModalOpen(true);
+  };
+
+  const handleCloseAboutUsModal = () => {
+    setIsAboutUsModalOpen(false);
+  };
+
+  const handleOpenPrivacyPolicyModal = () => {
+    setIsPrivacyPolicyModalOpen(true);
+  };
+
+  const handleClosePrivacyPolicyModal = () => {
+    setIsPrivacyPolicyModalOpen(false);
+  };
+
+  const handleOpenTermsConditionsModal = () => {
+    setIsTermsConditionsModalOpen(true);
+  };
+
+  const handleCloseTermsConditionsModal = () => {
+    setIsTermsConditionsModalOpen(false);
   };
   
   return (
     <>
-    <div className="hero-content">
+    <div className={`hero-content ${isMobile ? 'mobile-view' : ''} ${isLandscape && isMobile ? 'landscape-mobile' : ''} ${isTallDevicePortrait ? 'tall-device-no-top-padding' : ''}`}>
+        {!isLandscape && (
         <div className="hero-title-mobile">
         <h1>{t('heroTitle')}</h1>
         </div>
+        )}
         
         <div className="hero-image">
           <div className="phone-container">
@@ -212,7 +346,7 @@ function HeroContent() {
         <div className="hero-text">
           <h1 className="hero-title-desktop landscape-title">{t('heroTitle')}</h1>
           <p>{t('heroSubtitle')}</p>
-          <p className="hero-description">{t('heroDescription')}</p>
+          <p className="hero-description" dangerouslySetInnerHTML={{ __html: t('heroDescription') }}></p>
           <button className="try-button" onClick={openLoginModal}>
             {t('tryButton')}
           </button>
@@ -220,20 +354,21 @@ function HeroContent() {
         <div className="app-stores">
             <button className="store-badge">
               <img 
-                src={require('../assets/images/googleplay_icon.png')} 
-                alt="Google Play" 
+                src={language === 'en' ? playStoreBadgeEN : playStoreBadge} 
+                alt={t('getItOnGooglePlay')} 
                 width="60" 
                 height="60" 
               />
             </button>
             <button className="store-badge">
               <img 
-                src={require('../assets/images/applestore_icon.png')} 
-                alt="App Store" 
+                src={language === 'en' ? appStoreBadgeEN : appStoreBadge} 
+                alt={t('downloadOnAppStore')} 
                 width="60" 
                 height="60" 
               />
             </button>
+            {!isMobile && (
           <div className="qr-code">
               <img 
                 src={qrCode} 
@@ -242,6 +377,7 @@ function HeroContent() {
                 height="90"
               />
             </div>
+            )}
           </div>
         </div>
       </div>
@@ -267,10 +403,10 @@ function HeroContent() {
               {testimonial.quote}
             </blockquote>
             <div className="testimonial-author">
-              <strong>{testimonial.name}</strong> {testimonial.age} {t('years')}
+              <strong>{testimonial.name}</strong>, {testimonial.age} {t('years')}
             </div>
             <div className="testimonial-location">
-              {testimonial.location}
+              {testimonial.location}, España
             </div>
           </div>
         ))}
@@ -283,20 +419,20 @@ function HeroContent() {
         <footer className="footer-section">
           <div className="footer-content-wrapper">
             <div className="footer-row">
-                <button className="footer-link">{t('aboutUs')}</button>
-                <button className="footer-link">{t('privacyPolicy')}</button>
-                <button className="footer-link">{t('termsConditions')}</button>
-                <button className="footer-link">{t('faqs')}</button>
-                <button className="footer-link">{t('siteMap')}</button>
+                <button className="footer-link" onClick={handleOpenAboutUsModal}>{t('aboutUs')}</button>
+                <button className="footer-link" onClick={handleOpenPrivacyPolicyModal}>{t('privacyPolicy')}</button>
+                <button className="footer-link" onClick={handleOpenTermsConditionsModal}>{t('termsConditions')}</button>
+                <button className="footer-link" onClick={handleOpenFaqModal}>{t('faqs')}</button>
+                {/* <button className="footer-link">{t('siteMap')}</button> */}
               <div className="footer-social">
-                <a href="https://www.instagram.com/" className="social-icon instagram">
+                <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="social-icon instagram">
                   <img src={instagramIcon} alt="Instagram" className="footer-social-img footer-social-img--small" />
                 </a>
-                <a href="https://www.tiktok.com/" className="social-icon tiktok">
+                <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" className="social-icon tiktok">
                   <img src={tiktokIcon} alt="TikTok" className="footer-social-img footer-social-img--small" />
                 </a>
-                <a href="mailto:info@lokdis.com" className="social-icon email">
-                  <img src={emailIcon} alt="Email" className="footer-social-img" />
+                <a href="https://wa.me/34622444319" target="_blank" rel="noopener noreferrer" className="social-icon whatsapp">
+                  <img src={whatsappIcon} alt="WhatsApp" className="footer-social-img" />
                 </a>
               </div>
             </div>
@@ -315,7 +451,7 @@ function HeroContent() {
                 <div className="footer-stores">
                   <a href="https://play.google.com/store/" className="store-badge-footer">
                     <img 
-                        src={require('../assets/images/googleplay_icon.png')} 
+                        src={language === 'en' ? playStoreBadgeEN : playStoreBadge} 
                         alt="Google Play" 
                         width="60" 
                         height="60" 
@@ -323,16 +459,18 @@ function HeroContent() {
                   </a>
                   <a href="https://www.apple.com/app-store/" className="store-badge-footer">
                     <img 
-                        src={require('../assets/images/applestore_icon.png')} 
+                        src={language === 'en' ? appStoreBadgeEN : appStoreBadge} 
                         alt="App Store" 
                         width="60" 
                         height="60" 
                     />
                   </a>
                 </div>
+                {!isMobile && (
                 <div className="footer-qr">
                   <img src={qrCode} alt="QR Code" />
                 </div>
+                )}
               </div>
             </div>
               <div className="footer-copyright-row">
@@ -359,13 +497,42 @@ function HeroContent() {
       onClose={closeProfileModal}
       language={language}
       onComplete={handleProfileComplete}
+      onCloseAll={closeAllModals}
     />
 
     {/* Success Modal */}
     <AccountSuccessModal 
       isOpen={isSuccessModalOpen}
-      onClose={closeSuccessModal}
-      onContinue={handleSuccessContinue}
+      onClose={closeAllModals}
+      onContinue={closeAllModals}
+      language={language}
+    />
+
+    {/* FAQ Modal for HeroContent */}
+    <FaqModal 
+      isOpen={isFaqModalOpen} 
+      onClose={handleCloseFaqModal} 
+      language={language}
+    />
+
+    {/* About Us Modal for HeroContent */}
+    <AboutUsModal 
+      isOpen={isAboutUsModalOpen} 
+      onClose={handleCloseAboutUsModal} 
+      language={language}
+    />
+
+    {/* Privacy Policy Modal for HeroContent */}
+    <PrivacyPolicyModal
+      isOpen={isPrivacyPolicyModalOpen}
+      onClose={handleClosePrivacyPolicyModal}
+      language={language}
+    />
+
+    {/* Terms & Conditions Modal for HeroContent */}
+    <TermsConditionsModal
+      isOpen={isTermsConditionsModalOpen}
+      onClose={handleCloseTermsConditionsModal}
       language={language}
     />
     </>

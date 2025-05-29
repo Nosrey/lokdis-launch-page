@@ -1,0 +1,1197 @@
+/* Estilos para la página completa */
+.moments-page {
+  width: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Sección principal con fondo */
+.moments-hero-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fondo con blur */
+.moments-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/images/bg-page-2.gif');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: blur(3px);
+  z-index: -1;
+}
+
+/* Contenido central */
+.moments-content {
+  position: relative;
+  width: 80%;
+  max-width: 80vw;
+  text-align: center;
+  z-index: 5;
+  padding: 30px;
+  transform: none;
+}
+
+.moments-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: white;
+  margin-top: 2rem;
+  margin-bottom: 3.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.moments-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.moments-subtitle-1 {
+  margin-bottom: 1.5rem; /* Espacio entre los dos subtítulos */
+}
+
+.moments-subtitle-2 {
+  margin-bottom: 3.5rem; /* Espacio aumentado entre el segundo subtítulo y el botón */
+}
+
+/* Clase específica para justificar el nuevo texto del hero en Moments */
+.moments-hero-text-justified {
+  text-align: justify;
+  hyphens: auto; /* For better justification */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6); /* Sombra un poco más fuerte para mejorar legibilidad */
+  line-height: 1.6; /* Mejorar espaciado entre líneas */
+}
+
+/* Desktop and larger screens */
+@media (min-width: 769px) { /* Adjust breakpoint as needed */
+  .moments-subtitle.moments-hero-text-justified {
+    text-align: center;
+    hyphens: none; /* Disable hyphens if centering looks odd with them */
+  }
+}
+
+.moments-button {
+  background-color: white;
+  color: #000033;
+  border: none;
+  padding: 18px 60px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  min-width: 280px;
+  width: 75%;
+  max-width: 380px;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 3rem;
+}
+
+.moments-button:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Sección blanca azulada */
+.moments-white-section {
+  width: 100%;
+  background-color: #f0f5fa; /* Blanco con ligero tono azul (5%) */
+  padding: 0 0 60px 0;
+  position: relative;
+  z-index: 10;
+}
+
+/* Estilos para la galería de momentos */
+.moments-gallery-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+/* Subtítulo a la izquierda */
+.moments-subtitle-left {
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #143c5a; /* Tono azul oscuro */
+  margin-bottom: 2.5rem;
+  width: 100%;
+}
+
+.moments-gallery-container h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.moments-loading, .moments-error {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  color: #666;
+  margin: 30px 0;
+}
+
+.moments-error {
+  color: #e74c3c;
+}
+
+/* Grid de momentos */
+.moments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.moment-card {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.moment-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.moment-thumbnail {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* Ratio 1:1 para hacerlo cuadrado */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.moment-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  color: white;
+  text-align: left;
+}
+
+.moment-location {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.moment-date {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.moment-username {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  color: #f0f0f0;
+  opacity: 0.85;
+  margin-top: 4px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  font-style: italic;
+}
+
+/* Contenedor del footer */
+.moments-footer-container {
+  width: 100%;
+  background-color: #fff;
+  position: relative;
+  z-index: 10;
+}
+
+/* Mensaje de no hay momentos */
+.moments-message {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  color: #666;
+  margin: 30px 0;
+  text-align: center;
+}
+
+/* Grupo de ubicación */
+.location-group {
+  margin-bottom: 40px;
+}
+
+.location-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #143c5a;
+  margin: 30px 0 20px 0;
+  text-align: left;
+  padding-left: 10px;
+  border-left: 4px solid #143c5a;
+}
+
+/* Contenedor de carga con progreso */
+.moments-loading-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto;
+  text-align: center;
+  padding: 20px 30px 40px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
+}
+
+.moments-loading {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  color: #143c5a;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+/* Indicador circular de progreso */
+.progress-circular-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.progress-circular {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-circular svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.progress-circular-bg {
+  fill: none;
+  stroke: rgba(20, 60, 90, 0.1);
+  stroke-width: 8;
+}
+
+.progress-circular-fill {
+  fill: none;
+  stroke: #143c5a;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 251.2;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.progress-percentage {
+  position: absolute;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #143c5a;
+}
+
+/* Skeleton loaders para momentos en carga */
+.moment-card.skeleton {
+  background-color: #f0f0f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-thumbnail {
+  background-color: #e0e0e0 !important;
+  position: relative;
+}
+
+.skeleton-overlay {
+  background: linear-gradient(transparent, rgba(224, 224, 224, 0.9)) !important;
+}
+
+.skeleton-text {
+  height: 18px;
+  background-color: #d0d0d0;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-text-short {
+  width: 70%;
+}
+
+.skeleton-text::after,
+.skeleton-thumbnail::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Estilos para el modal de visualización de medios */
+.media-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+.media-modal {
+  position: relative;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  animation: scaleIn 0.3s ease;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+}
+
+/* Botones de navegación entre momentos */
+.modal-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.modal-nav-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.modal-nav-prev {
+  left: 20px;
+}
+
+.modal-nav-next {
+  right: 20px;
+}
+
+.modal-nav-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+}
+
+.modal-nav-btn:active {
+  transform: translateY(-50%) scale(1.05);
+}
+
+.media-content-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.media-content {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  margin: 0 auto;
+  border-radius: 8px;
+  display: block;
+}
+
+.media-content.image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+.media-content.video {
+  width: 100%;
+  background-color: #000;
+}
+
+.media-info {
+  padding: 20px;
+  color: white;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: left;
+  padding-top: 60px; /* Espacio para el botón de cerrar */
+}
+
+.media-location {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.media-date {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 5px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+}
+
+.media-user {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  font-style: italic;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+}
+
+/* Cursor de mano en las tarjetas de momentos para indicar que son clickeables */
+.moment-card {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.moment-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  opacity: 0.95;
+}
+
+/* Animaciones para el modal */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ====================
+   MEDIA QUERIES - TABLET
+   ==================== */
+@media (max-width: 992px) {
+  .moments-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .moments-content {
+    width: 80%;
+    max-width: 80vw;
+    padding: 25px;
+  }
+  
+  .moments-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .moments-subtitle-1 {
+    margin-bottom: 1.2rem;
+  }
+  
+  .moments-subtitle-2 {
+    margin-bottom: 3rem;
+  }
+  
+  .moments-button {
+    font-size: 1.2rem;
+    padding: 16px 50px;
+  }
+  
+  .moments-gallery-container h2 {
+    font-size: 2rem;
+  }
+  
+  .moments-subtitle-left {
+    font-size: 1.9rem;
+    margin-bottom: 2rem;
+  }
+  
+  .moments-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 15px;
+  }
+  
+  .moment-location {
+    font-size: 1.1rem;
+  }
+  
+  .location-title {
+    font-size: 1.6rem;
+    margin: 25px 0 15px 0;
+  }
+  
+  .moments-loading-container {
+    max-width: 500px;
+    padding: 20px 25px 35px;
+  }
+  
+  .moments-loading {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+  }
+  
+  .progress-circular {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .progress-percentage {
+    font-size: 1.3rem;
+  }
+  
+  .media-content {
+    max-height: 70vh;
+  }
+  
+  .media-modal {
+    width: 95%;
+  }
+  
+  .media-info {
+    padding: 18px;
+    padding-top: 50px;
+  }
+  
+  .media-location {
+    font-size: 1.2rem;
+  }
+  
+  .media-date {
+    font-size: 0.95rem;
+  }
+  
+  .modal-close-btn {
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+  
+  .modal-nav-btn {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .modal-nav-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .modal-nav-prev {
+    left: 15px;
+  }
+  
+  .modal-nav-next {
+    right: 15px;
+  }
+}
+
+/* ====================
+   MEDIA QUERIES - MOBILE (PORTRAIT)
+   ==================== */
+@media (max-width: 768px) {
+  .moments-title {
+    font-size: 2rem;
+    margin-bottom: 1.8rem;
+  }
+  
+  .moments-content {
+    width: 85%;
+    max-width: 85vw;
+    padding: 20px;
+  }
+  
+  .moments-subtitle {
+    font-size: 1rem;
+  }
+  
+  .moments-subtitle-1 {
+    margin-bottom: 1rem;
+  }
+  
+  .moments-subtitle-2 {
+    margin-bottom: 2.5rem;
+  }
+  
+  .moments-button {
+    font-size: 0.95rem;
+    padding: 14px 30px;
+    min-width: 220px;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .moments-gallery-container {
+    padding: 30px 15px;
+  }
+  
+  .moments-gallery-container h2 {
+    font-size: 1.8rem;
+  }
+  
+  .moments-subtitle-left {
+    font-size: 1.7rem;
+    margin-bottom: 1.8rem;
+  }
+  
+  .moments-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 15px;
+  }
+  
+  .moment-location {
+    font-size: 1.1rem;
+  }
+  
+  .location-title {
+    font-size: 1.4rem;
+    margin: 20px 0 15px 0;
+    padding-left: 8px;
+  }
+  
+  .moments-loading-container {
+    max-width: 90%;
+    padding: 15px 20px 30px;
+  }
+  
+  .moments-loading {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .progress-circular {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .progress-percentage {
+    font-size: 1.1rem;
+  }
+  
+  .progress-circular-bg,
+  .progress-circular-fill {
+    stroke-width: 7;
+  }
+  
+  .media-modal {
+    width: 100%;
+    max-height: 100vh;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .media-content-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 0 20px;
+  }
+  
+  .media-content {
+    max-height: 65vh;
+    width: auto;
+    max-width: 95%;
+    margin: 0 auto;
+  }
+  
+  .media-content.video {
+    width: 95%;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .media-info {
+    position: relative;
+    width: 95%;
+    padding: 15px;
+    padding-top: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    margin: 15px auto 0;
+  }
+  
+  .media-location {
+    font-size: 1.1rem;
+  }
+  
+  .media-date {
+    font-size: 0.9rem;
+  }
+  
+  .media-user {
+    font-size: 0.8rem;
+  }
+  
+  .modal-close-btn {
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+  }
+  
+  .modal-nav-btn {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-nav-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .modal-nav-prev {
+    left: 10px;
+  }
+  
+  .modal-nav-next {
+    right: 10px;
+  }
+}
+
+/* ====================
+   MEDIA QUERIES - MOBILE (LANDSCAPE)
+   ==================== */
+@media (max-height: 500px) and (orientation: landscape) {
+  .moments-hero-section {
+    height: 100vh;
+    min-height: 100vh;
+    padding: 10px 0;
+    justify-content: center;
+  }
+  
+  .moments-content {
+    width: 95%;
+    max-width: 95vw;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .moments-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .moments-subtitle {
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+  
+  .moments-subtitle-1 {
+    margin-bottom: 0.3rem;
+  }
+  
+  .moments-subtitle-2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .moments-button {
+    font-size: 0.85rem;
+    padding: 8px 20px;
+    min-width: 160px;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Ajustes específicos para iPhone XR y similares */
+@media (min-width: 800px) and (max-height: 500px) and (orientation: landscape) {
+  .moments-hero-section {
+    padding: 15px 0;
+  }
+  
+  .moments-content {
+    width: 90%;
+    max-width: 90vw;
+    padding: 15px;
+    gap: 0.7rem;
+  }
+  
+  .moments-title {
+    font-size: 1.7rem;
+    margin-bottom: 0.7rem;
+  }
+  
+  .moments-subtitle {
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+  
+  .moments-subtitle-1 {
+    margin-bottom: 0.4rem;
+  }
+  
+  .moments-subtitle-2 {
+    margin-bottom: 0.7rem;
+  }
+  
+  .moments-button {
+    font-size: 0.9rem;
+    padding: 10px 25px;
+    min-width: 180px;
+    margin-top: 0.7rem;
+  }
+}
+
+/* Ajustes específicos para pantallas muy pequeñas en altura */
+@media (max-height: 400px) and (orientation: landscape) {
+  .moments-hero-section {
+    padding: 5px 0;
+  }
+  
+  .moments-content {
+    padding: 5px;
+    gap: 0.3rem;
+  }
+  
+  .moments-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .moments-subtitle {
+    font-size: 0.75rem;
+    line-height: 1.1;
+  }
+  
+  .moments-subtitle-1,
+  .moments-subtitle-2 {
+    margin-bottom: 0.2rem;
+  }
+  
+  .moments-button {
+    font-size: 0.8rem;
+    padding: 6px 15px;
+    min-width: 140px;
+    margin-top: 0.3rem;
+  }
+}
+
+/* Sección de promoción entre grupos */
+.promo-section {
+  width: 100%;
+  padding: 40px 0;
+  margin: 30px 0;
+  background-color: #f8f9fa;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.promo-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #143c5a;
+  margin-bottom: 20px;
+}
+
+.promo-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 15px;
+  padding: 0 30px;
+  line-height: 1.5;
+}
+
+.promo-description {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 30px;
+  padding: 0 30px;
+  line-height: 1.6;
+}
+
+.promo-discover {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #143c5a;
+  margin-top: 10px;
+}
+
+/* ====================
+   MEDIA QUERIES - TABLET
+   ==================== */
+@media (max-width: 992px) {
+  .promo-section {
+    padding: 30px 0;
+    margin: 25px 0;
+  }
+  
+  .promo-title {
+    font-size: 1.9rem;
+    margin-bottom: 15px;
+  }
+  
+  .promo-subtitle {
+    font-size: 1rem;
+    padding: 0 25px;
+  }
+  
+  .promo-description {
+    font-size: 0.95rem;
+    padding: 0 25px;
+  }
+  
+  .promo-discover {
+    font-size: 1.3rem;
+  }
+}
+
+/* ====================
+   MEDIA QUERIES - MOBILE (PORTRAIT)
+   ==================== */
+@media (max-width: 768px) {
+  .promo-section {
+    padding: 25px 0;
+    margin: 20px 0;
+  }
+  
+  .promo-title {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+  
+  .promo-subtitle {
+    font-size: 0.95rem;
+    padding: 0 15px;
+    margin-bottom: 12px;
+  }
+  
+  .promo-description {
+    font-size: 0.85rem;
+    padding: 0 15px;
+    margin-bottom: 20px;
+  }
+  
+  .promo-discover {
+    font-size: 1.2rem;
+  }
+}
+
+/* ====================
+   MEDIA QUERIES - MOBILE (LANDSCAPE)
+   ==================== */
+@media (max-height: 500px) and (orientation: landscape) {
+  .promo-section {
+    padding: 20px 0;
+    margin: 15px 0;
+  }
+  
+  .promo-title {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+  
+  .promo-subtitle {
+    font-size: 0.85rem;
+    padding: 0 10px;
+    margin-bottom: 8px;
+  }
+  
+  .promo-description {
+    font-size: 0.8rem;
+    padding: 0 10px;
+    margin-bottom: 15px;
+  }
+  
+  .promo-discover {
+    font-size: 1.1rem;
+  }
+}
+
+/* Eliminar los estilos del botón de mute personalizado */
+.video-mute-toggle {
+  display: none;
+}
+
+/* Ajustes para móvil */
+@media (max-width: 768px) {
+  .video-mute-toggle {
+    bottom: 12px;
+    left: 12px;
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+}
+
+/* Ajustes para landscape */
+@media (max-height: 500px) and (orientation: landscape) {
+  .video-mute-toggle {
+    bottom: 10px;
+    left: 10px;
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+}
+
+/* Botón "Mostrar más" y su indicador de carga */
+.show-more-button {
+  display: block;
+  margin: 25px auto 15px auto; /* Aumentado margen superior e inferior */
+  padding: 12px 30px; /* Ajustado padding */
+  background-color: white; /* Fondo blanco */
+  color: #143c5a; /* Texto azul corporativo */
+  border: 2px solid #143c5a; /* Borde azul corporativo */
+  border-radius: 50px; /* Bordes redondeados como el botón principal */
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem; /* Tamaño de fuente mantenido */
+  font-weight: 600; /* Un poco más de peso */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Transición para todos los props */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.show-more-button:hover {
+  background-color: #f0f5fa; /* Ligero azulado al pasar el ratón, como la sección blanca */
+  color: #102f4a; /* Azul un poco más oscuro */
+  border-color: #102f4a; /* Borde azul un poco más oscuro */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(20, 60, 90, 0.15); /* Sombra más pronunciada */
+}
+
+.show-more-button:active {
+  background-color: #e1eaf2; /* Azul más claro al hacer clic */
+  transform: translateY(0px);
+  box-shadow: 0 2px 8px rgba(20, 60, 90, 0.1);
+}
+
+.loading-more-indicator {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #143c5a;
+  text-align: center;
+  margin: 20px 0 10px 0;
+  font-weight: 500;
+}
+
+.media-info .media-location { /* Specificity for modal */
+  /* Default styles for modal location, can be less prominent than preview */
+  font-size: 1.1rem; 
+  font-weight: 500; /* Slightly less bold than preview */
+  color: #eee; /* Slightly dimmer white */
+  margin-bottom: 6px;
+}
+
+.media-location-modal-custom-size {
+  font-size: 0.95rem !important; /* Slightly smaller for the modal location text, use !important if needed to override */
+  /* line-height: 1.3; */ /* Adjust if text wrapping is an issue */
+}
+
+.media-date {
+/* ... existing code ... */
+} 

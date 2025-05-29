@@ -6,11 +6,18 @@ import EmailIcon from '../assets/images/email_round_icon.png';
 // Importando los mismos iconos que se usan en HeroContent
 import GooglePlayIcon from '../assets/images/googleplay_icon.png';
 import AppStoreIcon from '../assets/images/applestore_icon.png';
+import GooglePlayIconEN from '../assets/images/googleplay_icon_en.png'; // English Google Play icon
+import AppStoreIconEN from '../assets/images/applestore_icon_en.png'; // English App Store icon
 import LogoSimple from '../assets/images/logo_simple.png';
 import UserProfileModal from './UserProfileModal';
+import NotificationModal from './NotificationModal';
+import PrivacyPolicyModal from './PrivacyPolicyModal';
+import TermsConditionsModal from './TermsConditionsModal';
+import { signInWithGoogle, getBirthdateFromFirebase, storeBirthdateInFirebase } from '../utils/firebase';
+import { updateUser, getCurrentFormattedDate, validateBirthdate } from '../utils/userApi';
 
-// API endpoint URL
-const API_URL = 'https://www.lokdis.com/back-end-lokdis-app';
+// API endpoint URL - use proxy in development, full URL as fallback
+const API_URL = 'https://www.lokdis.com/back-end-lokdis-app'; // Always use production URL
 
 const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
   // Usando el idioma proporcionado por el contexto de idioma en lugar de tener un selector propio
@@ -25,6 +32,9 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
   const [emailError, setEmailError] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Google auth specific state
+  const [googleAuthData, setGoogleAuthData] = useState(null);
   
   // Estados para la verificación
   const [verificationCode, setVerificationCode] = useState(['', '', '', '']);
@@ -69,12 +79,23 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
   const [coordinates, setCoordinates] = useState('');
   const [rol, setRol] = useState('user');
   
+  // Estados para el NotificationModal
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationTitle, setNotificationTitle] = useState('');
+  const [notificationMessage, setNotificationMessage] = useState('');
+  // Nuevo estado para controlar el cierre de LoginModal después de la notificación
+  const [closeLoginModalAfterNotification, setCloseLoginModalAfterNotification] = useState(false);
+  
+  const [isPrivacyPolicyModalOpen, setIsPrivacyPolicyModalOpen] = useState(false);
+  const [isTermsConditionsModalOpen, setIsTermsConditionsModalOpen] = useState(false);
+  
   useEffect(() => {
     // When modal is open, prevent background scrolling
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
+      setShowProfileModal(false); // Limpiar estado cuando el modal se cierra
     }
     
     // Check if we're in landscape mode or compact desktop
@@ -95,14 +116,38 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
     return () => {
       document.body.style.overflow = 'auto';
       window.removeEventListener('resize', checkScreenSize);
+      setShowProfileModal(false); // Limpiar estado cuando el componente se desmonta
     };
   }, [isOpen]);
   
+  // Clean up any Google auth data in session storage
+  const cleanupGoogleAuthData = () => {
+    console.log('🧹 Cleaning up Google auth data from sessionStorage');
+    sessionStorage.removeItem('tempUserId');
+    sessionStorage.removeItem('tempUserName');
+    sessionStorage.removeItem('tempUserEmail');
+    sessionStorage.removeItem('tempBirthdate');
+  };
+  
+  // Manejar cierre al hacer clic en el fondo
+  const handleOverlayClick = (e) => {
+    // Solo cerrar si el clic fue directamente en el overlay, no en sus hijos
+    if (e.target.className === 'modal-overlay') {
+      console.log('🧹 Cerrando LoginModal desde overlay click');
+      cleanupGoogleAuthData();
+      onClose();
+    }
+  };
+  
   // Reset all state when modal is closed
   useEffect(() => {
-    // Only run when the modal closes (isOpen changes from true to false)
     if (!isOpen) {
+      setShowNotification(false); 
+      setCloseLoginModalAfterNotification(false); // Resetear este flag también
       console.log('🧹 Limpiando completamente todos los estados de LoginModal');
+      
+      // Clean up Google auth data
+      cleanupGoogleAuthData();
       
       // Reset all form states
       setShowEmailForm(false);
@@ -256,15 +301,6 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
     special: /[^A-Za-z0-9]/.test(password)
   };
   
-  // Manejar cierre al hacer clic en el fondo
-  const handleOverlayClick = (e) => {
-    // Solo cerrar si el clic fue directamente en el overlay, no en sus hijos
-    if (e.target.className === 'modal-overlay') {
-      console.log('🧹 Cerrando LoginModal desde overlay click');
-      onClose();
-    }
-  };
-  
   // Validar el formato del correo electrónico
   const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -304,11 +340,21 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
       
       const data = await response.json();
       
-      if (response.status >= 200 && response.status < 300 && data.sucessful) {
-    setShowEmailForm(false);
-    setShowVerificationForm(true);
-    setCountdown(10);
-    setResendDisabled(true);
+      if (response.status === 409 && data.error === 'USER_ALREADY_EXISTS') { 
+        console.log('❌ USUARIO EXISTENTE (Email) - MOSTRANDO NOTIFICACIÓN');
+        setIsLoading(false);
+        setEmailError(''); 
+        setCloseLoginModalAfterNotification(false); // Asegurar que no se cierra LoginModal
+        displayNotification(
+          t.accountExistsTitle || (currentLang === 'es' ? 'Cuenta Existente' : 'Account Exists'),
+          t.emailAccountExists || (currentLang === 'es' ? 'Ya existe una cuenta registrada con este correo electrónico.' : 'An account registered with this email already exists.')
+        );
+        return;
+      } else if (response.status >= 200 && response.status < 300 && data.sucessful) {
+        setShowEmailForm(false);
+        setShowVerificationForm(true);
+        setCountdown(10);
+        setResendDisabled(true);
       } else {
         setEmailError(data.message || t.invalidEmail);
       }
@@ -516,16 +562,83 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
   };
   
   // Manejar el envío del formulario de cumpleaños
-  const handleBirthdateSubmit = (e) => {
+  const handleBirthdateSubmit = async (e) => {
     e.preventDefault();
+    
+    console.log('🔍 handleBirthdateSubmit called, isValidAge:', isValidAge);
     
     if (!isValidAge) {
       return;
     }
     
-    // Avanzar al siguiente paso
-    setShowBirthdateForm(false);
-    setShowPasswordForm(true);
+    // Format the birthdate
+    const formattedBirthdate = `${birthDay.padStart(2, '0')}/${birthMonth.padStart(2, '0')}/${birthYear}`;
+    console.log('🔍 Formatted birthdate:', formattedBirthdate);
+    
+    // If we came from Google Auth (there's a tempUserId in session storage)
+    const tempUserId = sessionStorage.getItem('tempUserId');
+    const tempUserName = sessionStorage.getItem('tempUserName');
+    const tempUserEmail = sessionStorage.getItem('tempUserEmail');
+    
+    console.log('🔍 Session storage data for Google auth flow:', { 
+      tempUserId, 
+      tempUserName, 
+      tempUserEmail,
+      hasStateEmail: Boolean(email)
+    });
+    
+    if (tempUserId && tempUserName) {
+      console.log('🔍 Google auth flow detected');
+      
+      // Update googleAuthData with the birthdate
+      if (googleAuthData) {
+        updateGoogleAuthData({
+          ...googleAuthData,
+          birthdate: formattedBirthdate
+        });
+      } else {
+        // Initialize googleAuthData if not already set
+        updateGoogleAuthData({
+          name: tempUserName,
+          email: tempUserEmail || email,
+          uid: tempUserId,
+          birthdate: formattedBirthdate,
+          isGoogle: true
+        });
+      }
+      
+      try {
+        setIsLoading(true);
+        
+        // Store birthdate in Firebase
+        try {
+          await storeBirthdateInFirebase(tempUserId, formattedBirthdate);
+          console.log('✅ Birthdate saved to Firebase successfully');
+          // Store locally too for future use
+          sessionStorage.setItem('tempBirthdate', formattedBirthdate);
+        } catch (firebaseError) {
+          console.error('❌ Error storing birthdate in Firebase:', firebaseError);
+          // Continue anyway - we can still try to show the profile setup
+        }
+        
+        // Proceed to profile setup without checking birthdate again
+        setIsLoading(false);
+        setShowBirthdateForm(false);
+        setShowProfileModal(true);
+      } catch (error) {
+        console.error('❌ Error in Google auth flow:', error);
+        setBirthdateError(currentLang === 'es' 
+          ? 'Error al procesar la fecha de nacimiento. Inténtalo de nuevo.' 
+          : 'Error processing birthdate. Please try again.');
+        setIsLoading(false);
+      }
+    } else {
+      // Regular flow (not from Google Auth)
+      console.log('🔍 Regular flow detected - proceeding to password step');
+      // Original code for advancing to password setup
+      setShowBirthdateForm(false);
+      setShowPasswordForm(true);
+    }
   };
   
   // Manejar verificación de código
@@ -605,15 +718,33 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
       setConfirmPasswordError(t.passwordsDoNotMatch);
       return;
     }
-    // Si llegamos aquí, la contraseña es válida
+    
+    // Guardar el password en el estado y abrir el modal de perfil
     setShowPasswordForm(false);
     setShowProfileModal(true);
   };
   
-  // Handler for when profile creation is complete
+  // Handle profile completion
   const handleProfileComplete = (profileData) => {
-    console.log('⭐ LoginModal recibió handleProfileComplete con:', profileData);
-    // No hacemos nada - dejamos que UserProfileModal maneje todo
+    console.log('🔵 LoginModal: handleProfileComplete llamado con:', profileData);
+    // Primero limpio todos los estados
+    setShowProfileModal(false);
+    setShowEmailForm(false);
+    setShowVerificationForm(false);
+    setShowBirthdateForm(false);
+    setShowPasswordForm(false);
+    setEmail('');
+    setPassword('');
+    cleanupGoogleAuthData();
+
+    // Luego notifico al padre
+    if (onComplete) {
+      onComplete(profileData);
+    }
+    // Finalmente cierro el modal
+    if (onClose) {
+      onClose();
+    }
   };
   
   // Volver a la vista de verificación desde la pantalla de cumpleaños
@@ -642,6 +773,7 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
   
   // Modificar la función handleBack para incluir la vista de cumpleaños
   const handleBack = () => {
+    // Limpiar todos los estados
     setShowEmailForm(false);
     setShowVerificationForm(false);
     setShowBirthdateForm(false);
@@ -660,6 +792,8 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
     setConfirmPassword('');
     setPasswordError('');
     setConfirmPasswordError('');
+    // Limpiar datos de Google Auth
+    cleanupGoogleAuthData();
   };
   
   // Get coordinates (optional, can be improved)
@@ -676,6 +810,104 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
     }
   }, []);
   
+  // Update googleAuthData in state and sessionStorage
+  const updateGoogleAuthData = (data) => {
+    setGoogleAuthData(data);
+    
+    // Store individual fields in sessionStorage for persistence
+    if (data) {
+      if (data.name) sessionStorage.setItem('tempUserName', data.name);
+      if (data.email) sessionStorage.setItem('tempUserEmail', data.email);
+      if (data.uid) sessionStorage.setItem('tempUserId', data.uid);
+      if (data.birthdate) sessionStorage.setItem('tempBirthdate', data.birthdate);
+    }
+  };
+  
+  // Update the handleGoogleSignIn function to store email in sessionStorage
+  const handleGoogleSignIn = async () => {
+    try {
+      console.log('🔍 Iniciando Google Sign In');
+      setIsLoading(true);
+      setEmailError('');
+      
+      const { user, token } = await signInWithGoogle();
+      const name = user.displayName || '';
+      const userEmail = user.email;
+      const uid = user.uid;
+      
+      console.log('🔍 Datos de usuario de Google:', { name, userEmail, uid });
+      
+      if (!userEmail) {
+        console.log('🔍 No se pudo obtener el correo electrónico de tu cuenta de Google. Intenta con otro método.');
+        setIsLoading(false);
+        displayNotification(t.errorTitle, currentLang === 'es' ? 'No se pudo obtener el correo de Google.' : 'Could not get email from Google.');
+        return;
+      }
+      
+      console.log('🔍 Verificando birthdate en Firebase para uid:', uid);
+      let birthdate = await getBirthdateFromFirebase(uid);
+      console.log('🔍 Birthdate encontrado:', birthdate);
+      
+      if (birthdate) {
+        console.log('❌ USUARIO EXISTENTE (Google) - MOSTRANDO NOTIFICACIÓN Y LUEGO CERRANDO LOGINMODAL');
+        cleanupGoogleAuthData(); 
+        setIsLoading(false);
+        
+        setCloseLoginModalAfterNotification(true); // Marcar que LoginModal debe cerrarse después
+        displayNotification(
+          t.accountExistsTitle || (currentLang === 'es' ? 'Cuenta Existente' : 'Account Exists'),
+          t.googleAccountExists || (currentLang === 'es' ? 'Ya existe una cuenta asociada a este correo de Google.' : 'An account associated with this Google email already exists.')
+        );
+        // No llamar a onClose() para LoginModal aquí directamente
+        return;
+      }
+      
+      // SOLO si es un usuario nuevo continuamos
+      console.log('✨ USUARIO NUEVO - Continuando con registro');
+      setEmail(userEmail);
+      sessionStorage.setItem('tempUserEmail', userEmail);
+      sessionStorage.setItem('tempUserName', name);
+      sessionStorage.setItem('tempUserId', uid);
+      
+      updateGoogleAuthData({
+        name,
+        email: userEmail,
+        uid,
+        isGoogle: true
+      });
+      
+      setShowBirthdateForm(true);
+      setIsLoading(false);
+      
+    } catch (error) {
+      console.error('❌ Error en Google sign-in:', error);
+      let errorMessage = currentLang === 'es' ? 'Error al iniciar sesión con Google. Inténtalo de nuevo.' : 'Error signing in with Google. Please try again.';
+      if (error.code === 'auth/popup-closed-by-user' || error.message.includes('popup_closed_by_user')) {
+        errorMessage = currentLang === 'es' ? 'El inicio de sesión con Google fue cancelado.' : 'Google sign-in was cancelled.';
+      }
+      displayNotification(t.errorTitle, errorMessage);
+      setIsLoading(false);
+      cleanupGoogleAuthData();
+    }
+  };
+  
+  // Función para mostrar notificaciones
+  const displayNotification = (title, message) => {
+    setNotificationTitle(title);
+    setNotificationMessage(message);
+    setShowNotification(true);
+  };
+  
+  const handleOpenPrivacyPolicyModal = () => {
+    setIsPrivacyPolicyModalOpen(true);
+  };
+  const handleClosePrivacyPolicyModal = () => setIsPrivacyPolicyModalOpen(false);
+
+  const handleOpenTermsConditionsModal = () => {
+    setIsTermsConditionsModalOpen(true);
+  };
+  const handleCloseTermsConditionsModal = () => setIsTermsConditionsModalOpen(false);
+  
   const translations = {
     es: {
       welcome: 'Te damos la bienvenida',
@@ -683,8 +915,8 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
       terms: 'Términos y condiciones',
       privacyInfo: 'Obtén más información sobre cómo procesamos tus datos en nuestra',
       privacyPolicy: 'Política de privacidad',
-      loginGmail: 'Crear cuenta con Gmail',
-      loginEmail: 'Crear cuenta con correo',
+      loginGmail: 'Iniciar sesión con Gmail',
+      loginEmail: 'Iniciar sesión con Email',
       troubleLogin: '¿No consigues iniciar sesión?',
       getApp: '¡Consigue la app!',
       downloadOn: 'DISPONIBLE EN',
@@ -731,6 +963,10 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
       monthPlaceholder: 'MM',
       yearPlaceholder: 'AAAA',
       minAgeMessage: 'Debes tener al menos 14 años para registrarte',
+      errorTitle: 'Error',
+      accountExistsTitle: 'Cuenta Existente',
+      googleAccountExists: 'Ya existe una cuenta asociada a este correo de Google.',
+      emailAccountExists: 'Ya existe una cuenta registrada con este correo electrónico.',
     },
     en: {
       welcome: 'Welcome',
@@ -738,8 +974,8 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
       terms: 'Terms and Conditions',
       privacyInfo: 'Get more information about how we process your data in our',
       privacyPolicy: 'Privacy Policy',
-      loginGmail: 'Create account with Gmail',
-      loginEmail: 'Create account with email',
+      loginGmail: 'Login with Gmail',
+      loginEmail: 'Login with Email',
       troubleLogin: 'Having trouble logging in?',
       getApp: 'Get the app!',
       downloadOn: 'AVAILABLE ON',
@@ -786,10 +1022,14 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
       monthPlaceholder: 'MM',
       yearPlaceholder: 'YYYY',
       minAgeMessage: 'You must be at least 14 years old to register',
+      errorTitle: 'Error',
+      accountExistsTitle: 'Account Exists',
+      googleAccountExists: 'An account associated with this Google email already exists.',
+      emailAccountExists: 'An account registered with this email already exists.',
     }
   };
   
-  const t = translations[currentLang];
+  const t = translations[currentLang] || translations.es;
   
   if (!isOpen) return null;
   
@@ -1025,6 +1265,14 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
           />
           {emailError && <div className="error-message">{emailError}</div>}
           
+          <p className="terms-text">
+            {t.termsAndConditionsTextBeforePrivacy}
+            <span className="terms-link" onClick={(e) => { e.preventDefault(); handleOpenPrivacyPolicyModal(); }}>{t.privacyPolicyLinkText}</span>
+            {t.termsAndConditionsTextBetween}
+            <span className="terms-link" onClick={(e) => { e.preventDefault(); handleOpenTermsConditionsModal(); }}>{t.termsConditionsLinkText}</span>
+            {t.termsAndConditionsTextAfter}
+          </p>
+          
           <button 
             type="submit" 
             className="submit-button"
@@ -1163,18 +1411,33 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
   // Render content based on screen size
   const renderContent = () => {
     if (showProfileModal) {
+      if (googleAuthData) {
+        const { name, email: gEmail, uid: gUid, birthdate: gBirthdate } = googleAuthData;
       return (
         <UserProfileModal
           isOpen={showProfileModal}
           onClose={() => {
-            console.log('⭐ onClose de UserProfileModal llamado manualmente');
             setShowProfileModal(false);
-            
-            // Si venimos de la pantalla de éxito, cerramos todo el LoginModal también
-            if (onClose) {
-              console.log('🧹 Cerrando LoginModal desde UserProfileModal');
-              onClose();
-            }
+              if (onClose) onClose();
+            }}
+            language={language}
+            onComplete={handleProfileComplete}
+            email={gEmail}
+            uId={gUid}
+            birthdate={gBirthdate}
+            isGoogleAuth={true}
+            coordinates={coordinates || ''}
+            rol="normal"
+          />
+        );
+      } else {
+        // Flujo regular: pasar email y password explícitamente
+        return (
+          <UserProfileModal
+            isOpen={showProfileModal}
+            onClose={() => {
+              setShowProfileModal(false);
+              if (onClose) onClose();
           }}
           language={language}
           onComplete={handleProfileComplete}
@@ -1183,8 +1446,10 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
           birthdate={`${birthDay.padStart(2, '0')}/${birthMonth.padStart(2, '0')}/${birthYear}`}
           coordinates={coordinates}
           rol={rol}
+            uId={undefined}
         />
       );
+      }
     }
     // Si estamos mostrando el formulario de contraseña
     if (showPasswordForm) {
@@ -1220,20 +1485,28 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
             <h2 className="modal-title">{t.welcome}</h2>
             
             <p className="modal-text">
-              {t.continueText} <a href="#" className="modal-link">{t.terms}</a>.
+              {t.continueText} <span className="modal-link terms-link" onClick={(e) => { e.preventDefault(); handleOpenTermsConditionsModal(); }}>{t.terms}</span>.
               <br />
-              {t.privacyInfo} <a href="#" className="modal-link">{t.privacyPolicy}</a>.
+              {t.privacyInfo} <span className="modal-link terms-link" onClick={(e) => { e.preventDefault(); handleOpenPrivacyPolicyModal(); }}>{t.privacyPolicy}</span>.
             </p>
             
             <div className="login-options">
-              <button className="login-button login-gmail">
+              <button 
+                className="login-button login-gmail"
+                onClick={handleGoogleSignIn}
+                disabled={isLoading}
+              >
                 <img src={GoogleIcon} alt="Google" className="button-icon" />
-                {t.loginGmail}
+                {isLoading && <span className="loading-spinner"></span>}
+                {!isLoading && t.loginGmail}
               </button>
               
               <button 
                 className="login-button login-email"
-                onClick={() => setShowEmailForm(true)}
+                onClick={() => {
+                  setEmailError('');
+                  setShowEmailForm(true);
+                }}
               >
                 <img src={EmailIcon} alt="Email" className="button-icon email-icon" />
                 {t.loginEmail}
@@ -1250,7 +1523,7 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
               <div className="app-stores">
                 <a href="#" className="store-badge">
                   <img 
-                    src={GooglePlayIcon} 
+                    src={currentLang === 'en' ? GooglePlayIconEN : GooglePlayIcon} 
                     alt="Google Play" 
                     className="store-badge-img"
                   />
@@ -1258,7 +1531,7 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
                 
                 <a href="#" className="store-badge">
                   <img 
-                    src={AppStoreIcon} 
+                    src={currentLang === 'en' ? AppStoreIconEN : AppStoreIcon} 
                     alt="App Store" 
                     className="store-badge-img"
                   />
@@ -1286,20 +1559,28 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
             <h2 className="modal-title">{t.welcome}</h2>
             
             <p className="modal-text">
-              {t.continueText} <a href="#" className="modal-link">{t.terms}</a>.
+              {t.continueText} <span className="modal-link terms-link" onClick={(e) => { e.preventDefault(); handleOpenTermsConditionsModal(); }}>{t.terms}</span>.
               <br />
-              {t.privacyInfo} <a href="#" className="modal-link">{t.privacyPolicy}</a>.
+              {t.privacyInfo} <span className="modal-link terms-link" onClick={(e) => { e.preventDefault(); handleOpenPrivacyPolicyModal(); }}>{t.privacyPolicy}</span>.
             </p>
             
             <div className="login-options">
-              <button className="login-button login-gmail">
+              <button 
+                className="login-button login-gmail"
+                onClick={handleGoogleSignIn}
+                disabled={isLoading}
+              >
                 <img src={GoogleIcon} alt="Google" className="button-icon" />
-                {t.loginGmail}
+                {isLoading && <span className="loading-spinner"></span>}
+                {!isLoading && t.loginGmail}
               </button>
               
               <button 
                 className="login-button login-email"
-                onClick={() => setShowEmailForm(true)}
+                onClick={() => {
+                  setEmailError('');
+                  setShowEmailForm(true);
+                }}
               >
                 <img src={EmailIcon} alt="Email" className="button-icon email-icon" />
                 {t.loginEmail}
@@ -1316,7 +1597,7 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
               <div className="app-stores">
                 <a href="#" className="store-badge">
                   <img 
-                    src={GooglePlayIcon} 
+                    src={currentLang === 'en' ? GooglePlayIconEN : GooglePlayIcon} 
                     alt="Google Play" 
                     className="store-badge-img"
                   />
@@ -1324,7 +1605,7 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
                 
                 <a href="#" className="store-badge">
                   <img 
-                    src={AppStoreIcon} 
+                    src={currentLang === 'en' ? AppStoreIconEN : AppStoreIcon} 
                     alt="App Store" 
                     className="store-badge-img"
                   />
@@ -1351,20 +1632,28 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
           <h2 className="modal-title">{t.welcome}</h2>
           
           <p className="modal-text">
-            {t.continueText} <a href="#" className="modal-link">{t.terms}</a>.
+            {t.continueText} <span className="modal-link terms-link" onClick={(e) => { e.preventDefault(); handleOpenTermsConditionsModal(); }}>{t.terms}</span>.
             <br />
-            {t.privacyInfo} <a href="#" className="modal-link">{t.privacyPolicy}</a>.
+            {t.privacyInfo} <span className="modal-link terms-link" onClick={(e) => { e.preventDefault(); handleOpenPrivacyPolicyModal(); }}>{t.privacyPolicy}</span>.
           </p>
           
           <div className="login-options">
-            <button className="login-button login-gmail">
+            <button 
+              className="login-button login-gmail"
+              onClick={handleGoogleSignIn}
+              disabled={isLoading}
+            >
               <img src={GoogleIcon} alt="Google" className="button-icon" />
-              {t.loginGmail}
+              {isLoading && <span className="loading-spinner"></span>}
+              {!isLoading && t.loginGmail}
             </button>
             
             <button 
               className="login-button login-email"
-              onClick={() => setShowEmailForm(true)}
+              onClick={() => {
+                setEmailError('');
+                setShowEmailForm(true);
+              }}
             >
               <img src={EmailIcon} alt="Email" className="button-icon email-icon" />
               {t.loginEmail}
@@ -1379,7 +1668,7 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
             <div className="app-stores">
               <a href="#" className="store-badge">
                 <img 
-                  src={GooglePlayIcon} 
+                  src={currentLang === 'en' ? GooglePlayIconEN : GooglePlayIcon} 
                   alt="Google Play" 
                   className="store-badge-img"
                 />
@@ -1387,7 +1676,7 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
               
               <a href="#" className="store-badge">
                 <img 
-                  src={AppStoreIcon} 
+                  src={currentLang === 'en' ? AppStoreIconEN : AppStoreIcon} 
                   alt="App Store" 
                   className="store-badge-img"
                 />
@@ -1403,16 +1692,56 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
     }
   };
   
+  // Handle modal close and cleanup
+  const handleModalClose = () => {
+    setShowProfileModal(false); // Limpiar estado de ProfileModal
+    cleanupGoogleAuthData();
+    onClose();
+  };
+
+  // Add code to show ProfileModal directly after birthdate completion for Google Auth users
+  if (showBirthdateForm) {
+    // Add debug log to check googleAuthData state
+    console.log('🧪 En showBirthdateForm, googleAuthData =', googleAuthData);
+  }
+
+  if (showProfileModal && googleAuthData) {
+    console.log('🧪 Mostrando ProfileModal con googleAuthData:', googleAuthData);
+  }
+  
   return (
-    <div className="modal-overlay" onClick={handleOverlayClick}>
-      <div className="login-modal">
-        <button className="modal-close" onClick={onClose}>
-          <span>×</span>
-        </button>
-        
-        {renderContent()}
+    <>
+      <div className={`modal-overlay ${isOpen ? 'active' : ''}`} onClick={handleOverlayClick}>
+        <div className={`login-modal ${showPasswordForm ? 'password-view' : ''} ${isOpen ? 'active' : ''}`}>
+          <button className="modal-close" onClick={onClose}> 
+            <span>×</span>
+          </button>
+          {renderContent()}
+        </div>
       </div>
-    </div>
+      <NotificationModal
+        isOpen={showNotification}
+        onClose={() => {
+          setShowNotification(false); // Siempre cierra la notificación
+          if (closeLoginModalAfterNotification) {
+            setCloseLoginModalAfterNotification(false); // Resetea el flag
+            if (onClose) onClose(); // Ahora cierra LoginModal si estaba marcado
+          }
+        }}
+        title={notificationTitle}
+        message={notificationMessage}
+      />
+      <PrivacyPolicyModal
+        isOpen={isPrivacyPolicyModalOpen}
+        onClose={handleClosePrivacyPolicyModal}
+        language={language}
+      />
+      <TermsConditionsModal
+        isOpen={isTermsConditionsModalOpen}
+        onClose={handleCloseTermsConditionsModal}
+        language={language}
+      />
+    </>
   );
 };
 

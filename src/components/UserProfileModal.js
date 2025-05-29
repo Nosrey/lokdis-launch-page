@@ -1,15 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import '../styles/UserProfileModal.css';
 import DefaultAvatar from '../assets/images/avatar-default.png';
 import LogoSimple from '../assets/images/logo_simple.png';
 import AvatarSelectionModal from './AvatarSelectionModal';
 import SuccessImage from '../assets/images/success.png';
 import '../styles/AccountSuccessModal.css';
+import { updateUser } from '../utils/userApi';
 
-const API_URL = 'https://www.lokdis.com/back-end-lokdis-app';
+// API endpoint URL - use proxy in development, full URL as fallback
+const API_URL = 'https://www.lokdis.com/back-end-lokdis-app'; // Always use production URL
 
-const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email, password, birthdate, coordinates, rol }) => {
+const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email, password, birthdate, coordinates, rol, uId, isGoogleAuth, onCloseAll }) => {
   const currentLang = language;
+
+  // Translations must be defined before they are used in useEffect
+  const translations = {
+    es: {
+      title: 'Nombre de usuario',
+      subtitle: 'Elige tu avatar y el alias que quieres mostrar',
+      aliasLabel: 'Alias',
+      usernamePlaceholder: 'Tu alias',
+      continueButton: 'Continuar',
+      cancelButton: 'Cancelar',
+      emptyUsername: 'Por favor, introduce un alias',
+      usernameTooShort: 'El alias debe tener al menos 3 caracteres',
+      usernameTooLong: 'El alias debe tener menos de 24 caracteres',
+      errorTitle: 'Error',
+      successTitle: '¡Éxito!',
+      selectAvatarError: 'Por favor, selecciona un avatar.',
+      // Traducciones para la pantalla de éxito
+      accountCreatedTitle: '¡Cuenta creada con éxito!',
+      accountCreatedSubtitle: 'Ya puedes enviar y recibir tus momentos con LokDis.',
+      letsGoButton: '¡Vamos allá!',
+    },
+    en: {
+      title: 'Username',
+      subtitle: 'Choose your avatar and the username you want to display',
+      aliasLabel: 'Username',
+      usernamePlaceholder: 'Your username',
+      continueButton: 'Continue',
+      cancelButton: 'Cancel',
+      emptyUsername: 'Please enter a username',
+      usernameTooShort: 'Username must be at least 3 characters long',
+      usernameTooLong: 'Username must be less than 24 characters long',
+      errorTitle: 'Error',
+      successTitle: 'Success!',
+      selectAvatarError: 'Please select an avatar.',
+      // Translations for success screen
+      accountCreatedTitle: 'Account created successfully!',
+      accountCreatedSubtitle: 'You can now send and receive your moments with LokDis.',
+      letsGoButton: 'Let\'s go!',
+    }
+  };
+
+  const t = translations[currentLang];
+
   const [username, setUsername] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [isUsernameValid, setIsUsernameValid] = useState(false);
@@ -20,7 +65,46 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
   const [successModal, setSuccessModal] = useState('');
   const [showSuccessScreen, setShowSuccessScreen] = useState(false);
   
-  // Reset all state when modal is closed
+  // Referencia al input de username para acceder directamente a su valor
+  const usernameInputRef = useRef(null);
+  
+  // Flag to detect Google authentication flow (from prop or uId)
+  const isGoogleAuthentication = isGoogleAuth || !!uId;
+  
+  // Get data from props or sessionStorage as fallback
+  const getEmail = () => {
+    const emailFromProps = email;
+    const emailFromSession = sessionStorage.getItem('tempUserEmail');
+    console.log('🔍 getEmail() - Props:', emailFromProps, 'SessionStorage:', emailFromSession);
+    
+    // Return the first non-null, non-undefined, non-empty value
+    const result = emailFromProps || emailFromSession || null;
+    console.log('🔍 getEmail() resultado final:', result);
+    return result;
+  };
+  
+  const getUid = () => {
+    const uidFromProps = uId;
+    const uidFromSession = sessionStorage.getItem('tempUserId');
+    console.log('🔍 getUid() - Props:', uidFromProps, 'SessionStorage:', uidFromSession);
+    
+    // Return the first non-null, non-undefined, non-empty value
+    const result = uidFromProps || uidFromSession || null;
+    console.log('🔍 getUid() resultado final:', result);
+    return result;
+  };
+  
+  // Set initial username from session storage if available for Google Auth flow
+  useEffect(() => {
+    if (isGoogleAuthentication && isOpen) {
+      const storedName = sessionStorage.getItem('tempUserName');
+      if (storedName && username === '') {
+        setUsername(storedName);
+      }
+    }
+  }, [isOpen, isGoogleAuthentication, username]);
+  
+  // Reset all state when modal is closed, and add a check if opened without essential data
   useEffect(() => {
     if (!isOpen) {
       setUsername('');
@@ -31,8 +115,43 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
       setErrorModal('');
       setSuccessModal('');
       setShowSuccessScreen(false);
+    } else {
+      // Log props when component opens
+      console.log('🔎 UserProfileModal opened with props:', {
+        hasEmail: !!email,
+        emailProp: email, // Renombrado para evitar confusión con variable email del scope
+        hasUId: !!uId,
+        uIdProp: uId,
+        hasBirthdate: !!birthdate,
+        isGoogleAuthProp: isGoogleAuth, // Renombrado
+        isGoogleAuthenticationState: isGoogleAuthentication, // Estado calculado interno
+        sessionStorageData: {
+          tempUserId: sessionStorage.getItem('tempUserId'),
+          tempUserEmail: sessionStorage.getItem('tempUserEmail'),
+          tempUserName: sessionStorage.getItem('tempUserName'),
+          tempBirthdate: sessionStorage.getItem('tempBirthdate'),
+        }
+      });
+
+      // Si el UserProfileModal se abre, pero es un flujo de Google y no tenemos uId (ni en props ni en session), 
+      // o no es Google pero no tenemos email (ni en props ni en session) Y TAMPOCO tenemos password (indicando que no es flujo de email válido)
+      // es probable que LoginModal ya haya manejado un usuario existente y este modal no debería estar aquí.
+      const effectiveEmail = email || sessionStorage.getItem('tempUserEmail');
+      const effectiveUid = uId || sessionStorage.getItem('tempUserId');
+
+      if (isGoogleAuthentication && !effectiveUid) {
+        console.warn('⚠️ UserProfileModal (Google Flow) opened without uId. Closing.');
+        if (onClose) onClose();
+        return;
+      }
+      if (!isGoogleAuthentication && !effectiveEmail && !password) {
+        // Si no es Google, no hay email efectivo, y tampoco hay password (que vendría del LoginModal en flujo email)
+        console.warn('⚠️ UserProfileModal (Email Flow) opened without email and password. Closing.');
+        if (onClose) onClose();
+        return;
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, email, password, uId, isGoogleAuth, isGoogleAuthentication, onClose]);
   
   // Add overflow hidden to body when modal is open
   useEffect(() => {
@@ -58,17 +177,14 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
     if (username.length < 3) {
       setUsernameError(t.usernameTooShort);
       setIsUsernameValid(false);
-    } else if (username.length > 20) {
+    } else if (username.length > 24) {
       setUsernameError(t.usernameTooLong);
-      setIsUsernameValid(false);
-    } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-      setUsernameError(t.usernameInvalidChars);
       setIsUsernameValid(false);
     } else {
       setUsernameError('');
       setIsUsernameValid(true);
     }
-  }, [username]);
+  }, [username, t]);
   
   // Handle overlay click
   const handleOverlayClick = (e) => {
@@ -76,7 +192,11 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
       if (showSuccessScreen) {
         // Si estamos en la pantalla de éxito, cerrar todo
         console.log('👋 Cerrando modales desde overlay click en pantalla de éxito');
-        onClose && onClose();
+        if (onCloseAll) {
+          onCloseAll();
+        } else if (onClose) {
+          onClose();
+        }
       } else {
         // Comportamiento normal
         onClose && onClose();
@@ -163,45 +283,74 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!username.trim()) {
-      setUsernameError(t.emptyUsername);
-      return;
-    }
-    
+
+    // Validaciones más específicas
     if (!isUsernameValid) {
+      console.error("Submit failed: Username is not valid.");
+      // El error de username ya se muestra bajo el input.
       return;
     }
-    
-    if (!email || !password || !birthdate || !rol) {
-      setErrorModal(currentLang === 'es' ? 'Faltan datos para crear la cuenta.' : 'Missing data to create account.');
+    // Asumimos que selectedAvatar siempre tiene un valor, incluso el default.
+    // Si quieres forzar que elijan uno diferente al default, la lógica sería:
+    // if (!selectedAvatar || selectedAvatar.id === 'default') {
+    //   console.error("Submit failed: A non-default avatar must be selected.");
+    //   setErrorModal(t.selectAvatarError); 
+    //   return;
+    // }
+    if (!email) {
+      console.error("Submit failed: Email is missing.");
+      setErrorModal("Email is missing. Please report this issue."); // Should not happen
       return;
     }
-    
-    setIsLoading(true);
-    setErrorModal('');
-    setSuccessModal('');
-    
-    // Compose payload
-    const payload = {
-      password: password,
-      name: username,
-      routeImg: getRouteImg(),
-      email: email,
-      date: getCurrentDate(),
-      coordinates: coordinates || '',
-      birthdate: formatBirthdate(birthdate),
-      rol: rol
-    };
-    
-    try {
-      // Check internet connection
-      if (!window.navigator.onLine) {
-        setErrorModal(currentLang === 'es' ? 'No hay conexión a internet' : 'No internet connection');
-        setIsLoading(false);
+    if (!birthdate) {
+      console.error("Submit failed: Birthdate is missing.");
+      setErrorModal("Birthdate is missing. Please report this issue."); // Should not happen
+      return;
+    }
+
+    if (isGoogleAuth) { // isGoogleAuth es la prop
+      if (!uId) {
+        console.error("Submit failed (Google Auth): uId is missing.");
+        setErrorModal("User ID is missing for Google Sign-In. Please report this issue."); // Should not happen
         return;
       }
-      const response = await fetch(`${API_URL}/create-user`, {
+      // Para Google Auth, el 'password' no se recoge en este modal, así que no lo validamos aquí.
+      // El backend se encarga o ya fue manejado por Firebase.
+    } else { // Flujo de Email
+      if (!password) {
+        console.error("Submit failed (Email Auth): Password is missing.");
+        setErrorModal("Password is missing. Please report this issue."); // Should not happen if flow is correct
+        return;
+      }
+    }
+
+    setIsLoading(true);
+    setErrorModal('');
+
+    try {
+      const endpoint = isGoogleAuth ? '/update-user' : '/create-user';
+      console.log(`🔍 Using endpoint: ${endpoint} for ${isGoogleAuth ? 'Google' : 'Email'} auth`);
+
+      const payload = {
+        name: username.trim(),
+        email: email,
+        birthdate: birthdate,
+        birthday: birthdate,
+        coordinates: coordinates || '',
+        rol: rol || 'user',
+        routeImg: getRouteImg(),
+      };
+
+      if (isGoogleAuth) {
+        payload.uId = uId;
+      } else {
+        payload.password = password;
+        payload.date = getCurrentDate();
+      }
+
+      console.log('📦 Payload to be sent:', JSON.stringify(payload, null, 2));
+
+      const response = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -209,38 +358,19 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
         },
         body: JSON.stringify(payload),
       });
-      let data = null;
-      try {
-        data = await response.clone().json();
-      } catch (jsonErr) {
-        data = null;
-      }
+
+      const data = await response.json();
       
-      console.log('API /create-user response:', { 
-        status: response.status, 
-        statusText: response.statusText,
-        ok: response.ok,
-        data: data
-      });
-      
-      // Verificar detalladamente si la respuesta es exitosa, corregido para 'sucesfull' (sin 'c' en el medio)
-      if (response.ok && data && (
-        data.success === true || 
-        data.sucesfull === true || 
-        data.sucessfull === true ||  // para compatibilidad por si cambia la ortografía
-        (data.data && data.data.sucesfull === true)
-      )) {
-        console.log('✅ Cuenta creada exitosamente, mostrando pantalla de éxito');
-        // Mostrar pantalla de éxito directamente en este modal y no hacer nada más
+      if (response.ok && (data.sucesfull === true || data.success === true)) {
+        console.log('✅ Profile setup successful:', data);
         setShowSuccessScreen(true);
       } else {
-        // Solo en caso de error real, mostrar el modal de error
-        console.log('❌ Error en la creación de cuenta:', data?.message || 'Unknown error');
-        setErrorModal((data && data.message) || (currentLang === 'es' ? 'No se pudo crear la cuenta. Intenta de nuevo.' : 'Could not create account. Please try again.'));
+        console.error('❌ API Error or non-successful response:', data);
+        setErrorModal(data.message || (currentLang === 'es' ? 'Error al configurar el perfil.' : 'Error setting up profile.'));
       }
-    } catch (err) {
-      console.error('Error en la conexión:', err);
-      setErrorModal(currentLang === 'es' ? 'No hay conexión a internet' : 'No internet connection');
+    } catch (error) {
+      console.error('❌ Network/Fetch Error in profile setup:', error);
+      setErrorModal(currentLang === 'es' ? 'Error de conexión. Inténtalo de nuevo.' : 'Connection error. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -251,47 +381,28 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
     onClose();
   };
   
-  // Translations
-  const translations = {
-    es: {
-      title: 'Crear nombre de usuario',
-      subtitle: 'Elige tu avatar y el alias que quieres mostrar',
-      aliasLabel: 'Alias',
-      usernamePlaceholder: 'Tu alias',
-      continueButton: 'Continuar',
-      cancelButton: 'Cancelar',
-      emptyUsername: 'Por favor, introduce un alias',
-      usernameTooShort: 'El alias debe tener al menos 3 caracteres',
-      usernameTooLong: 'El alias debe tener menos de 20 caracteres',
-      usernameInvalidChars: 'El alias solo puede contener letras, números y guiones bajos',
-      errorTitle: 'Error',
-      successTitle: '¡Éxito!',
-      // Traducciones para la pantalla de éxito
-      accountCreatedTitle: '¡Cuenta creada con éxito!',
-      accountCreatedSubtitle: 'Ya puedes enviar y recibir tus momentos con LokDis.',
-      letsGoButton: '¡Vamos allá!'
-    },
-    en: {
-      title: 'Create username',
-      subtitle: 'Choose your avatar and the username you want to display',
-      aliasLabel: 'Username',
-      usernamePlaceholder: 'Your username',
-      continueButton: 'Continue',
-      cancelButton: 'Cancel',
-      emptyUsername: 'Please enter a username',
-      usernameTooShort: 'Username must be at least 3 characters long',
-      usernameTooLong: 'Username must be less than 20 characters long',
-      usernameInvalidChars: 'Username can only contain letters, numbers, and underscores',
-      errorTitle: 'Error',
-      successTitle: 'Success!',
-      // Translations for success screen
-      accountCreatedTitle: 'Account created successfully!',
-      accountCreatedSubtitle: 'You can now send and receive your moments with LokDis.',
-      letsGoButton: 'Let\'s go!'
+  // Handle Let's Go button on success screen
+  const handleLetsGo = () => {
+    console.log('👋 Usuario hizo clic en Let\'s Go, pasando datos al componente padre');
+    // Primero notifico al padre
+    if (onComplete) {
+      const inputUsername = usernameInputRef.current ? usernameInputRef.current.value : '';
+      const userEmail = getEmail();
+      const userId = getUid();
+      onComplete({
+        success: true,
+        username: inputUsername,
+        email: userEmail,
+        uid: userId
+      });
+    }
+    // Luego cierro todos los modales
+    if (onCloseAll) {
+      onCloseAll();
+    } else if (onClose) {
+      onClose();
     }
   };
-  
-  const t = translations[currentLang];
   
   const EditIcon = () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -327,17 +438,36 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
     );
   };
   
+  useEffect(() => {
+    if (isOpen) {
+      console.log('🔍 UserProfileModal - Abriendo modal con props:', {
+        isOpen,
+        email,
+        uId,
+        birthdate,
+        isGoogleAuth,
+        sessionStorage: {
+          tempUserId: sessionStorage.getItem('tempUserId'),
+          tempUserEmail: sessionStorage.getItem('tempUserEmail'),
+          tempUserName: sessionStorage.getItem('tempUserName'),
+          tempBirthdate: sessionStorage.getItem('tempBirthdate')
+        }
+      });
+    }
+  }, [isOpen, email, uId, birthdate, isGoogleAuth]);
+  
   if (!isOpen) return null;
   
   // Render success screen if account was created successfully
   if (showSuccessScreen) {
     return (
-      <div className="modal-overlay" onClick={handleOverlayClick}>
+      <div className="modal-overlay" onClick={(e) => {
+        if (e.target.className === 'modal-overlay') {
+          window.location.reload();
+        }
+      }}>
         <div className="success-modal">
-          <button className="modal-close" onClick={() => {
-            console.log('👋 Cerrando modales desde botón X en pantalla de éxito');
-            onClose && onClose();
-          }}>
+          <button className="modal-close" onClick={() => window.location.reload()}>
             <span>×</span>
           </button>
           
@@ -350,10 +480,7 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
             </div>
             <button 
               className="success-button"
-              onClick={() => {
-                console.log('👋 Cerrando modales desde botón "Vamos allá" en pantalla de éxito');
-                onClose && onClose();
-              }}
+              onClick={() => window.location.reload()}
             >
               {t.letsGoButton}
             </button>
@@ -366,10 +493,7 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
               <p className="success-text">{t.accountCreatedSubtitle}</p>
               <button 
                 className="success-button"
-                onClick={() => {
-                  console.log('👋 Cerrando modales desde botón "Vamos allá" en modo landscape');
-                  onClose && onClose();
-                }}
+                onClick={() => window.location.reload()}
               >
                 {t.letsGoButton}
               </button>
@@ -428,9 +552,10 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
               value={username}
               onChange={handleUsernameChange}
               autoFocus
-              maxLength="20"
+              maxLength="24"
               autoComplete="off"
               disabled={isLoading}
+              ref={usernameInputRef}
             />
             {usernameError && <div className="error-message">{usernameError}</div>}
           </div>

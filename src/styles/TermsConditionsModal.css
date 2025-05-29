@@ -1,0 +1,190 @@
+/* src/styles/TermsConditionsModal.css */
+
+.termsconditions-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  animation: termsConditionsFadeIn 0.3s forwards;
+}
+
+@keyframes termsConditionsFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.termsconditions-modal-content {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+  width: 90%;
+  max-width: 800px; /* Consistent with Privacy Policy */
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: termsConditionsScaleUp 0.3s 0.1s forwards;
+}
+
+@keyframes termsConditionsScaleUp {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.termsconditions-modal-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 18px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.termsconditions-modal-logo {
+  height: 38px;
+  width: auto;
+  margin-right: 15px;
+  filter: drop-shadow(0px 1px 1px rgba(0,0,0,0.1));
+}
+
+.termsconditions-modal-header h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.9rem;
+  color: #143c5a;
+  margin: 0;
+  font-weight: 700;
+  flex-grow: 1;
+}
+
+.termsconditions-modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #888;
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
+  transition: color 0.2s ease;
+  margin-left: 15px;
+}
+
+.termsconditions-modal-close-btn:hover {
+  color: #333;
+}
+
+.termsconditions-modal-body {
+  overflow-y: auto;
+  padding-right: 15px;
+  margin-right: -10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.7;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.termsconditions-modal-body .last-updated {
+  font-size: 0.8rem;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.termsconditions-modal-body .policy-section {
+  margin-bottom: 20px;
+}
+
+.termsconditions-modal-body .policy-section:last-child {
+  margin-bottom: 0;
+}
+
+.termsconditions-modal-body h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  color: #143c5a;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.termsconditions-modal-body p {
+  margin-bottom: 0.8em;
+  line-height: 1.65;
+}
+
+/* Ensure spans within p tags used by renderFormattedText inherit styles properly */
+.termsconditions-modal-body .policy-section span {
+    display: inline;
+}
+.termsconditions-modal-body .policy-section span p {
+    margin-bottom: 0.8em !important;
+}
+
+/* Scrollbar styling */
+.termsconditions-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.termsconditions-modal-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.termsconditions-modal-body::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.termsconditions-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .termsconditions-modal-content {
+    width: 95%;
+    padding: 20px 25px;
+  }
+  .termsconditions-modal-logo {
+    height: 32px;
+  }
+  .termsconditions-modal-header h2 {
+    font-size: 1.6rem;
+  }
+  .termsconditions-modal-body {
+    font-size: 0.85rem;
+  }
+  .termsconditions-modal-body h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .termsconditions-modal-content {
+    padding: 15px 20px;
+  }
+  .termsconditions-modal-logo {
+    height: 28px;
+  }
+  .termsconditions-modal-header h2 {
+    font-size: 1.4rem;
+  }
+  .termsconditions-modal-body {
+    font-size: 0.8rem;
+  }
+  .termsconditions-modal-body h3 {
+    font-size: 0.95rem;
+  }
+} 
