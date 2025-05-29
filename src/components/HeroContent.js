@@ -425,10 +425,10 @@ function HeroContent() {
                 <button className="footer-link" onClick={handleOpenFaqModal}>{t('faqs')}</button>
                 {/* <button className="footer-link">{t('siteMap')}</button> */}
               <div className="footer-social">
-                <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="social-icon instagram">
+                <a href="https://www.instagram.com/lokdisapp/" target="_blank" rel="noopener noreferrer" className="social-icon instagram">
                   <img src={instagramIcon} alt="Instagram" className="footer-social-img footer-social-img--small" />
                 </a>
-                <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" className="social-icon tiktok">
+                <a href="https://www.tiktok.com/@lokdisapp" target="_blank" rel="noopener noreferrer" className="social-icon tiktok">
                   <img src={tiktokIcon} alt="TikTok" className="footer-social-img footer-social-img--small" />
                 </a>
                 <a href="https://wa.me/34622444319" target="_blank" rel="noopener noreferrer" className="social-icon whatsapp">
