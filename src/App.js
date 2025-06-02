@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './styles/App.css';
 import MainLayout from './layouts/MainLayout';
 import HeroContent from './components/HeroContent';
@@ -25,7 +25,7 @@ function App() {
               <HeroContent />
             </MainLayout>
           } />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
     </LanguageProvider>

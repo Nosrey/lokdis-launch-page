@@ -18,7 +18,7 @@ const LoginExample = () => {
         className="try-button" 
         onClick={openModal}
       >
-        Iniciar Sesión
+        Crear cuenta
       </button>
       
       <LoginModal 

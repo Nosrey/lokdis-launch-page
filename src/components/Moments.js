@@ -310,7 +310,7 @@ function Moments() {
     
     // Categorías de agrupación
     const userCountry = userLocation.country;
-    const otherCountries = 'Otros países';
+    const otherCountries = t('otherCountries');
     
     // Inicializar grupos
     groupedData[userCountry] = [];
@@ -979,12 +979,12 @@ function Moments() {
             </div>
           )}
           
-          {groupedMoments['Otros países'] && (
-            <div key="Otros países" className="location-group">
-              <h3 className="location-title">{'Otros países'}</h3>
+          {groupedMoments[t('otherCountries')] && (
+            <div key={t('otherCountries')} className="location-group">
+              <h3 className="location-title">{t('otherCountries')}</h3>
               <div className="moments-grid">
-                {groupedMoments['Otros países']
-                  .slice(0, visibleMomentsPerGroup['Otros países'] || INITIAL_MOMENTS_PER_GROUP)
+                {groupedMoments[t('otherCountries')]
+                  .slice(0, visibleMomentsPerGroup[t('otherCountries')] || INITIAL_MOMENTS_PER_GROUP)
                   .map((moment, index) => {
                     // New address formatting logic for preview
                     const countryName = moment.locationInfo?.country ? getLocalizedCountryName(moment.locationInfo.country) : '';
@@ -1034,9 +1034,9 @@ function Moments() {
 
                     return (
                       <div 
-                        key={moment.id || `moment-Otros países-item-${index}`} 
+                        key={moment.id || `moment-${t('otherCountries')}-item-${index}`} 
                         className="moment-card"
-                        onClick={() => openModal(moment, 'Otros países', index)}
+                        onClick={() => openModal(moment, t('otherCountries'), index)}
                       >
                         <div 
                           className="moment-thumbnail" 
@@ -1057,19 +1057,19 @@ function Moments() {
                   })}
                 {/* Render skeletons if loading and not enough real moments */}
                 {loading && 
-                  Array(Math.max(0, (visibleMomentsPerGroup['Otros países'] || INITIAL_MOMENTS_PER_GROUP) - (groupedMoments['Otros países']?.length || 0)))
+                  Array(Math.max(0, (visibleMomentsPerGroup[t('otherCountries')] || INITIAL_MOMENTS_PER_GROUP) - (groupedMoments[t('otherCountries')]?.length || 0)))
                     .fill(null)
                     .map((_, index) => (
-                      <MomentSkeleton key={`skeleton-Otros países-dyn-${index}`} />
+                      <MomentSkeleton key={`skeleton-${t('otherCountries')}-dyn-${index}`} />
                     ))}
               </div>
-              {loadingMorePerGroup['Otros países'] && (
+              {loadingMorePerGroup[t('otherCountries')] && (
                 <div className="loading-more-indicator">{t('loadingMore') || 'Cargando más...'}</div>
               )}
-              {!loadingMorePerGroup['Otros países'] && 
-                groupedMoments['Otros países'].length > (visibleMomentsPerGroup['Otros países'] || INITIAL_MOMENTS_PER_GROUP) && (
-                <button className="show-more-button" onClick={() => handleShowMore('Otros países')}>
-                  {t('showMore') || 'Mostrar más'}
+              {!loadingMorePerGroup[t('otherCountries')] && 
+                groupedMoments[t('otherCountries')].length > (visibleMomentsPerGroup[t('otherCountries')] || INITIAL_MOMENTS_PER_GROUP) && (
+                <button className="show-more-button" onClick={() => handleShowMore(t('otherCountries'))}>
+                  {t('showMore')}
                 </button>
               )}
             </div>
@@ -1136,8 +1136,8 @@ function Moments() {
                 <a href="https://www.tiktok.com/@lokdisapp" target="_blank" rel="noopener noreferrer" className="social-icon tiktok">
                   <img src={tiktokIcon} alt="TikTok" className="footer-social-img footer-social-img--small" />
                 </a>
-                <a href="https://wa.me/34622444319" target="_blank" rel="noopener noreferrer" className="social-icon whatsapp">
-                  <img src={whatsappIcon} alt="WhatsApp" className="footer-social-img" />
+                <a href="https://wa.me/34624415165" target="_blank" rel="noopener noreferrer" className="social-icon whatsapp">
+                  <img src={whatsappIcon} alt="WhatsApp" className="footer-social-img footer-social-img--small" />
                 </a>
               </div>
             </div>

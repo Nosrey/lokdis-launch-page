@@ -5,14 +5,19 @@
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  right: 0;    /* Ensured it stretches to the right edge */
+  bottom: 0;   /* Ensured it stretches to the bottom edge */
+  /* width: 100%; Removed */
+  /* height: 100vh; Removed */
   background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Changed from center to flex-start */
+  padding-top: 5vh;       /* Added padding to push modal down */
+  box-sizing: border-box; /* Ensure padding is included in dimensions */
   z-index: 1000;
+  overflow-y: auto; /* Kept, allows overlay to scroll if modal is excessively tall */
 }
 
 .profile-modal {
@@ -21,21 +26,22 @@
   padding: 30px;
   width: 90%;
   max-width: 450px;
-  max-height: 80vh;
-  overflow-y: auto;
+  /* max-height: 80vh; Base max-height, will be overridden by media query */
+  overflow-y: auto;   /* Crucial for modal's own scrolling */
   overflow-x: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative; /* Kept for positioning of ::-webkit-scrollbar if needed, and .modal-close */
+  display: flex; /* Base display, will be overridden by media query */
+  flex-direction: column; /* Base display */
+  align-items: center; /* Base display */
   border: 1px solid rgba(255, 255, 255, 0.15);
   /* Enhanced elegant glow effect */
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3),
               0 0 0 1px rgba(255, 255, 255, 0.12),
               0 0 20px rgba(255, 255, 255, 0.04);
   color: white;
+  margin-bottom: 5vh; /* Added to prevent modal sticking to bottom if overlay scrolls */
 }
 
 .profile-modal::-webkit-scrollbar {
@@ -246,6 +252,11 @@
   .profile-modal {
     padding: 20px;
     width: 95%;
+    min-height: 500px; 
+    max-height: 95vh; 
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */ /* Retained from previous state, ensure this is intended */
   }
   
   .modal-title {
@@ -274,5 +285,42 @@
   .continue-button, .cancel-button {
     padding: 12px;
     font-size: 15px;
+  }
+}
+
+/* Specific styles for tall devices like Tecno Camon 18P */
+@media screen and (max-width: 480px) and ((aspect-ratio: 9/19.5) or (aspect-ratio: 9/20.5)) {
+  .profile-modal {
+    display: block !important; /* Force block display, remove all flex */
+    max-height: 85vh !important; /* Override base max-height */
+    min-height: 600px !important; /* Enforce this minimum height */
+    padding: 25px !important;
+    overflow-y: auto !important; /* Absolutely ensure modal scrolls its own content */
+    margin-left: auto; /* Centering block element */
+    margin-right: auto; /* Centering block element */
+    width: 90%; /* Explicit width for block */
+    max-width: 450px; /* Consistent max-width */
+  }
+
+  .avatar-container {
+    margin: 20px 0 !important; /* Adjusted spacing */
+  }
+
+  .form-group {
+    margin-bottom: 20px !important; /* Adjusted spacing */
+  }
+
+  .profile-form {
+    display: block !important; /* Ensure form is also block */
+    min-height: auto !important; /* Let form height be natural */
+  }
+
+  .modal-title {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .modal-text {
+    margin-bottom: 15px !important;
   }
 } 

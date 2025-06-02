@@ -42,6 +42,7 @@ function HeroContent() {
   const [isPrivacyPolicyModalOpen, setIsPrivacyPolicyModalOpen] = useState(false);
   const [isTermsConditionsModalOpen, setIsTermsConditionsModalOpen] = useState(false);
   const [isTallDevicePortrait, setIsTallDevicePortrait] = useState(false);
+  const [isIphone8PlusLikePortrait, setIsIphone8PlusLikePortrait] = useState(false);
   
   // Define testimonials array first before any hooks that use it
   const baseTestimonials = [
@@ -140,6 +141,14 @@ function HeroContent() {
         aspectRatio >= 2.1; // Tall screen aspect ratio
       
       setIsTallDevicePortrait(isCurrentlyTallDevicePortrait);
+
+      // New logic for iPhone 8 Plus like devices in portrait
+      const isCurrentlyIphone8PlusLikePortrait =
+        !currentIsLandscape &&
+        width >= 410 && width <= 420 && // Catches 414px (iPhone 8 Plus width)
+        aspectRatio >= 1.7 && aspectRatio < 1.9; // Catches ~1.77 (iPhone 8 Plus aspect ratio 736/414)
+      
+      setIsIphone8PlusLikePortrait(isCurrentlyIphone8PlusLikePortrait);
     };
     
     // Ejecutar al cargar
@@ -325,7 +334,7 @@ function HeroContent() {
   
   return (
     <>
-    <div className={`hero-content ${isMobile ? 'mobile-view' : ''} ${isLandscape && isMobile ? 'landscape-mobile' : ''} ${isTallDevicePortrait ? 'tall-device-no-top-padding' : ''}`}>
+    <div className={`hero-content ${isMobile ? 'mobile-view' : ''} ${isLandscape && isMobile ? 'landscape-mobile' : ''} ${isTallDevicePortrait ? 'tall-device-no-top-padding' : ''} ${isIphone8PlusLikePortrait ? 'iphone-8-plus-like-portrait' : ''}`}>
         {!isLandscape && (
         <div className="hero-title-mobile">
         <h1>{t('heroTitle')}</h1>
@@ -406,7 +415,7 @@ function HeroContent() {
               <strong>{testimonial.name}</strong>, {testimonial.age} {t('years')}
             </div>
             <div className="testimonial-location">
-              {testimonial.location}, España
+              {testimonial.location}, {language === 'es' ? 'España' : 'Spain'}
             </div>
           </div>
         ))}
@@ -431,8 +440,8 @@ function HeroContent() {
                 <a href="https://www.tiktok.com/@lokdisapp" target="_blank" rel="noopener noreferrer" className="social-icon tiktok">
                   <img src={tiktokIcon} alt="TikTok" className="footer-social-img footer-social-img--small" />
                 </a>
-                <a href="https://wa.me/34622444319" target="_blank" rel="noopener noreferrer" className="social-icon whatsapp">
-                  <img src={whatsappIcon} alt="WhatsApp" className="footer-social-img" />
+                <a href="https://wa.me/34624415165" target="_blank" rel="noopener noreferrer" className="social-icon whatsapp">
+                  <img src={whatsappIcon} alt="WhatsApp" className="footer-social-img footer-social-img--small" />
                 </a>
               </div>
             </div>

@@ -915,9 +915,9 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
       terms: 'Términos y condiciones',
       privacyInfo: 'Obtén más información sobre cómo procesamos tus datos en nuestra',
       privacyPolicy: 'Política de privacidad',
-      loginGmail: 'Iniciar sesión con Gmail',
-      loginEmail: 'Iniciar sesión con Email',
-      troubleLogin: '¿No consigues iniciar sesión?',
+      loginGmail: 'Crear cuenta con Gmail',
+      loginEmail: 'Crear cuenta con Email',
+      troubleLogin: '¿Necesitas ayuda?',
       getApp: '¡Consigue la app!',
       downloadOn: 'DISPONIBLE EN',
       googlePlay: 'Google Play',
@@ -974,9 +974,9 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
       terms: 'Terms and Conditions',
       privacyInfo: 'Get more information about how we process your data in our',
       privacyPolicy: 'Privacy Policy',
-      loginGmail: 'Login with Gmail',
-      loginEmail: 'Login with Email',
-      troubleLogin: 'Having trouble logging in?',
+      loginGmail: 'Create account with Gmail',
+      loginEmail: 'Create account with Email',
+      troubleLogin: 'Need help?',
       getApp: 'Get the app!',
       downloadOn: 'AVAILABLE ON',
       googlePlay: 'Google Play',
@@ -1513,7 +1513,19 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
               </button>
             </div>
             
-            <a href="#" className="trouble-link">{t.troubleLogin}</a>
+            <a 
+              href="mailto:info@lokdis.com" 
+              className="trouble-link"
+              style={{
+                color: '#007bff',
+                textDecoration: 'underline',
+                fontSize: '14px',
+                marginTop: '15px',
+                cursor: 'pointer',
+              }}
+            >
+              {t.troubleLogin}
+            </a>
           </div>
           
           <div className="login-right-column">
@@ -1587,7 +1599,19 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
               </button>
             </div>
             
-            <a href="#" className="trouble-link">{t.troubleLogin}</a>
+            <a 
+              href="mailto:info@lokdis.com" 
+              className="trouble-link"
+              style={{
+                color: '#007bff',
+                textDecoration: 'underline',
+                fontSize: '14px',
+                marginTop: '15px',
+                cursor: 'pointer',
+              }}
+            >
+              {t.troubleLogin}
+            </a>
           </div>
           
           <div className="login-right-section">
@@ -1660,7 +1684,19 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
             </button>
           </div>
           
-          <a href="#" className="trouble-link">{t.troubleLogin}</a>
+          <a 
+            href="mailto:info@lokdis.com" 
+            className="trouble-link"
+            style={{
+              color: '#007bff',
+              textDecoration: 'underline',
+              fontSize: '14px',
+              marginTop: '15px',
+              cursor: 'pointer',
+            }}
+          >
+            {t.troubleLogin}
+          </a>
           
           <div className="app-download">
             <p className="app-download-title">{t.getApp} 📱</p>

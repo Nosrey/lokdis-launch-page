@@ -6,7 +6,7 @@ const translations = {
     ctaButton: 'Quiero probar la app',
     welcomeTitle: 'Lokdis',
     languageButton: 'Idioma',
-    loginButton: 'Inicia sesión',
+    loginButton: 'Crear cuenta',
     heroTitle: 'Solicita y comparte fotos y videos en tiempo real',
     heroSubtitle: 'Una app para explorar la realidad de rincones de todo el mundo, sin filtros ni ediciones 🗺️ 📸',
     heroDescription: 'Busca el lugar que quieres ver, solicita un vídeo o una foto a alguien cerca y... ¡viaja desde tu teléfono!',
@@ -43,6 +43,7 @@ const translations = {
     promoSubtitle: 'Una app para explorar la realidad de rincones de todo el mundo, sin filtros ni ediciones 🗺️ 📸',
     promoDescription: 'Busca el lugar que quieres ver, solicita un vídeo o una foto a alguien cerca y... ¡viaja desde tu teléfono!',
     promoDiscover: 'Descubre momentos en otras ciudades',
+    otherCountries: 'Otros países',
     // Testimonios
     testimonial1: 'Con LokDis puedo saber cuánta gente hay en cada playa, así sé la mejor hora para ir.',
     testimonial2: 'Uso LokDis para ver si hay aparcamiento en la calle a la que quiero ir, pido un momento real y lo veo.',
@@ -63,7 +64,7 @@ const translations = {
     ctaButton: 'I want to try the app',
     welcomeTitle: 'Lokdis',
     languageButton: 'Language',
-    loginButton: 'Log in',
+    loginButton: 'Create account',
     heroTitle: 'Request and share photos and videos in real time',
     heroSubtitle: 'An app to explore the reality of places around the world, without filters or edits 🗺️ 📸',
     heroDescription: 'Find the place you want to see, request a video or photo from someone who is there and... travel from your phone!',
@@ -100,6 +101,7 @@ const translations = {
     promoSubtitle: 'An app to explore the reality of places around the world, without filters or edits 🗺️ 📸',
     promoDescription: 'Find the place you want to see, request a video or photo from someone who is there and... travel from your phone!',
     promoDiscover: 'Discover moments in other cities',
+    otherCountries: 'Other countries',
     // Testimonials
     testimonial1: 'With LokDis I can know how many people are at each beach, so I know the best time to go.',
     testimonial2: 'I use LokDis to see if there is parking on the street I want to go to, I request a real-time view and I see it.',

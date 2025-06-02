@@ -3451,36 +3451,132 @@ body.redmi-note-pro-landscape .hero-text {
 
 /* OVERRIDE 3: Ajustes específicos para landscape con altura limitada */
 @media screen and (max-height: 700px) and (orientation: landscape) {
+  .hero-content {
+    min-height: calc(100vh - 70px); /* Fill more vertical space, accounting for ~70px for headers/etc. */
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    gap: 2vw; /* Adjust gap based on viewport width */
+    align-items: center; /* Keep the row of items vertically centered */
+  }
+
+  .hero-image {
+    flex: 0 1 320px; /* Allow shrinking, basis 320px */
+    max-width: 320px;
+    align-self: center;
+    display: flex; /* Ensure inner alignment works */
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-image {
+    max-height: 45vh; /* Further constrain phone image height in short viewports */
+    width: auto;
+    object-fit: contain;
+  }
+
+  .hero-text {
+    flex: 1 1 auto; /* Take remaining space, allow shrinking/growing */
+    max-width: 60%; /* Prevent text from becoming too wide */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically within .hero-text */
+    align-items: flex-start; /* Align text to the start (left) by default */
+    height: auto; /* Allow it to adjust to content height */
+  }
+
   .hero-text h1 {
-    font-size: 1.4rem;
-    margin-bottom: 8px;
-    line-height: 1.2;
+    font-size: 1.4rem !important;
+    margin-bottom: 8px !important;
+    line-height: 1.2 !important;
   }
 
   .hero-text p {
-    font-size: 0.9rem;
-    line-height: 1.2;
-    margin-bottom: 8px;
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 8px !important;
+    /* Usar text-overflow para textos muy largos */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 2.9em;
   }
 
   .hero-description {
-    font-size: 0.85rem;
-    margin-bottom: 8px;
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 6px !important;
+    /* Usar text-overflow para textos muy largos */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 2.4em;
   }
 
+  /* Ajuste del botón principal */
   .try-button {
-    font-size: 0.95rem;
-    padding: 8px 20px;
-    margin: 8px auto;
+    padding: 6px 15px !important;
+    font-size: 0.85rem !important;
+    min-width: 160px !important;
+    margin: 8px auto !important;
+    transform: none !important;
+  }
+
+  /* Ajuste de los botones de tienda */
+  .app-stores {
+    gap: 8px !important;
+    margin-top: 5px !important;
+    margin-bottom: 15px !important;
   }
 
   .store-badge img {
-    width: 120px;
+    width: 90px !important;
+    height: auto !important;
   }
 
-  .app-stores {
-    gap: 8px;
-    margin-top: 8px;
+  /* Ajuste de la imagen del teléfono */
+  .hero-image {
+    flex: 0 0 35% !important;
+    max-width: 35% !important;
+  }
+
+  .phone-image {
+    max-height: 65vh !important;
+  }
+
+  /* Ajuste del tamaño de la sección de testimonios */
+  .testimonials-section {
+    padding: 1.5rem 0 !important;
+  }
+
+  .testimonial-card {
+    height: 200px !important;
+    min-height: 200px !important;
+    padding: 1.2rem 1.2rem 1rem 1.2rem !important;
+  }
+
+  .testimonial-quote {
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.8rem !important;
+    /* Limitar altura del texto */
+    max-height: 4.8em !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 4 !important;
+    -webkit-box-orient: vertical !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .testimonial-author {
+    font-size: 0.85rem !important;
+  }
+
+  .testimonial-location {
+    font-size: 0.75rem !important;
   }
 }
 
@@ -4373,5 +4469,69 @@ body.redmi-note-pro-landscape .hero-text {
 
 /* Estilos para el modo landscape en dispositivos Redmi Note Pro 13 y similares */
 /* ... existing code ... */
+
+.hero-content.iphone-8-plus-like-portrait {
+  height: auto;
+  min-height: 100vh;
+  padding-top: 0; /* MODIFIED: Removed top padding as requested */
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;             /* ADDED: Ensure full width */
+  box-sizing: border-box;  /* ADDED: Proper box sizing */
+  align-items: center;     /* ADDED: Center children like hero-image and hero-text */
+}
+
+.hero-content.iphone-8-plus-like-portrait .hero-image {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  max-width: 60%; /* ADDED: ensure image is not too wide, adjust as needed */
+}
+
+.hero-content.iphone-8-plus-like-portrait .hero-text {
+  padding-left: 15px;
+  padding-right: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertically center content within hero-text */
+  width: 100%;             /* ADDED: Ensure hero-text takes full width of its centered block */
+  max-width: 90%;          /* ADDED: Limit max width to prevent edge bleeding if parent padding is small */
+  box-sizing: border-box;  /* ADDED: Proper box sizing */
+  align-items: center;     /* ADDED: Center children of hero-text (paragraphs, button) */
+}
+
+.hero-content.iphone-8-plus-like-portrait .hero-title-mobile,
+.hero-content.iphone-8-plus-like-portrait .hero-text .hero-title-desktop { /* Adjusted selector for desktop title */
+  font-size: 2rem; /* Example, adjust if needed */
+  margin-bottom: 15px;
+  text-align: center; /* Ensure titles themselves are centered */
+  width: 100%; /* Ensure title takes full width and respects parent's alignment */
+}
+
+.hero-content.iphone-8-plus-like-portrait .hero-text p { /* Style paragraphs inside hero-text */
+  text-align: center; /* Center text content */
+  width: 100%; /* Ensure paragraphs take full width and wrap */
+  margin-bottom: 10px; /* Consistent spacing */
+}
+
+
+.hero-content.iphone-8-plus-like-portrait .try-button {
+  /* Styles for try-button are likely inherited from general mobile styles,
+     but can be overridden here if needed.
+     e.g., width: 80%; max-width: 280px; margin: 20px auto;
+     The align-items: center on .hero-text should center it. */
+}
+
+.hero-content.iphone-8-plus-like-portrait .app-stores {
+  margin-top: 20px;
+  justify-content: center;
+  width: 100%; /* Ensure app-stores container uses available width */
+  /* flex-wrap: wrap; /* Uncomment if store badges might need to wrap */
+}
+
+/* Podrías necesitar más ajustes específicos dependiendo de cómo esté estructurado tu HTML
+   y qué elementos exactamente se están rompiendo. */
 
 

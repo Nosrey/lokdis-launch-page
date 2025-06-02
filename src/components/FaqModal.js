@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom'; // Import ReactDOM
 import '../styles/FaqModal.css';
 import { useLanguage } from '../utils/i18n'; // Assuming you might use this for "Preguntas frecuentes" title
+import logoSimple from '../assets/images/logo_simple.png'; // Lokdis logo
 
 const faqItemsData = [
   {
@@ -148,6 +149,7 @@ const FaqModal = ({ isOpen, onClose, language = 'es' }) => {
     <div className="faq-modal-overlay">
       <div className="faq-modal-content" ref={modalRef}>
         <div className="faq-modal-header">
+          <img src={logoSimple} alt="Lokdis Logo" className="faq-modal-logo" />
           <h2>{t('faqs')}</h2> {/* Using t hook for title from i18n */}
           <button onClick={onClose} className="faq-modal-close-btn" aria-label={currentLanguage === 'es' ? 'Cerrar' : 'Close'}>
             &times;

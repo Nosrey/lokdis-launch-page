@@ -366,11 +366,33 @@ const UserProfileModal = ({ isOpen, onClose, language = 'es', onComplete, email,
         setShowSuccessScreen(true);
       } else {
         console.error('❌ API Error or non-successful response:', data);
-        setErrorModal(data.message || (currentLang === 'es' ? 'Error al configurar el perfil.' : 'Error setting up profile.'));
+        let detailedError = '';
+        if (data && data.errors) {
+          if (typeof data.errors === 'string') {
+            detailedError = data.errors;
+          } else if (typeof data.errors === 'object' && Object.keys(data.errors).length > 0) {
+            // Try to get the first error message from an errors object
+            const firstErrorKey = Object.keys(data.errors)[0];
+            detailedError = data.errors[firstErrorKey];
+            if (Array.isArray(detailedError)) {
+              detailedError = detailedError.join(', ');
+            }
+          }
+        }
+        if (!detailedError && data && data.message) {
+          detailedError = data.message;
+        }
+        setErrorModal(detailedError || (currentLang === 'es' ? 'Error al configurar el perfil.' : 'Error setting up profile.'));
       }
     } catch (error) {
       console.error('❌ Network/Fetch Error in profile setup:', error);
-      setErrorModal(currentLang === 'es' ? 'Error de conexión. Inténtalo de nuevo.' : 'Connection error. Please try again.');
+      let networkErrorMessage = currentLang === 'es' ? 'Error de conexión. Inténtalo de nuevo.' : 'Connection error. Please try again.';
+      if (error && error.message && !error.message.includes('Failed to fetch')) { // Avoid overly generic 'Failed to fetch'
+        networkErrorMessage = error.message;
+      } else if (error && error.name) {
+        networkErrorMessage = `${error.name}: ${networkErrorMessage}`;
+      }
+      setErrorModal(networkErrorMessage);
     } finally {
       setIsLoading(false);
     }
