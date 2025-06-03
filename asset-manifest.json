@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/lokdis-launch-page/static/css/main.54978b49.css",
+    "main.css": "/lokdis-launch-page/static/css/main.4dfd2fac.css",
     "main.js": "/lokdis-launch-page/static/js/main.d5c69fdf.js",
     "static/js/453.ae655e3b.chunk.js": "/lokdis-launch-page/static/js/453.ae655e3b.chunk.js",
     "static/media/background-animated.gif": "/lokdis-launch-page/static/media/background-animated.0ae41682e817db50154e.gif",
@@ -35,12 +35,12 @@
     "static/media/avatares-predefinidos-8.png": "/lokdis-launch-page/static/media/avatares-predefinidos-8.109eb2709eeee35b9ebf.png",
     "static/media/whatsapp_icon.png": "/lokdis-launch-page/static/media/whatsapp_icon.661ff52791de1ca099d1.png",
     "index.html": "/lokdis-launch-page/index.html",
-    "main.54978b49.css.map": "/lokdis-launch-page/static/css/main.54978b49.css.map",
+    "main.4dfd2fac.css.map": "/lokdis-launch-page/static/css/main.4dfd2fac.css.map",
     "main.d5c69fdf.js.map": "/lokdis-launch-page/static/js/main.d5c69fdf.js.map",
     "453.ae655e3b.chunk.js.map": "/lokdis-launch-page/static/js/453.ae655e3b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.54978b49.css",
+    "static/css/main.4dfd2fac.css",
     "static/js/main.d5c69fdf.js"
   ]
 }
