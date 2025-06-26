@@ -1128,7 +1128,7 @@ function Moments() {
               <button className="footer-link" onClick={handleOpenPrivacyPolicyModal}>{t('privacyPolicy')}</button>
               <button className="footer-link" onClick={handleOpenTermsConditionsModal}>{t('termsConditions')}</button>
               <button className="footer-link" onClick={handleOpenFaqModal}>{t('faqs')}</button>
-              {/* <button className="footer-link">{t('siteMap')}</button> */}
+              <a href="/lokdis-launch-page/map" className="footer-link">{t('areaMap')}</a>
               <div className="footer-social">
                 <a href="https://www.instagram.com/lokdisapp/" target="_blank" rel="noopener noreferrer" className="social-icon instagram">
                   <img src={instagramIcon} alt="Instagram" className="footer-social-img footer-social-img--small" />

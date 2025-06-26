@@ -334,62 +334,106 @@ function HeroContent() {
   
   return (
     <>
-    <div className={`hero-content ${isMobile ? 'mobile-view' : ''} ${isLandscape && isMobile ? 'landscape-mobile' : ''} ${isTallDevicePortrait ? 'tall-device-no-top-padding' : ''} ${isIphone8PlusLikePortrait ? 'iphone-8-plus-like-portrait' : ''}`}>
-        {!isLandscape && (
-        <div className="hero-title-mobile">
-        <h1>{t('heroTitle')}</h1>
+    <div className={`hero-content ${isMobile ? 'mobile-view' : ''} ${isLandscape && isMobile ? 'landscape-mobile' : ''} ${isTallDevicePortrait ? 'tall-device-no-top-padding' : ''} ${isIphone8PlusLikePortrait ? 'iphone-8-plus-like-portrait' : ''}`} style={{
+      minHeight: 'auto',
+      display: 'block'
+    }}> 
+      <h1 className="hero-main-title" style={{ 
+        fontSize: windowWidth > window.innerHeight ? 
+          'clamp(2.1rem, 5.4vw, 3.51rem)' : // 20% bigger than original
+          'clamp(1.47rem, 3.78vw, 2.46rem)', // 30% smaller than the new bigger size
+        lineHeight: '1.2',
+        margin: 'clamp(0.8rem, 2vw, 1.5rem) auto 0',
+        marginBottom: windowWidth > window.innerHeight ? 'clamp(2rem, 5vw, 3rem)' : 'inherit'
+      }}>{t('heroMainTitle')}</h1>
+      {windowWidth <= window.innerHeight && (
+        <div style={{ 
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <img
+            src={PhoneImage}
+            alt="Phone"
+            style={{ 
+              margin: 'clamp(16px, 4vw, 32px) 0',
+              display: 'block',
+              width: 'clamp(80px, 25vw, 108px)',
+              height: 'auto'
+            }}
+          />
         </div>
+      )}
+      <p className="hero-main-description" 
+        style={{ 
+          fontSize: windowWidth > window.innerHeight ? 
+            'clamp(0.99rem, 3.3vw, 1.375rem)' : 
+            'clamp(0.792rem, 2.64vw, 1.1rem)', // 20% smaller
+          lineHeight: '1.4',
+          margin: '0 auto 0',
+          textAlign: 'justify'
+        }}
+        dangerouslySetInnerHTML={{ __html: t('heroDescription') }}>
+      </p>
+      <p className="hero-main-description" 
+        style={{ 
+          fontSize: windowWidth > window.innerHeight ? 
+            'clamp(0.99rem, 3.3vw, 1.375rem)' : 
+            'clamp(0.792rem, 2.64vw, 1.1rem)', // 20% smaller
+          lineHeight: '1.4',
+          margin: 'clamp(12px, 2vw, 20px) auto 0',
+          textAlign: 'justify'
+        }}
+      >
+        {t('heroDescription2')}
+      </p>
+      <button className="hero-main-try-button" style={{
+        fontSize: 'clamp(0.99rem, 2.75vw, 1.375rem)',
+        padding: `clamp(7px, 1.75vw, 10px) clamp(60px, 10vw, 160px)`,
+        margin: 'clamp(1.6rem, 4vw, 4.4rem) auto',
+        minWidth: 'clamp(120px, 30vw, 220px)'
+      }}>{t('tryButton')}</button>
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        gap: windowWidth > window.innerHeight ? '8px' : '10px', 
+        marginTop: 'clamp(12px, 3vw, 22px)',
+        paddingBottom: windowWidth > window.innerHeight ? '10vh' : '0'
+      }}>
+        <img
+          className="hero-main-store-badge"
+          src={language === 'en' ? playStoreBadgeEN : playStoreBadge}
+          alt={t('getItOnGooglePlay')}
+          style={{ 
+            width: windowWidth > window.innerHeight ? 'clamp(120px, 15vw, 150px)' : 'clamp(120px, 35vw, 180px)', 
+            height: 'auto' 
+          }}
+        />
+        <img
+          className="hero-main-store-badge"
+          src={language === 'en' ? appStoreBadgeEN : appStoreBadge}
+          alt={t('downloadOnAppStore')}
+          style={{ 
+            width: windowWidth > window.innerHeight ? 'clamp(120px, 15vw, 150px)' : 'clamp(120px, 35vw, 180px)', 
+            height: 'auto' 
+          }}
+        />
+        {windowWidth > window.innerHeight && (
+          <img
+            src={qrCode}
+            alt="QR Code"
+            style={{ 
+              width: 'clamp(120px, 15vw, 150px)', 
+              height: 'auto',
+              marginLeft: '6px'
+            }}
+          />
         )}
-        
-        <div className="hero-image">
-          <div className="phone-container">
-            <img 
-              src={PhoneImage} 
-              alt="Lokdis App"
-              className={`phone-image ${phoneLoaded ? 'phone-loaded' : ''}`}
-            />
-            <div className="phone-glow"></div>
-          </div>
-        </div>
-        
-        <div className="hero-text">
-          <h1 className="hero-title-desktop landscape-title">{t('heroTitle')}</h1>
-          <p>{t('heroSubtitle')}</p>
-          <p className="hero-description" dangerouslySetInnerHTML={{ __html: t('heroDescription') }}></p>
-          <button className="try-button" onClick={openLoginModal}>
-            {t('tryButton')}
-          </button>
-          
-        <div className="app-stores">
-            <button className="store-badge">
-              <img 
-                src={language === 'en' ? playStoreBadgeEN : playStoreBadge} 
-                alt={t('getItOnGooglePlay')} 
-                width="60" 
-                height="60" 
-              />
-            </button>
-            <button className="store-badge">
-              <img 
-                src={language === 'en' ? appStoreBadgeEN : appStoreBadge} 
-                alt={t('downloadOnAppStore')} 
-                width="60" 
-                height="60" 
-              />
-            </button>
-            {!isMobile && (
-          <div className="qr-code">
-              <img 
-                src={qrCode} 
-                alt="QR Code" 
-                width="90" 
-                height="90"
-              />
-            </div>
-            )}
-          </div>
-        </div>
       </div>
+    </div>
       
       <div className="testimonials-background">
         <div 
@@ -432,7 +476,7 @@ function HeroContent() {
                 <button className="footer-link" onClick={handleOpenPrivacyPolicyModal}>{t('privacyPolicy')}</button>
                 <button className="footer-link" onClick={handleOpenTermsConditionsModal}>{t('termsConditions')}</button>
                 <button className="footer-link" onClick={handleOpenFaqModal}>{t('faqs')}</button>
-                {/* <button className="footer-link">{t('siteMap')}</button> */}
+                <a href="/lokdis-launch-page/map" className="footer-link">{t('areaMap')}</a>
               <div className="footer-social">
                 <a href="https://www.instagram.com/lokdisapp/" target="_blank" rel="noopener noreferrer" className="social-icon instagram">
                   <img src={instagramIcon} alt="Instagram" className="footer-social-img footer-social-img--small" />

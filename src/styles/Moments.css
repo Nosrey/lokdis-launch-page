@@ -117,7 +117,7 @@
 .moments-white-section {
   width: 100%;
   background-color: #f0f5fa; /* Blanco con ligero tono azul (5%) */
-  padding: 0 0 60px 0;
+  padding: 0;
   position: relative;
   z-index: 10;
 }

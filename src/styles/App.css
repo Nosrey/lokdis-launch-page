@@ -32,7 +32,7 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 60px;
+  padding-top: 5vh;
   position: relative;
   z-index: 10;
   box-sizing: border-box;
@@ -526,16 +526,8 @@ body, html {
     font-size: 0.85rem;
     font-weight: bold;
   }
-  
-  .lokdis-container {
-    padding-top: 70px;
-  }
-  
-  .main-content {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    margin-top: 2rem;
-  }
+
+
   
   .footer-links {
     gap: 1.2rem;
@@ -767,4 +759,79 @@ body, html {
   .navbar-logo {
     height: 30px;
   }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+/* Styles for enhanced images in dynamic HTML content */
+.moment-card-from-html {
+  position: relative;
+  display: inline-block; /* To wrap tightly around the image */
+  vertical-align: top; /* Aligns the card to the top, preventing extra bottom space */
+  max-width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin: 10px 5px; /* Add some margin for spacing */
+}
+
+.moment-card-from-html img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px; /* Keep the image corners rounded */
+}
+
+.moment-card-from-html .moment-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: white;
+  text-align: left;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  box-sizing: border-box; /* Ensure padding is included in width */
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.moment-card-from-html:hover .moment-overlay {
+  opacity: 1; /* Keep it visible on hover */
+}
+
+.moment-card-from-html .moment-location {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.moment-card-from-html .moment-date {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  opacity: 0.9;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+}
+
+.moment-card-from-html .moment-username {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.8rem;
+  color: #f0f0f0;
+  opacity: 0.85;
+  margin-top: 4px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+  font-style: italic;
 } 

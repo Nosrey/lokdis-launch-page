@@ -5,206 +5,25 @@
 
 /* Ajuste global para HeroContent */
 .hero-content {
-  display: flex;
-  width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 5%;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  padding-top: 60px; /* Reducido de 80px a 60px para coincidir con el nuevo tamaño del navbar */
-  padding-bottom: 30px;
-  min-height: auto;
+  padding: 0 1.5rem 4rem 1.5rem !important;
   box-sizing: border-box;
-  overflow: visible;
-  gap: 32px;
-  flex-wrap: wrap;
-  position: relative;
-  z-index: 20;
-}
-
-.hero-title-mobile {
-  display: none;
   width: 100%;
-  text-align: center;
-  margin-bottom: 20px;
+  /* Keep only minimal layout/flex if needed, remove all mobile/descendant overrides */
+  padding-bottom: 20px; /* Added bottom padding */
 }
 
-.hero-title-mobile h1 {
-  font-size: 2.8rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+/* Padding top condicional para landscape */
+@media (orientation: landscape) {
+  .hero-content {
+    padding-top: 10vh !important;
+  }
 }
 
-.hero-title-desktop {
-  display: block;
-}
-
-.hero-text {
-  flex: 2 1 0;
-  z-index: 10;
-  margin-left: 0;
-  order: 1;
-  max-width: none;
-}
-
-.hero-text h1 {
-  font-size: 2.8rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.hero-text p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  text-align: justify !important;
-}
-
-.hero-description {
-  margin-bottom: 1rem;
-  text-align: justify !important;
-}
-
-.try-button {
-  background-color: white;
-  color: #000033; /* Azul marino del footer */
-  border: none;
-  padding: 18px 60px;
-  font-size: 1.3rem;
-  font-weight: 600;
-  border-radius: 50px;
-  cursor: pointer;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  min-width: 280px;
-  width: 75%;
-  max-width: 380px;
-  position: relative;
-  z-index: 25;
-}
-
-.try-button:hover {
-  background-color: #f0f0f0;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* App Store Badges */
-.app-stores {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px;
-  margin-top: 10px; /* Reducido */
-  margin-bottom: 30px; /* Espacio entre botones y testimonials */
-  justify-content: flex-start;
-  position: relative;
-  z-index: 25;
-}
-
-.store-badge {
-  display: block;
-  transition: all 0.3s ease;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.store-badge img {
-  width: 180px;
-  max-width: 100%;
-  height: auto; /* Mantener proporción original */
-  object-fit: contain; /* Asegurar que la imagen se muestre completa */
-}
-
-.store-badge:hover {
-  transform: translateY(-2px);
-}
-
-.qr-code {
-  margin-left: 15px;
-}
-
-.qr-code img {
-  width: 135px;
-  height: 135px;
-  display: block;
-}
-
-.hero-image {
-  flex: 0 0 340px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
-  z-index: 5;
-  margin-right: 5%;
-  order: 2;
-  max-width: 340px;
-  max-height: 60vh;
-}
-
-.phone-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center; /* Añadir alineación vertical centrada */
-  flex-shrink: 1;
-  max-height: 60vh;
-}
-
-.phone-image {
-  max-height: 55vh;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.25));
-  transition: transform 0.5s ease, opacity 0.6s ease-out;
-  opacity: 0;
-  transform: translateY(20px);
-  margin-left: auto;
-  max-width: 100%;
-}
-
-.phone-image.phone-loaded {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.phone-glow {
-  position: absolute;
-  bottom: -50px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: 40px;
-  background: radial-gradient(ellipse at center, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
-  border-radius: 50%;
-  filter: blur(10px);
-  z-index: -1;
-}
-
-/* Estilo para el contenedor principal */
-.main-content {
-  width: 100%;
-  background: transparent;
-  position: relative;
-  z-index: 20;
-  box-shadow: none;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  margin-top: 0;
-  padding-top: 0;
+/* Padding top para portrait */
+@media (orientation: portrait) {
+  .hero-content {
+    padding-top: 1rem !important;
+  }
 }
 
 /* Testimonials background container */
@@ -409,33 +228,7 @@
   position: relative;
 }
 
-/* Añadir bordes redondeados en la parte superior del footer */
-.footer-section::before {
-  content: "";
-  position: absolute;
-  top: -20px;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  background-color: #000033;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-}
 
-/* Relleno en los laterales para los bordes redondeados */
-.footer-section::after {
-  content: "";
-  position: absolute;
-  top: -20px;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  background-color: transparent;
-  box-shadow: 
-    30px 0 0 0 #000033,
-    -30px 0 0 0 #000033;
-  z-index: -1;
-}
 
 .footer-content-wrapper {
   max-width: 1200px;
@@ -725,33 +518,7 @@
 
 /* Responsive design - Tablets */
 @media (max-width: 992px) {
-  .hero-content {
-    flex-direction: column;
-    text-align: center;
-    padding-top: 90px;
-    min-height: 95vh;
-    justify-content: center;
-    gap: 40px;
-    padding-left: 4%;
-    padding-right: 4%;
-  }
-  
-  .hero-text {
-    flex: 0 1 auto;
-    max-width: 90%;
-    margin-bottom: 1rem;
-    margin-left: 0;
-    order: 2;
-  }
-  
-  .hero-image {
-    flex: 0 1 auto;
-    max-width: 300px;
-    justify-content: center;
-    margin-right: 0;
-    order: 1;
-  }
-  
+
   .phone-container {
     justify-content: center;
   }
@@ -777,28 +544,6 @@
     display: none;
   }
   
-  .hero-title-mobile h1 {
-    font-size: 2rem;
-    margin-bottom: 1.2rem;
-  }
-  
-  .hero-text h1 {
-    font-size: 2rem;
-    margin-bottom: 1.2rem;
-  }
-  
-  .hero-text p {
-    font-size: 1rem;
-    margin-bottom: 0.8rem;
-    line-height: 1.4;
-    text-align: justify !important;
-  }
-  
-  .hero-description {
-    margin-bottom: 1.5rem;
-    text-align: justify !important;
-  }
-  
   .try-button {
     padding: 14px 40px;
     font-size: 1.1rem;
@@ -810,61 +555,14 @@
 
 /* Responsive design - Mobile en portrait*/
 @media (max-width: 1200px) and (orientation: portrait), (max-width: 991px) {
-  .hero-content {
-    height: auto;
-    min-height: auto;
-    max-height: none;
-    padding-top: 100px; /* Cambiado de vh a un valor fijo */
-    padding-bottom: 2vh;
-    padding-bottom: calc(var(--vh, 1vh) * 2);
-    justify-content: flex-start;
-    box-sizing: border-box;
-    overflow: visible;
-    gap: 2vh;
-    gap: calc(var(--vh, 1vh) * 2);
-    display: flex;
-    flex-direction: column;
-  }
+
   
   /* Solo para contenedores principales, asegurar que ocupen al menos la vista completa */
   .main-container {
     min-height: 100vh;
     min-height: calc(var(--vh, 1vh) * 100);
   }
-  
-  .hero-title-mobile {
-    display: block !important;
-    margin-bottom: 0;
-    margin-top: 0;
-    padding: 0;
-    width: 100%;
-  }
-  
-  .hero-title-mobile h1 {
-    font-size: 2.2rem;
-    margin-bottom: 0;
-    padding: 0;
-    line-height: 1.2;
-  }
-  
-  .hero-title-desktop {
-    display: none !important;
-  }
-  
-  .hero-text h1 {
-    display: none !important;
-  }
-  
-  .hero-image {
-    flex: 0 0 auto;
-    order: 1;
-    max-width: 55%; /* Reducido para ahorrar espacio */
-    margin: 0 auto;
-    padding: 0;
-    margin-top: 30px; /* Margen fijo arriba del teléfono aumentado 50% */
-    margin-bottom: 30px; /* Margen fijo abajo del teléfono aumentado 50% */
-  }
-  
+
   .phone-container {
     display: flex;
     justify-content: center;
@@ -881,29 +579,6 @@
     min-width: 0;
     width: 100%;
     object-fit: contain;
-  }
-  
-  .hero-text {
-    flex: 0 0 auto;
-    order: 2;
-    max-width: 90%;
-    margin: 0;
-    padding: 0;
-    margin-top: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .hero-text p {
-    font-size: 0.95rem;
-    margin-bottom: 1vh;
-    line-height: 1.3;
-    text-align: center;
-  }
-  
-  .hero-description {
-    margin-bottom: 1vh;
   }
   
   .try-button {
@@ -940,29 +615,14 @@
 
 /* Ajustes específicos para iPhones más pequeños - excluyendo resoluciones específicas */
 @media (max-width: 480px) and (orientation: portrait) and (not (width: 390px)) and (not (height: 844px)) and (not (width: 390px)) and (not (height: 488px)) {
-  .hero-content {
-    padding-top: 7vh;
-    gap: 1vh;
-  }
   
-  .hero-title-mobile h1 {
-    font-size: 1.8rem;
-  }
-  
-  .hero-image {
-    max-width: 55%;
-    margin-top: 23px;
-    margin-bottom: 23px;
-  }
-  
+ 
+
   .phone-image {
     max-height: 35vh;
   }
   
-  .hero-text p {
-    font-size: 0.85rem;
-    margin-bottom: 1vh;
-  }
+  
   
   .try-button {
     padding: 8px 20px;
@@ -1118,21 +778,7 @@
 
 /* Responsive design - Mobile */
 @media (max-width: 480px) {
-  .hero-content {
-    max-height: 100vh;
-    max-height: calc(var(--vh, 1vh) * 100);
-  overflow: visible;
-  }
-  
-  .hero-title-mobile h1 {
-    font-size: 1.5rem;
-    margin-bottom: 0;
-    line-height: 1.2;
-  }
-  
-  .hero-image {
-    max-width: 40%;
-  }
+ 
   
   .phone-image {
     max-height: 35vh;
@@ -2157,21 +1803,6 @@
 
 /* Fix para orientación landscape en dispositivos móviles */
 @media (max-height: 500px) and (orientation: landscape) {
-  .hero-content {
-    flex-direction: row;
-    padding: 20px 3%;
-    min-height: auto;
-    height: calc(100vh - 60px);
-    justify-content: space-between;
-    align-items: center;
-    gap: 0;
-    overflow: hidden;
-    max-width: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    max-height: none;
-  }
-  
   .hero-title-mobile {
     display: none;
   }
@@ -2273,11 +1904,6 @@
 
 /* Fix específico para dispositivos más pequeños en landscape */
 @media (max-height: 400px) and (orientation: landscape) {
-  .hero-content {
-    padding: 15px 3%;
-    height: calc(100vh - 50px);
-    gap: 0;
-  }
   
   .hero-text {
     max-width: 52%;
@@ -2394,12 +2020,6 @@
 /* Específico para dispositivos pequeños en landscape (667x335) */
 @media screen and (max-width: 667px) and (max-height: 450px) and (orientation: landscape) {
   /* Ajustar distribución general */
-  html body .hero-content {
-    padding: 5px 3% !important;
-    height: calc(100vh - 40px) !important;
-    gap: 0 !important;
-    align-items: center !important;
-  }
   
   /* Alta especificidad para el título */
   html body .hero-content .hero-text h1.landscape-title,
@@ -2597,19 +2217,6 @@
     object-fit: contain;
   }
   
-  /* Ajustar el radio de los bordes para pantallas aún más pequeñas */
-  .footer-section::before {
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    top: -15px;
-    height: 15px;
-  }
-  
-  .footer-section::after {
-    top: -15px;
-    height: 15px;
-  }
-  
   .footer-section {
     padding-bottom: 3rem;
   }
@@ -2770,10 +2377,7 @@
   .app-stores {
     margin-bottom: 20px;
   }
-  
-  .hero-content {
-    padding-bottom: 20px;
-  }
+ 
 }
 
 /* Media query específico para Redmi Note Pro 13 y dispositivos similares de alta resolución en landscape */
@@ -2919,18 +2523,1375 @@
 @media screen and (min-width: 1080px) and (max-height: 700px) and (orientation: landscape),
        screen and (min-width: 800px) and (max-width: 1200px) and (max-height: 700px) and (orientation: landscape) {
   /* Ajuste general de contenedor */
-  .hero-content {
-    padding: 5px 3% !important;
-    min-height: 90vh !important;
-    height: 95vh !important;
-    max-height: none !important;
-    overflow: hidden !important;
-    gap: 10px !important;
+
+
+  /* Ajuste del contenedor de texto */
+  .hero-text {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 58% !important;
+    height: auto !important;
     display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  /* Ajuste de la imagen del teléfono */
+  .hero-image {
+    flex: 0 0 32% !important;
+    max-width: 32% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .phone-container {
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .phone-image {
+    max-height: 60vh !important; /* Ajustado para mantener consistencia con otros breakpoints */
+    width: auto !important;
+    object-fit: contain !important;
+  }
+}
+
+/* Media query ultra-específico para Redmi Note Pro 13 en landscape */
+@media screen and (min-width: 1080px) and (max-height: 600px) and (orientation: landscape),
+       screen and (min-width: 2400px) and (max-height: 1080px) and (orientation: landscape) {
+  /* CORRECCIÓN CRÍTICA: Ocultar definitivamente todos los títulos móviles */
+  .hero-title-mobile,
+  .hero-content > .hero-title-mobile,
+  div.hero-title-mobile,
+  .hero-content div.hero-title-mobile,
+  html body .hero-content .hero-title-mobile,
+  .mobile-view .hero-title-mobile,
+  .landscape-mobile .hero-title-mobile {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: absolute !important;
+    z-index: -9999 !important;
+  }
+  
+  /* Asegurar que landscape-mobile no tenga efecto en este dispositivo */
+  .hero-content.landscape-mobile {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 0 3% !important;
+  }
+  
+  /* Asegurarse de que solo se muestre el título desktop correcto */
+  .hero-text h1, 
+  .hero-title-desktop,
+  h1.landscape-title,
+  .hero-text h1.hero-title-desktop,
+  .hero-text h1.landscape-title {
+    display: block !important;
+    visibility: visible !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 2px !important;
+    line-height: 1 !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-height: 1em !important;
+    text-align: center !important;
+  }
+  
+  /* Asegurar que el componente se inicializa correctamente */
+  .hero-content {
+    padding: 0 3% !important;
+    min-height: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    gap: 5px !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: space-between !important;
   }
+  
+  /* Reducción extrema del tamaño de los párrafos */
+  .hero-text p {
+    font-size: 0.6rem !important;
+    line-height: 1 !important;
+    margin-bottom: 2px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-height: 1em !important;
+    text-align: center !important;
+  }
+  
+  .hero-description {
+    font-size: 0.55rem !important;
+    line-height: 1 !important;
+    margin-bottom: 2px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-height: 1em !important;
+    text-align: center !important;
+  }
+  
+  /* Minimizar el botón */
+  .try-button {
+    padding: 3px 8px !important;
+    font-size: 0.65rem !important;
+    min-width: 100px !important;
+    margin: 2px auto !important;
+    transform: none !important;
+    height: auto !important;
+  }
+  
+  /* Reducir extremadamente los botones de tienda */
+  .app-stores {
+    gap: 3px !important;
+    margin-top: 2px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .store-badge img {
+    width: 50px !important;
+    height: auto !important;
+  }
+  
+  /* Reducir la imagen del teléfono */
+  .hero-image {
+    flex: 0 0 25% !important;
+    max-width: 25% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .phone-image {
+    max-height: 55vh !important;
+  }
+  
+  /* Optimizar el contenedor de texto */
+  .hero-text {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 65% !important;
+  }
+}
+
+/* Estilo específico para Redmi Note Pro 13 en landscape usando la clase especial */
+body.redmi-note-pro-landscape .hero-content {
+  padding: 0 2% !important;
+  min-height: auto !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  gap: 2px !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+body.redmi-note-pro-landscape .hero-title-mobile {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  z-index: -9999 !important;
+}
+
+body.redmi-note-pro-landscape .hero-text h1, 
+body.redmi-note-pro-landscape .hero-title-desktop,
+body.redmi-note-pro-landscape h1.landscape-title {
+  display: block !important;
+  visibility: visible !important;
+  font-size: 0.85rem !important;
+  margin-bottom: 2px !important;
+  line-height: 1 !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-height: 1em !important;
+  text-align: center !important;
+}
+
+body.redmi-note-pro-landscape .hero-text p {
+  font-size: 0.58rem !important;
+  line-height: 1 !important;
+  margin-bottom: 2px !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-height: 1em !important;
+  text-align: center !important;
+}
+
+body.redmi-note-pro-landscape .hero-description {
+  font-size: 0.52rem !important;
+  line-height: 1 !important;
+  margin-bottom: 2px !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-height: 1em !important;
+  text-align: center !important;
+}
+
+body.redmi-note-pro-landscape .try-button {
+  padding: 3px 8px !important;
+  font-size: 0.6rem !important;
+  min-width: 90px !important;
+  margin: 2px auto !important;
+  transform: none !important;
+  height: auto !important;
+}
+
+body.redmi-note-pro-landscape .app-stores {
+  gap: 2px !important;
+  margin-top: 2px !important;
+  margin-bottom: 2px !important;
+}
+
+body.redmi-note-pro-landscape .store-badge img {
+  width: 40px !important;
+  height: auto !important;
+}
+
+body.redmi-note-pro-landscape .hero-image {
+  flex: 0 0 22% !important;
+  max-width: 22% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body.redmi-note-pro-landscape .phone-image {
+  max-height: 50vh !important;
+}
+
+body.redmi-note-pro-landscape .hero-text {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 68% !important;
+}
+
+/* Agregar reglas específicas para desktop */
+@media (min-width: 992px) {
+  .hero-image {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 0; /* Eliminar cualquier padding que pueda afectar */
+  }
+  
+  .phone-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: auto; /* Permitir que la altura se ajuste automáticamente */
+  }
+  
+  .phone-image {
+    margin: 0 0 0 auto; /* Centrar horizontalmente a la derecha */
+    align-self: center; /* Centrar verticalmente */
+    transform: translateY(0); /* Reset de la transformación inicial */
+  }
+  
+  .phone-image.phone-loaded {
+    transform: translateY(0); /* Mantener centrado incluso después de cargar */
+  }
+}
+
+/* Hide QR codes in all mobile views */
+@media (max-width: 991px), (max-height: 600px) and (orientation: landscape) {
+  .qr-code, .footer-qr {
+    display: none !important;
+  }
+}
+
+/* Responsive design - Desktops pequeños y tablets grandes */
+@media (max-width: 1200px) and (min-width: 992px) {
+  .hero-content {
+    gap: 40px;
+    padding: 20px 4%;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .hero-text {
+    flex: 0 1 45%;
+    max-width: 45%;
+    margin-left: 0;
+    padding-right: 20px;
+  }
+  
+  .hero-text h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  
+  .hero-text p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+  
+  .hero-description {
+    margin-bottom: 1.2rem;
+  }
+  
+  .try-button {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    margin: 1rem auto;
+    min-width: 200px;
+    width: auto;
+  }
+  
+  .hero-image {
+    flex: 0 1 45%;
+    max-width: 45%;
+    margin-right: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .phone-container {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .app-stores {
+    gap: 15px;
+    margin-top: 1rem;
+    justify-content: flex-start;
+  }
+  
+  .store-badge img {
+    width: 150px;
+  }
+}
+
+/* Ajuste específico para pantallas entre 992px y 1100px */
+@media (min-width: 992px) and (max-width: 1100px) {
+  .hero-text h1 {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .hero-text p {
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+  
+  .try-button {
+    padding: 10px 25px;
+    font-size: 1rem;
+    min-width: 180px;
+  }
+  
+  .store-badge img {
+    width: 130px;
+  }
+  
+  .app-stores {
+    gap: 12px;
+  }
+}
+
+/* BASE: Ajustes específicos para desktop pequeño */
+@media screen and (min-width: 992px) and (max-width: 1400px) {
+  .hero-text h1 {
+    font-size: 2.4rem;
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-text p {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+
+  .hero-description {
+    font-size: 1.05rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .try-button {
+    font-size: 1.15rem;
+    padding: 12px 30px;
+  }
+
+  .qr-code img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .store-badge img {
+    width: 140px;
+    height: auto;
+  }
+
+  .app-stores {
+    gap: 12px;
+    margin-top: 1.2rem;
+  }
+}
+
+/* OVERRIDE 1: Ajustes para desktop muy pequeño */
+@media screen and (min-width: 992px) and (max-width: 1200px) and (min-height: 701px) {
+  .hero-text h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .try-button {
+    font-size: 1.1rem;
+    padding: 10px 25px;
+  }
+
+  .qr-code img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .store-badge img {
+    width: 130px;
+  }
+
+  .app-stores {
+    gap: 10px;
+  }
+}
+
+/* OVERRIDE 2: Ajustes específicos para 1360px */
+@media screen and (min-width: 1350px) and (max-width: 1370px) and (min-height: 701px) {
+  .hero-text h1 {
+    font-size: 2.3rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .hero-text p {
+    font-size: 1.05rem;
+    line-height: 1.35;
+    margin-bottom: 1rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .try-button {
+    font-size: 1.12rem;
+    padding: 11px 28px;
+  }
+
+  .qr-code img {
+    width: 110px;
+    height: 110px;
+  }
+
+  .store-badge img {
+    width: 150px;
+  }
+
+  .app-stores {
+    gap: 15px;
+    align-items: center;
+    margin-top: 1.1rem;
+  }
+}
+
+/* OVERRIDE 3: Ajustes específicos para landscape con altura limitada */
+@media screen and (max-height: 700px) and (orientation: landscape) {
+  .hero-content {
+    min-height: calc(100vh - 70px); /* Fill more vertical space, accounting for ~70px for headers/etc. */
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    gap: 2vw; /* Adjust gap based on viewport width */
+    align-items: center; /* Keep the row of items vertically centered */
+  }
+
+  .hero-image {
+    flex: 0 1 320px; /* Allow shrinking, basis 320px */
+    max-width: 320px;
+    align-self: center;
+    display: flex; /* Ensure inner alignment works */
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-image {
+    max-height: 45vh; /* Further constrain phone image height in short viewports */
+    width: auto;
+    object-fit: contain;
+  }
+
+  .hero-text {
+    flex: 1 1 auto; /* Take remaining space, allow shrinking/growing */
+    max-width: 60%; /* Prevent text from becoming too wide */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically within .hero-text */
+    align-items: flex-start; /* Align text to the start (left) by default */
+    height: auto; /* Allow it to adjust to content height */
+  }
+
+  .hero-text h1 {
+    font-size: 1.4rem !important;
+    margin-bottom: 8px !important;
+    line-height: 1.2 !important;
+  }
+
+  .hero-text p {
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 8px !important;
+    /* Usar text-overflow para textos muy largos */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 2.9em;
+  }
+
+  .hero-description {
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 6px !important;
+    /* Usar text-overflow para textos muy largos */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 2.4em;
+  }
+
+  /* Ajuste del botón principal */
+  .try-button {
+    padding: 6px 15px !important;
+    font-size: 0.85rem !important;
+    min-width: 160px !important;
+    margin: 8px auto !important;
+    transform: none !important;
+  }
+
+  /* Ajuste de los botones de tienda */
+  .app-stores {
+    gap: 8px !important;
+    margin-top: 5px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .store-badge img {
+    width: 90px !important;
+    height: auto !important;
+  }
+
+  /* Ajuste de la imagen del teléfono */
+  .hero-image {
+    flex: 0 0 35% !important;
+    max-width: 35% !important;
+  }
+
+  .phone-image {
+    max-height: 65vh !important;
+  }
+
+  /* Ajuste del tamaño de la sección de testimonios */
+  .testimonials-section {
+    padding: 1.5rem 0 !important;
+  }
+
+  .testimonial-card {
+    height: 200px !important;
+    min-height: 200px !important;
+    padding: 1.2rem 1.2rem 1rem 1.2rem !important;
+  }
+
+  .testimonial-quote {
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.8rem !important;
+    /* Limitar altura del texto */
+    max-height: 4.8em !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 4 !important;
+    -webkit-box-orient: vertical !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .testimonial-author {
+    font-size: 0.85rem !important;
+  }
+
+  .testimonial-location {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Ajuste específico para dispositivos con aspecto ratio ultrawide en landscape */
+@media screen and (min-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  .hero-text h1 {
+    font-size: 1.2rem !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .hero-text p, .hero-description {
+    font-size: 0.7rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 5px !important;
+    -webkit-line-clamp: 2 !important;
+    max-height: 2.2em !important;
+  }
+  
+  .try-button {
+    padding: 5px 12px !important;
+    font-size: 0.8rem !important;
+    min-width: 140px !important;
+    margin: 5px auto !important;
+  }
+  
+  .app-stores {
+    gap: 5px !important;
+  }
+  
+  .store-badge img {
+    width: 80px !important;
+  }
+}
+
+/* Media query más agresivo específicamente para Redmi Note Pro 13 en landscape */
+@media screen and (min-width: 1080px) and (max-height: 700px) and (orientation: landscape),
+       screen and (min-width: 800px) and (max-width: 1200px) and (max-height: 700px) and (orientation: landscape) {
+  /* Ajuste general de contenedor */
+
+  /* Ajuste del contenedor de texto */
+  .hero-text {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 58% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  /* Ajuste de la imagen del teléfono */
+  .hero-image {
+    flex: 0 0 32% !important;
+    max-width: 32% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .phone-container {
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .phone-image {
+    max-height: 60vh !important; /* Ajustado para mantener consistencia con otros breakpoints */
+    width: auto !important;
+    object-fit: contain !important;
+  }
+}
+
+/* Media query ultra-específico para Redmi Note Pro 13 en landscape */
+@media screen and (min-width: 1080px) and (max-height: 600px) and (orientation: landscape),
+       screen and (min-width: 2400px) and (max-height: 1080px) and (orientation: landscape) {
+  /* CORRECCIÓN CRÍTICA: Ocultar definitivamente todos los títulos móviles */
+  .hero-title-mobile,
+  .hero-content > .hero-title-mobile,
+  div.hero-title-mobile,
+  .hero-content div.hero-title-mobile,
+  html body .hero-content .hero-title-mobile,
+  .mobile-view .hero-title-mobile,
+  .landscape-mobile .hero-title-mobile {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: absolute !important;
+    z-index: -9999 !important;
+  }
+  
+  /* Asegurar que landscape-mobile no tenga efecto en este dispositivo */
+  .hero-content.landscape-mobile {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 0 3% !important;
+  }
+  
+  /* Asegurarse de que solo se muestre el título desktop correcto */
+  .hero-text h1, 
+  .hero-title-desktop,
+  h1.landscape-title,
+  .hero-text h1.hero-title-desktop,
+  .hero-text h1.landscape-title {
+    display: block !important;
+    visibility: visible !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 2px !important;
+    line-height: 1 !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-height: 1em !important;
+    text-align: center !important;
+  }
+  
+  /* Asegurar que el componente se inicializa correctamente */
+  .hero-content {
+    padding: 0 3% !important;
+    min-height: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    gap: 5px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  
+  /* Reducción extrema del tamaño de los párrafos */
+  .hero-text p {
+    font-size: 0.6rem !important;
+    line-height: 1 !important;
+    margin-bottom: 2px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-height: 1em !important;
+    text-align: center !important;
+  }
+  
+  .hero-description {
+    font-size: 0.55rem !important;
+    line-height: 1 !important;
+    margin-bottom: 2px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-height: 1em !important;
+    text-align: center !important;
+  }
+  
+  /* Minimizar el botón */
+  .try-button {
+    padding: 3px 8px !important;
+    font-size: 0.65rem !important;
+    min-width: 100px !important;
+    margin: 2px auto !important;
+    transform: none !important;
+    height: auto !important;
+  }
+  
+  /* Reducir extremadamente los botones de tienda */
+  .app-stores {
+    gap: 3px !important;
+    margin-top: 2px !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .store-badge img {
+    width: 50px !important;
+    height: auto !important;
+  }
+  
+  /* Reducir la imagen del teléfono */
+  .hero-image {
+    flex: 0 0 25% !important;
+    max-width: 25% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .phone-image {
+    max-height: 55vh !important;
+  }
+  
+  /* Optimizar el contenedor de texto */
+  .hero-text {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 65% !important;
+  }
+}
+
+/* Estilo específico para Redmi Note Pro 13 en landscape usando la clase especial */
+body.redmi-note-pro-landscape .hero-content {
+  padding: 0 2% !important;
+  min-height: auto !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  gap: 2px !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+body.redmi-note-pro-landscape .hero-title-mobile {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  z-index: -9999 !important;
+}
+
+body.redmi-note-pro-landscape .hero-text h1, 
+body.redmi-note-pro-landscape .hero-title-desktop,
+body.redmi-note-pro-landscape h1.landscape-title {
+  display: block !important;
+  visibility: visible !important;
+  font-size: 0.85rem !important;
+  margin-bottom: 2px !important;
+  line-height: 1 !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-height: 1em !important;
+  text-align: center !important;
+}
+
+body.redmi-note-pro-landscape .hero-text p {
+  font-size: 0.58rem !important;
+  line-height: 1 !important;
+  margin-bottom: 2px !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-height: 1em !important;
+  text-align: center !important;
+}
+
+body.redmi-note-pro-landscape .hero-description {
+  font-size: 0.52rem !important;
+  line-height: 1 !important;
+  margin-bottom: 2px !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-height: 1em !important;
+  text-align: center !important;
+}
+
+body.redmi-note-pro-landscape .try-button {
+  padding: 3px 8px !important;
+  font-size: 0.6rem !important;
+  min-width: 90px !important;
+  margin: 2px auto !important;
+  transform: none !important;
+  height: auto !important;
+}
+
+body.redmi-note-pro-landscape .app-stores {
+  gap: 2px !important;
+  margin-top: 2px !important;
+  margin-bottom: 2px !important;
+}
+
+body.redmi-note-pro-landscape .store-badge img {
+  width: 40px !important;
+  height: auto !important;
+}
+
+body.redmi-note-pro-landscape .hero-image {
+  flex: 0 0 22% !important;
+  max-width: 22% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body.redmi-note-pro-landscape .phone-image {
+  max-height: 50vh !important;
+}
+
+body.redmi-note-pro-landscape .hero-text {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 68% !important;
+}
+
+/* Agregar reglas específicas para desktop */
+@media (min-width: 992px) {
+  .hero-image {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 0; /* Eliminar cualquier padding que pueda afectar */
+  }
+  
+  .phone-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: auto; /* Permitir que la altura se ajuste automáticamente */
+  }
+  
+  .phone-image {
+    margin: 0 0 0 auto; /* Centrar horizontalmente a la derecha */
+    align-self: center; /* Centrar verticalmente */
+    transform: translateY(0); /* Reset de la transformación inicial */
+  }
+  
+  .phone-image.phone-loaded {
+    transform: translateY(0); /* Mantener centrado incluso después de cargar */
+  }
+}
+
+/* Hide QR codes in all mobile views */
+@media (max-width: 991px), (max-height: 600px) and (orientation: landscape) {
+  .qr-code, .footer-qr {
+    display: none !important;
+  }
+}
+
+/* Responsive design - Desktops pequeños y tablets grandes */
+@media (max-width: 1200px) and (min-width: 992px) {
+  .hero-content {
+    gap: 40px;
+    padding: 20px 4%;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .hero-text {
+    flex: 0 1 45%;
+    max-width: 45%;
+    margin-left: 0;
+    padding-right: 20px;
+  }
+  
+  .hero-text h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  
+  .hero-text p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+  
+  .hero-description {
+    margin-bottom: 1.2rem;
+  }
+  
+  .try-button {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    margin: 1rem auto;
+    min-width: 200px;
+    width: auto;
+  }
+  
+  .hero-image {
+    flex: 0 1 45%;
+    max-width: 45%;
+    margin-right: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .phone-container {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .app-stores {
+    gap: 15px;
+    margin-top: 1rem;
+    justify-content: flex-start;
+  }
+  
+  .store-badge img {
+    width: 150px;
+  }
+}
+
+/* Ajuste específico para pantallas entre 992px y 1100px */
+@media (min-width: 992px) and (max-width: 1100px) {
+  .hero-text h1 {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .hero-text p {
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+  
+  .try-button {
+    padding: 10px 25px;
+    font-size: 1rem;
+    min-width: 180px;
+  }
+  
+  .store-badge img {
+    width: 130px;
+  }
+  
+  .app-stores {
+    gap: 12px;
+  }
+}
+
+/* BASE: Ajustes específicos para desktop pequeño */
+@media screen and (min-width: 992px) and (max-width: 1400px) {
+  .hero-text h1 {
+    font-size: 2.4rem;
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-text p {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+
+  .hero-description {
+    font-size: 1.05rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .try-button {
+    font-size: 1.15rem;
+    padding: 12px 30px;
+  }
+
+  .qr-code img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .store-badge img {
+    width: 140px;
+    height: auto;
+  }
+
+  .app-stores {
+    gap: 12px;
+    margin-top: 1.2rem;
+  }
+}
+
+/* OVERRIDE 1: Ajustes para desktop muy pequeño */
+@media screen and (min-width: 992px) and (max-width: 1200px) and (min-height: 701px) {
+  .hero-text h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .try-button {
+    font-size: 1.1rem;
+    padding: 10px 25px;
+  }
+
+  .qr-code img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .store-badge img {
+    width: 130px;
+  }
+
+  .app-stores {
+    gap: 10px;
+  }
+}
+
+/* OVERRIDE 2: Ajustes específicos para 1360px */
+@media screen and (min-width: 1350px) and (max-width: 1370px) and (min-height: 701px) {
+  .hero-text h1 {
+    font-size: 2.3rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .hero-text p {
+    font-size: 1.05rem;
+    line-height: 1.35;
+    margin-bottom: 1rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .try-button {
+    font-size: 1.12rem;
+    padding: 11px 28px;
+  }
+
+  .qr-code img {
+    width: 110px;
+    height: 110px;
+  }
+
+  .store-badge img {
+    width: 150px;
+  }
+
+  .app-stores {
+    gap: 15px;
+    align-items: center;
+    margin-top: 1.1rem;
+  }
+}
+
+/* OVERRIDE 3: Ajustes específicos para landscape con altura limitada */
+@media screen and (max-height: 700px) and (orientation: landscape) {
+  .hero-content {
+    min-height: calc(100vh - 70px); /* Fill more vertical space, accounting for ~70px for headers/etc. */
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    gap: 2vw; /* Adjust gap based on viewport width */
+    align-items: center; /* Keep the row of items vertically centered */
+  }
+
+  .hero-image {
+    flex: 0 1 320px; /* Allow shrinking, basis 320px */
+    max-width: 320px;
+    align-self: center;
+    display: flex; /* Ensure inner alignment works */
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phone-image {
+    max-height: 45vh; /* Further constrain phone image height in short viewports */
+    width: auto;
+    object-fit: contain;
+  }
+
+  .hero-text {
+    flex: 1 1 auto; /* Take remaining space, allow shrinking/growing */
+    max-width: 60%; /* Prevent text from becoming too wide */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically within .hero-text */
+    align-items: flex-start; /* Align text to the start (left) by default */
+    height: auto; /* Allow it to adjust to content height */
+  }
+
+  .hero-text h1 {
+    font-size: 1.4rem !important;
+    margin-bottom: 8px !important;
+    line-height: 1.2 !important;
+  }
+
+  .hero-text p {
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 8px !important;
+    /* Usar text-overflow para textos muy largos */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 2.9em;
+  }
+
+  .hero-description {
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 6px !important;
+    /* Usar text-overflow para textos muy largos */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 2.4em;
+  }
+
+  /* Ajuste del botón principal */
+  .try-button {
+    padding: 6px 15px !important;
+    font-size: 0.85rem !important;
+    min-width: 160px !important;
+    margin: 8px auto !important;
+    transform: none !important;
+  }
+
+  /* Ajuste de los botones de tienda */
+  .app-stores {
+    gap: 8px !important;
+    margin-top: 5px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .store-badge img {
+    width: 90px !important;
+    height: auto !important;
+  }
+
+  /* Ajuste de la imagen del teléfono */
+  .hero-image {
+    flex: 0 0 35% !important;
+    max-width: 35% !important;
+  }
+
+  .phone-image {
+    max-height: 65vh !important;
+  }
+
+  /* Ajuste del tamaño de la sección de testimonios */
+  .testimonials-section {
+    padding: 1.5rem 0 !important;
+  }
+
+  .testimonial-card {
+    height: 200px !important;
+    min-height: 200px !important;
+    padding: 1.2rem 1.2rem 1rem 1.2rem !important;
+  }
+
+  .testimonial-quote {
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.8rem !important;
+    /* Limitar altura del texto */
+    max-height: 4.8em !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 4 !important;
+    -webkit-box-orient: vertical !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .testimonial-author {
+    font-size: 0.85rem !important;
+  }
+
+  .testimonial-location {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Ajuste específico para dispositivos con aspecto ratio ultrawide en landscape */
+@media screen and (min-width: 900px) and (max-height: 500px) and (orientation: landscape) {
+  .hero-text h1 {
+    font-size: 1.2rem !important;
+    margin-bottom: 5px !important;
+  }
+  
+  .hero-text p, .hero-description {
+    font-size: 0.7rem !important;
+    line-height: 1.1 !important;
+    margin-bottom: 5px !important;
+    -webkit-line-clamp: 2 !important;
+    max-height: 2.2em !important;
+  }
+  
+  .try-button {
+    padding: 5px 12px !important;
+    font-size: 0.8rem !important;
+    min-width: 140px !important;
+    margin: 5px auto !important;
+  }
+  
+  .app-stores {
+    gap: 5px !important;
+  }
+  
+  .store-badge img {
+    width: 80px !important;
+  }
+}
+
+/* Media query más agresivo específicamente para Redmi Note Pro 13 en landscape */
+@media screen and (min-width: 1080px) and (max-height: 700px) and (orientation: landscape),
+       screen and (min-width: 800px) and (max-width: 1200px) and (max-height: 700px) and (orientation: landscape) {
+  /* Ajuste general de contenedor */
 
   /* Ajuste del contenedor de texto */
   .hero-text {
@@ -4470,68 +5431,167 @@ body.redmi-note-pro-landscape .hero-text {
 /* Estilos para el modo landscape en dispositivos Redmi Note Pro 13 y similares */
 /* ... existing code ... */
 
-.hero-content.iphone-8-plus-like-portrait {
-  height: auto;
-  min-height: 100vh;
-  padding-top: 0; /* MODIFIED: Removed top padding as requested */
-  padding-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;             /* ADDED: Ensure full width */
-  box-sizing: border-box;  /* ADDED: Proper box sizing */
-  align-items: center;     /* ADDED: Center children like hero-image and hero-text */
-}
-
-.hero-content.iphone-8-plus-like-portrait .hero-image {
-  margin-top: 10px;
-  margin-bottom: 20px;
-  max-width: 60%; /* ADDED: ensure image is not too wide, adjust as needed */
-}
-
-.hero-content.iphone-8-plus-like-portrait .hero-text {
-  padding-left: 15px;
-  padding-right: 15px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Vertically center content within hero-text */
-  width: 100%;             /* ADDED: Ensure hero-text takes full width of its centered block */
-  max-width: 90%;          /* ADDED: Limit max width to prevent edge bleeding if parent padding is small */
-  box-sizing: border-box;  /* ADDED: Proper box sizing */
-  align-items: center;     /* ADDED: Center children of hero-text (paragraphs, button) */
-}
-
-.hero-content.iphone-8-plus-like-portrait .hero-title-mobile,
-.hero-content.iphone-8-plus-like-portrait .hero-text .hero-title-desktop { /* Adjusted selector for desktop title */
-  font-size: 2rem; /* Example, adjust if needed */
-  margin-bottom: 15px;
-  text-align: center; /* Ensure titles themselves are centered */
-  width: 100%; /* Ensure title takes full width and respects parent's alignment */
-}
-
-.hero-content.iphone-8-plus-like-portrait .hero-text p { /* Style paragraphs inside hero-text */
-  text-align: center; /* Center text content */
-  width: 100%; /* Ensure paragraphs take full width and wrap */
-  margin-bottom: 10px; /* Consistent spacing */
-}
-
-
-.hero-content.iphone-8-plus-like-portrait .try-button {
-  /* Styles for try-button are likely inherited from general mobile styles,
-     but can be overridden here if needed.
-     e.g., width: 80%; max-width: 280px; margin: 20px auto;
-     The align-items: center on .hero-text should center it. */
-}
-
-.hero-content.iphone-8-plus-like-portrait .app-stores {
-  margin-top: 20px;
-  justify-content: center;
-  width: 100%; /* Ensure app-stores container uses available width */
-  /* flex-wrap: wrap; /* Uncomment if store badges might need to wrap */
-}
-
 /* Podrías necesitar más ajustes específicos dependiendo de cómo esté estructurado tu HTML
    y qué elementos exactamente se están rompiendo. */
+
+.hero-main-title {
+  text-align: center;
+  font-family: 'Poppins', 'Arial', sans-serif;
+  font-weight: 700;
+  font-size: 2.6rem;
+  color: #fff;
+  margin: 0 auto 1.5rem auto;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  max-width: 900px;
+  padding: 0 10px;
+}
+
+@media (max-width: 768px) {
+  .hero-main-title {
+    font-size: 2rem;
+    max-width: 95vw;
+    margin-bottom: 1.2rem;
+    padding: 0 6vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-main-title {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    padding: 0 3vw;
+  }
+}
+
+.hero-main-description {
+  text-align: justify;
+  font-family: 'Poppins', 'Arial', sans-serif;
+  font-size: 1.25rem;
+  color: #fff;
+  margin: 2.2rem auto 0 auto;
+  max-width: 700px;
+  line-height: 1.5;
+  letter-spacing: -0.2px;
+  padding: 0 10px;
+  text-align-last: center;
+}
+
+@media (max-width: 768px) {
+  .hero-main-description {
+    font-size: 1.05rem;
+    max-width: 95vw;
+    margin-top: 1.2rem;
+    padding: 0 6vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-main-description {
+    font-size: 0.98rem;
+    margin-top: 0.8rem;
+    padding: 0 3vw;
+  }
+}
+
+.hero-main-try-button {
+  display: block;
+  margin: 2.2rem auto 0 auto;
+  padding: 8px 72px;
+  background: #fff;
+  color: #000033;
+  font-family: 'Poppins', 'Arial', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border: 2px solid #e6e6f7;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+  min-width: 220px;
+  max-width: 90vw;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+.hero-main-try-button:hover, .hero-main-try-button:focus {
+  background: #f7f7ff;
+  color: #000033;
+  border-color: #bfc4e6;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.13);
+}
+@media (max-width: 768px) {
+  .hero-main-try-button {
+    font-size: 1.05rem;
+    padding: 7px 40px;
+    min-width: 160px;
+    margin-top: 1.2rem;
+  }
+}
+@media (max-width: 480px) {
+  .hero-main-try-button {
+    font-size: 0.98rem;
+    padding: 6px 20px;
+    min-width: 120px;
+    margin-top: 0.8rem;
+  }
+}
+
+.hero-main-store-badge {
+  display: block;
+  margin: 0 auto;
+  width: 180px;
+  max-width: 80vw;
+  height: auto;
+}
+
+@media (orientation: landscape) {
+  .hero-main-store-badge {
+    margin: 0 6px;
+    width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-main {
+    margin-bottom: 1rem;
+  }
+
+  .footer-main-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .footer-stores {
+    flex-direction: row;
+    gap: 0.8rem;
+  }
+  
+  .footer-qr img {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .footer-logo-simple {
+    min-width: 80px;
+    min-height: 80px;
+    height: 80px !important;
+    width: 80px !important;
+    display: block;
+    margin: 0 auto 0.5rem auto;
+    filter: brightness(0) invert(1);
+    object-fit: contain;
+  }
+  
+  .footer-section {
+    padding-bottom: 3rem;
+  }
+}
 
 

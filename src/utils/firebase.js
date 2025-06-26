@@ -9,6 +9,7 @@ import {
   signInWithPopup, 
   signInWithCredential 
 } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,6 +30,7 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const database = getDatabase(app);
+export const firestore = getFirestore(app);
 
 // Initialize Firebase Auth
 export const auth = getAuth(app);

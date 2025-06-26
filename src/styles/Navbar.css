@@ -252,12 +252,14 @@
 }
 
 /* Estilos para el menú de idiomas desktop */
-.navbar-language-container {
+.navbar-language-container,
+.navbar-goto-container {
   position: relative;
   display: inline-block;
 }
 
-.navbar-language-toggle {
+.navbar-language-toggle,
+.navbar-goto-toggle {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -273,7 +275,8 @@
   transform: rotate(180deg);
 }
 
-.navbar-language-dropdown {
+.navbar-language-dropdown,
+.navbar-goto-dropdown {
   position: absolute;
   top: 100%;
   left: 50%;
@@ -292,7 +295,8 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.navbar-language-container:hover .navbar-language-dropdown {
+.navbar-language-container:hover .navbar-language-dropdown,
+.navbar-goto-container:hover .navbar-goto-dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
@@ -311,17 +315,21 @@
   transition: background-color 0.2s;
 }
 
-.dropdown-item:hover {
+.dropdown-item:hover:not(:disabled) {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.dropdown-item.active {
+.dropdown-item.active,
+.dropdown-item:disabled {
   font-weight: bold;
   background-color: rgba(255, 255, 255, 0.15);
+  cursor: default;
+  opacity: 0.7;
 }
 
 /* Estilos para el menú de idiomas móvil */
-.navbar-mobile-language-container {
+.navbar-mobile-language-container,
+.navbar-mobile-goto-container {
   width: 100%;
   position: relative;
   display: flex;
@@ -329,7 +337,8 @@
   align-items: center;
 }
 
-.navbar-mobile-language-dropdown {
+.navbar-mobile-language-dropdown,
+.navbar-mobile-goto-dropdown {
   width: 80%;
   background-color: rgba(25, 35, 60, 0.95);
   border-radius: 8px;
@@ -402,6 +411,10 @@
     font-size: 1rem;
     margin-left: 20px;
   }
+  
+  .navbar-goto-container {
+    display: none;
+  }
 }
 
 /* Responsive design - Larger screens */
@@ -421,6 +434,10 @@
   }
   
   .navbar-link {
+    font-size: 1.2rem;
+  }
+  
+  .navbar-goto-toggle {
     font-size: 1.2rem;
   }
 }
@@ -448,6 +465,10 @@
   .navbar-link {
     font-size: 1rem;
     margin-left: 20px;
+  }
+  
+  .navbar-goto-toggle {
+    font-size: 1rem;
   }
 }
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo_simple.png';
 import { useLanguage } from '../utils/i18n';
 import LoginModal from './LoginModal';
@@ -15,6 +16,9 @@ function Navbar() {
   const [userEmail, setUserEmail] = useState('');
   const [userProfile, setUserProfile] = useState(null);
   const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
+  const [goToMenuOpen, setGoToMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
   
   // Detectar scroll para cambiar apariencia del navbar
   useEffect(() => {
@@ -34,8 +38,11 @@ function Navbar() {
   
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
-    // Cerrar el menú de idiomas si está abierto
-    if (languageMenuOpen) setLanguageMenuOpen(false);
+    // Si estamos cerrando el menú móvil, cerrar también los menús desplegables
+    if (mobileMenuOpen) {
+      setLanguageMenuOpen(false);
+      setGoToMenuOpen(false);
+    }
   };
   
   const toggleLanguageMenu = () => {
@@ -106,6 +113,28 @@ function Navbar() {
     // Here you would typically redirect to main app or dashboard
   };
   
+  const handleNavigation = (path) => {
+    navigate(path);
+    // Close menus if open
+    if (mobileMenuOpen) setMobileMenuOpen(false);
+    if (languageMenuOpen) setLanguageMenuOpen(false);
+  };
+
+  const isCurrentPath = (path) => {
+    return location.pathname === path;
+  };
+  
+  const toggleGoToMenu = () => {
+    setGoToMenuOpen(!goToMenuOpen);
+    // Close language menu if open
+    if (languageMenuOpen) setLanguageMenuOpen(false);
+  };
+
+  const handleMobileNavigation = (path) => {
+    handleNavigation(path);
+    setGoToMenuOpen(false);
+  };
+  
   return (
     <>
       <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
@@ -144,6 +173,39 @@ function Navbar() {
                   </button>
                 </div>
               </div>
+
+              <div className="navbar-goto-container">
+                <button 
+                  className="navbar-link navbar-goto-toggle" 
+                >
+                  {t('goToButton')}
+                  <span className="language-arrow">▼</span>
+                </button>
+                <div className="navbar-goto-dropdown">
+                  <button 
+                    className={`dropdown-item ${isCurrentPath('/') ? 'active' : ''}`}
+                    onClick={() => handleNavigation('/')}
+                    disabled={isCurrentPath('/')}
+                  >
+                    {t('goToHome')}
+                  </button>
+                  <button 
+                    className={`dropdown-item ${isCurrentPath('/moments') ? 'active' : ''}`}
+                    onClick={() => handleNavigation('/moments')}
+                    disabled={isCurrentPath('/moments')}
+                  >
+                    {t('goToMoments')}
+                  </button>
+                  <button 
+                    className={`dropdown-item ${isCurrentPath('/map') ? 'active' : ''}`}
+                    onClick={() => handleNavigation('/map')}
+                    disabled={isCurrentPath('/map')}
+                  >
+                    {t('goToMap')}
+                  </button>
+                </div>
+              </div>
+
               <button className="navbar-link" onClick={openLoginModal}>
                 {t('loginButton')}
               </button>
@@ -187,6 +249,39 @@ function Navbar() {
                 </div>
               )}
             </div>
+
+            <div className="navbar-mobile-goto-container">
+              <button className="navbar-mobile-link" onClick={toggleGoToMenu}>
+                {t('goToButton')}
+                <span className={`language-arrow ${goToMenuOpen ? 'open' : ''}`}>▼</span>
+              </button>
+              {goToMenuOpen && (
+                <div className="navbar-mobile-goto-dropdown">
+                  <button 
+                    className={`mobile-dropdown-item ${isCurrentPath('/') ? 'active' : ''}`}
+                    onClick={() => handleMobileNavigation('/')}
+                    disabled={isCurrentPath('/')}
+                  >
+                    {t('goToHome')}
+                  </button>
+                  <button 
+                    className={`mobile-dropdown-item ${isCurrentPath('/moments') ? 'active' : ''}`}
+                    onClick={() => handleMobileNavigation('/moments')}
+                    disabled={isCurrentPath('/moments')}
+                  >
+                    {t('goToMoments')}
+                  </button>
+                  <button 
+                    className={`mobile-dropdown-item ${isCurrentPath('/map') ? 'active' : ''}`}
+                    onClick={() => handleMobileNavigation('/map')}
+                    disabled={isCurrentPath('/map')}
+                  >
+                    {t('goToMap')}
+                  </button>
+                </div>
+              )}
+            </div>
+
             <button className="navbar-mobile-link" onClick={openLoginModal}>
               {t('loginButton')}
             </button>

@@ -7,9 +7,15 @@ const translations = {
     welcomeTitle: 'Lokdis',
     languageButton: 'Idioma',
     loginButton: 'Crear cuenta',
+    goToButton: 'Ir a',
+    goToHome: 'Inicio',
+    goToMoments: 'Momentos lokdis',
+    goToMap: 'Mapa de la zona',
     heroTitle: 'Solicita y comparte fotos y videos en tiempo real',
+    heroMainTitle: 'Solicita y comparte fotos y videos en tiempo real',
     heroSubtitle: 'Una app para explorar la realidad de rincones de todo el mundo, sin filtros ni ediciones 🗺️ 📸',
     heroDescription: 'Busca el lugar que quieres ver, solicita un vídeo o una foto a alguien cerca y... ¡viaja desde tu teléfono!',
+    heroDescription2: 'Una app para explorar la realidad de rincones de todo el mundo, sin filtros ni ediciones 🗺️ 📸',
     tryButton: 'Prueba Lokdis',
     discoverTitle: 'Descubre más sobre Lokdis',
     discoverDescription: 'Desliza hacia abajo para explorar todas las características y beneficios que Lokdis tiene para ofrecerte.',
@@ -58,16 +64,30 @@ const translations = {
     termsConditions: 'Términos y condiciones',
     faqs: 'FAQs',
     copyright: '© 2025 LOKDIS. Todos los derechos reservados.',
-    years: 'años'
+    years: 'años',
+    areaMap: 'Mapa de la zona',
+    exploreTitle: '¡Explora tus lugares favoritos!',
+    exploreSubtitle: 'Mapa de la zona',
+    mapSubtitle: 'Mapa de la zona',
+    // Download App Modal
+    downloadModalTitle: 'Descubre más momentos',
+    downloadModalText: 'Para explorar más contenido exclusivo y vivir la experiencia completa, descarga la aplicación de Lokdis.',
+    downloadModalButton: 'Ir a la página de inicio'
   },
   en: {
     ctaButton: 'I want to try the app',
     welcomeTitle: 'Lokdis',
     languageButton: 'Language',
     loginButton: 'Create account',
+    goToButton: 'Go to',
+    goToHome: 'Home',
+    goToMoments: 'Lokdis moments',
+    goToMap: 'Area map',
     heroTitle: 'Request and share photos and videos in real time',
+    heroMainTitle: 'Request and share photos and videos in real time',
     heroSubtitle: 'An app to explore the reality of places around the world, without filters or edits 🗺️ 📸',
     heroDescription: 'Find the place you want to see, request a video or photo from someone who is there and... travel from your phone!',
+    heroDescription2: 'An app to explore the reality of places around the world, without filters or edits 🗺️ 📸',
     tryButton: 'Try Lokdis',
     discoverTitle: 'Discover more about Lokdis',
     discoverDescription: 'Scroll down to explore all the features and benefits that Lokdis has to offer you.',
@@ -116,7 +136,15 @@ const translations = {
     termsConditions: 'Terms & Conditions',
     faqs: 'FAQs',
     copyright: '© 2025 LOKDIS. All rights reserved.',
-    years: 'years'
+    years: 'years',
+    areaMap: 'Area Map',
+    exploreTitle: 'Explore your favorite places!',
+    exploreSubtitle: 'Area Map',
+    mapSubtitle: 'Area Map',
+    // Download App Modal
+    downloadModalTitle: 'Discover more moments',
+    downloadModalText: 'To explore more exclusive content and live the full experience, download the Lokdis application.',
+    downloadModalButton: 'Go to the homepage'
   }
 };
 
