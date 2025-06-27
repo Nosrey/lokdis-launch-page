@@ -72,7 +72,10 @@ const translations = {
     // Download App Modal
     downloadModalTitle: 'Descubre más momentos',
     downloadModalText: 'Para explorar más contenido exclusivo y vivir la experiencia completa, descarga la aplicación de Lokdis.',
-    downloadModalButton: 'Ir a la página de inicio'
+    downloadModalButton: 'Ir a la página de inicio',
+    // Navigation buttons for PageView
+    backToMap: 'Volver',
+    backToTop: 'Ir al inicio'
   },
   en: {
     ctaButton: 'I want to try the app',
@@ -144,7 +147,10 @@ const translations = {
     // Download App Modal
     downloadModalTitle: 'Discover more moments',
     downloadModalText: 'To explore more exclusive content and live the full experience, download the Lokdis application.',
-    downloadModalButton: 'Go to the homepage'
+    downloadModalButton: 'Go to the homepage',
+    // Navigation buttons for PageView
+    backToMap: 'Back',
+    backToTop: 'Go to top'
   }
 };
 

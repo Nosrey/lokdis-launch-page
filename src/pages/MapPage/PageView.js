@@ -90,6 +90,7 @@ const PageView = () => {
   };
 
   const handleBackClick = () => {
+    console.log('🔙 Botón Volver clickeado - navegando a /map');
     navigate('/map');
   };
 
@@ -338,6 +339,27 @@ const PageView = () => {
       console.log('Scrolled to element:', element.textContent.trim());
     } else {
       console.warn(`Element with ID ${id} not found`);
+    }
+  };
+
+  // Navigation function for back to content
+  const handleBackToTop = () => {
+    console.log('⬆️ Botón Ir al inicio clickeado - scrolling to content-section');
+    const contentSection = document.querySelector('.content-section');
+    if (contentSection) {
+      contentSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    } else {
+      // Fallback to page header if no content section
+      const pageHeader = document.querySelector('.page-header');
+      if (pageHeader) {
+        pageHeader.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
     }
   };
 
@@ -773,13 +795,6 @@ const PageView = () => {
 
       {pageData && (
         <div className="page-content">
-            {/* Professional Back Button */}
-            <button onClick={handleBackClick} className="back-button" title="Volver al mapa">
-              <svg className="back-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span className="back-text">Volver</span>
-            </button>
 
             <div className="page-layout">
               <div className="main-content">
@@ -913,13 +928,20 @@ const PageView = () => {
               {/* Table of Contents - Universal for all content types with HTML content */}
               {tocItems.length > 0 && (
                 <div className="toc-container">
-                  <div className="toc-card">
+                                  <div className="toc-card">
+                  <div className="toc-header">
                     <h3 className="toc-title">
                       <svg className="toc-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                       Tabla de Contenido
                     </h3>
+                    <button onClick={handleBackToTop} className="toc-back-to-top-button" title={t('backToTop')}>
+                      <svg className="toc-back-to-top-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 15L12 9L6 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
                     <ul className="toc-list">
                       {tocItems.map((item) => (
                         <li key={item.id} className="toc-item">
@@ -932,6 +954,16 @@ const PageView = () => {
                         </li>
                       ))}
                     </ul>
+                  </div>
+                  
+                  {/* Back to Map Button - Below TOC */}
+                  <div className="toc-actions">
+                    <button onClick={handleBackClick} className="toc-back-button" title={t('backToMap')}>
+                      <svg className="toc-back-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      <span className="toc-back-text">{t('backToMap')}</span>
+                    </button>
                   </div>
                 </div>
               )}

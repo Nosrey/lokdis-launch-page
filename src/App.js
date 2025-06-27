@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './styles/App.css';
 import MainLayout from './layouts/MainLayout';
 import HeroContent from './components/HeroContent';

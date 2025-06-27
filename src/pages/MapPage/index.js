@@ -483,14 +483,6 @@ const MapPage = () => {
         <div className="map-overlay"></div>
         <div className="map-content">
           {dynamicContent.titulo && <h1 className="map-title">{dynamicContent.titulo}</h1>}
-          {dynamicContent.subtitulo && <p className="map-subtitle">{dynamicContent.subtitulo}</p>}
-          {dynamicContent.content && (
-            <div 
-              className="map-dynamic-content" 
-              onClick={handleContentClick}
-              dangerouslySetInnerHTML={{ __html: dynamicContent.content }}
-            />
-          )}
         </div>
       </div>
       
@@ -815,7 +807,7 @@ const MapPage = () => {
               <button className="footer-link" onClick={handleOpenPrivacyPolicyModal}>{t('privacyPolicy')}</button>
               <button className="footer-link" onClick={handleOpenTermsConditionsModal}>{t('termsConditions')}</button>
               <button className="footer-link" onClick={handleOpenFaqModal}>{t('faqs')}</button>
-              <a href="/lokdis-launch-page/map" className="footer-link">{t('areaMap')}</a>
+              <button className="footer-link" onClick={() => window.location.href = '/map'}>{t('areaMap')}</button>
               <div className="footer-social">
                 <a href="https://www.instagram.com/lokdisapp/" target="_blank" rel="noopener noreferrer" className="social-icon instagram">
                   <img src={instagramIcon} alt="Instagram" className="footer-social-img footer-social-img--small" />

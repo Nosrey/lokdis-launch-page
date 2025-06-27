@@ -71,17 +71,7 @@ const faqItemsData = [
       en: "In Explore, you can see places around the world that other people have shared, randomly, with the moment and place where they were made."
     }
   },
-  {
-    id: 'q7',
-    question: {
-      es: "¿Cómo compartir imágenes o videos de calidad?",
-      en: "How to share quality images or videos?"
-    },
-    answer: {
-      es: "",
-      en: ""
-    }
-  },
+
   {
     id: 'q8',
     question: {

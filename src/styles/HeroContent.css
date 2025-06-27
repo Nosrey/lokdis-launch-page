@@ -5594,4 +5594,61 @@ body.redmi-note-pro-landscape .hero-text {
   }
 }
 
+/* Testimonials navigation arrows */
+.testimonials-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.testimonial-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(3, 32, 83, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.testimonial-arrow:hover {
+  background: rgba(3, 32, 83, 0.9);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-arrow-left {
+  left: 20px;
+}
+
+.testimonial-arrow-right {
+  right: 20px;
+}
+
+/* Hide arrows on mobile */
+@media (max-width: 768px) {
+  .testimonial-arrow {
+    display: none;
+  }
+}
+
+/* Hide arrows on portrait orientation */
+@media (orientation: portrait) {
+  .testimonial-arrow {
+    display: none;
+  }
+}
+
 

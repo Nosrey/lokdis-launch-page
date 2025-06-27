@@ -43,6 +43,7 @@ function HeroContent() {
   const [isTermsConditionsModalOpen, setIsTermsConditionsModalOpen] = useState(false);
   const [isTallDevicePortrait, setIsTallDevicePortrait] = useState(false);
   const [isIphone8PlusLikePortrait, setIsIphone8PlusLikePortrait] = useState(false);
+  const [showTestimonialArrows, setShowTestimonialArrows] = useState(false);
   
   // Define testimonials array first before any hooks that use it
   const baseTestimonials = [
@@ -102,6 +103,25 @@ function HeroContent() {
     ...baseTestimonials.map(t => ({ ...t, id: `${t.id}-clone-end` }) ),
   ];
   
+  // Funciones para navegación de testimonials
+  const scrollTestimonialsLeft = () => {
+    if (testimonialsRef.current) {
+      testimonialsRef.current.scrollBy({
+        left: -300,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollTestimonialsRight = () => {
+    if (testimonialsRef.current) {
+      testimonialsRef.current.scrollBy({
+        left: 300,
+        behavior: 'smooth'
+      });
+    }
+  };
+  
   // Función para establecer la altura real del viewport
   const setViewportHeight = () => {
     // Obtener la altura real del viewport
@@ -149,6 +169,10 @@ function HeroContent() {
         aspectRatio >= 1.7 && aspectRatio < 1.9; // Catches ~1.77 (iPhone 8 Plus aspect ratio 736/414)
       
       setIsIphone8PlusLikePortrait(isCurrentlyIphone8PlusLikePortrait);
+      
+      // Show testimonial arrows when width > height (landscape mode) and not mobile
+      const shouldShowArrows = currentIsLandscape && !currentIsMobile;
+      setShowTestimonialArrows(shouldShowArrows);
     };
     
     // Ejecutar al cargar
@@ -436,11 +460,21 @@ function HeroContent() {
     </div>
       
       <div className="testimonials-background">
-        <div 
-          className="testimonials-section" 
-          ref={testimonialsRef} 
-        >
-          <div className="testimonials-wrapper">
+        <div className="testimonials-wrapper">
+          {showTestimonialArrows && (
+            <button 
+              className="testimonial-arrow testimonial-arrow-left" 
+              onClick={scrollTestimonialsLeft}
+              aria-label="Testimonial anterior"
+            >
+              &#8249;
+            </button>
+          )}
+          
+          <div 
+            className="testimonials-section" 
+            ref={testimonialsRef} 
+          >
             <div className="testimonials-container">
               {testimonials.map((testimonial) => (
                 <div 
@@ -465,6 +499,16 @@ function HeroContent() {
         ))}
             </div>
           </div>
+          
+          {showTestimonialArrows && (
+            <button 
+              className="testimonial-arrow testimonial-arrow-right" 
+              onClick={scrollTestimonialsRight}
+              aria-label="Siguiente testimonial"
+            >
+              &#8250;
+            </button>
+          )}
         </div>
       </div>
       
@@ -476,7 +520,7 @@ function HeroContent() {
                 <button className="footer-link" onClick={handleOpenPrivacyPolicyModal}>{t('privacyPolicy')}</button>
                 <button className="footer-link" onClick={handleOpenTermsConditionsModal}>{t('termsConditions')}</button>
                 <button className="footer-link" onClick={handleOpenFaqModal}>{t('faqs')}</button>
-                <a href="/lokdis-launch-page/map" className="footer-link">{t('areaMap')}</a>
+                <button className="footer-link" onClick={() => window.location.href = '/map'}>{t('areaMap')}</button>
               <div className="footer-social">
                 <a href="https://www.instagram.com/lokdisapp/" target="_blank" rel="noopener noreferrer" className="social-icon instagram">
                   <img src={instagramIcon} alt="Instagram" className="footer-social-img footer-social-img--small" />

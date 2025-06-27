@@ -11,6 +11,7 @@
 }
 
 /* Professional Back Button */
+/* DEPRECATED - Now using TOC back button instead
 .back-button {
   position: fixed;
   top: 100px;
@@ -68,6 +69,73 @@
 .back-button:hover .back-text {
   opacity: 1;
   transform: translateX(0);
+}
+*/
+
+/* Responsive design for navigation buttons */
+@media (max-width: 768px) {
+  .back-button {
+    top: 80px;
+    left: 15px;
+    height: 40px;
+    min-width: 40px;
+    padding: 0 12px;
+    border-radius: 20px;
+  }
+  
+  .back-button:hover {
+    min-width: 100px;
+  }
+  
+  .back-icon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .back-text {
+    font-size: 12px;
+  }
+  
+  .toc-back-to-top-button {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+  }
+  
+  .toc-back-to-top-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .back-button {
+    top: 70px;
+    left: 10px;
+    height: 36px;
+    min-width: 36px;
+    padding: 0 8px;
+  }
+  
+  .back-button:hover {
+    min-width: 90px;
+  }
+  
+  .back-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .toc-back-to-top-button {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+  }
+  
+  .toc-back-to-top-icon {
+    width: 12px;
+    height: 12px;
+  }
 }
 
 .page-content {
@@ -1298,7 +1366,7 @@
 }
 
 .toc-container::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+  background: rgba(32, 83, 168, 0.4);
 }
 
 /* Smooth scrolling for the entire page */
@@ -1376,5 +1444,154 @@ html {
   .toc-empty {
     padding: 2rem 1rem;
     font-size: 0.85rem;
+  }
+}
+
+/* Table of Contents Header with Back to Top Button */
+.toc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.toc-back-to-top-button {
+  width: 32px;
+  height: 32px;
+  background: rgba(32, 83, 168, 0.1);
+  border: 1px solid rgba(32, 83, 168, 0.2);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2053a8;
+  flex-shrink: 0;
+}
+
+.toc-back-to-top-button:hover {
+  background: rgba(32, 83, 168, 0.15);
+  border-color: rgba(32, 83, 168, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(32, 83, 168, 0.15);
+}
+
+.toc-back-to-top-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.toc-back-to-top-button:hover .toc-back-to-top-icon {
+  transform: translateY(-1px);
+}
+
+/* TOC Actions - Container for buttons below table of contents */
+.toc-actions {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(32, 83, 168, 0.1);
+}
+
+.toc-back-button {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  background: linear-gradient(135deg, #2053a8 0%, #143c5a 100%);
+  border: 1px solid rgba(32, 83, 168, 0.2);
+  border-radius: 22px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(32, 83, 168, 0.15);
+}
+
+.toc-back-button:hover {
+  background: linear-gradient(135deg, #1a4187 0%, #0f2940 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(32, 83, 168, 0.25);
+  border-color: rgba(32, 83, 168, 0.3);
+}
+
+.toc-back-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.toc-back-button:hover .toc-back-icon {
+  transform: translateX(-2px);
+}
+
+.toc-back-text {
+  font-weight: 500;
+  color: white;
+}
+
+/* Responsive design for TOC buttons */
+@media (max-width: 768px) {
+  .toc-actions {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+  }
+  
+  .toc-back-button {
+    height: 40px;
+    font-size: 13px;
+    border-radius: 20px;
+  }
+  
+  .toc-back-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .toc-back-to-top-button {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+  }
+  
+  .toc-back-to-top-icon {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .toc-actions {
+    margin-top: 0.75rem;
+    padding-top: 0.5rem;
+  }
+  
+  .toc-back-button {
+    height: 36px;
+    font-size: 12px;
+    border-radius: 18px;
+  }
+  
+  .toc-back-icon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .toc-back-to-top-button {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+  }
+  
+  .toc-back-to-top-icon {
+    width: 12px;
+    height: 12px;
   }
 } 

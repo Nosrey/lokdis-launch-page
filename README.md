@@ -1,14 +1,13 @@
 # 🌍 LokDis - Request & Share Real-Time Photos and Videos
 
 <div align="center">
-  <img src="src/assets/svg/phone.svg" alt="LokDis Logo" width="120">
+  <img src="src/assets/images/logo_simple.png" alt="Lokdis Logo" width="120">
   <br>
   <h3>Experience reality from anywhere, without filters</h3>
 </div>
 
 <p align="center">
   <a href="#features">Features</a> •
-  <a href="#demo">Live Demo</a> •
   <a href="#tech-stack">Tech Stack</a> •
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
@@ -20,7 +19,7 @@
 
 ## 📱 Overview
 
-LokDis is a revolutionary platform that allows users to request and share real-time photos and videos from around the world. The application bridges the gap between curiosity and reality, enabling you to see real-world locations through the eyes of someone who's actually there.
+Lokdis is a revolutionary platform that allows users to request and share real-time photos and videos from around the world. The application bridges the gap between curiosity and reality, enabling you to see real-world locations through the eyes of someone who's actually there.
 
 ## ✨ Features
 
@@ -33,10 +32,6 @@ LokDis is a revolutionary platform that allows users to request and share real-t
   - Experience live events from anywhere
 - **User-friendly Interface**: Intuitive design that's accessible across all devices
 - **Multi-language Support**: Currently available in English and Spanish
-
-## 🔗 Demo
-
-Check out our [live demo](https://lokdis.com) to experience LokDis in action.
 
 ## 🛠️ Tech Stack
 
@@ -73,7 +68,7 @@ The application will be running at `http://localhost:3000`.
 
 ## 🚀 Usage
 
-Once installed, the application provides a landing page showcasing LokDis's features and benefits. Users can:
+Once installed, the application provides a landing page showcasing Lokdis's features and benefits. Users can:
 
 - View information about the platform
 - Read real user testimonials
@@ -83,7 +78,7 @@ Once installed, the application provides a landing page showcasing LokDis's feat
 
 ## 🌐 Internationalization
 
-LokDis supports multiple languages through a custom internationalization system:
+Lokdis supports multiple languages through a custom internationalization system:
 
 ```javascript
 // Switch languages easily
@@ -99,7 +94,7 @@ Currently supported languages:
 
 ## 📱 Responsive Design
 
-LokDis is designed to provide an optimal viewing experience across a wide range of devices:
+Lokdis is designed to provide an optimal viewing experience across a wide range of devices:
 
 - **Desktop**: Full-featured experience with optimized spacing
 - **Tablet**: Adapted layout to maintain usability and aesthetics
@@ -108,7 +103,7 @@ LokDis is designed to provide an optimal viewing experience across a wide range 
 
 ## 👥 Contributing
 
-We welcome contributions to improve LokDis! Please follow these steps:
+We welcome contributions to improve Lokdis! Please follow these steps:
 
 1. Fork the repository
 2. Create your feature branch: `git checkout -b feature/amazing-feature`
@@ -130,31 +125,21 @@ For any questions or suggestions, please reach out to us at:
 ---
 
 <div align="center">
-  <p>Made with ❤️ by the LokDis Team</p>
-  <p>© 2024 LokDis. All Rights Reserved.</p>
+  <p>Made with ❤️ by the Lokdis Team</p>
+  <p>© 2024 Lokdis. All Rights Reserved.</p>
 </div>
 
 # Lokdis Launch Page
 
 Este es el repositorio de la página de lanzamiento de Lokdis. La aplicación está diseñada para solicitar y compartir fotos y videos en tiempo real.
 
-## Demo
-
-El sitio web está publicado en: [https://nosrey.github.io/lokdis-launch-page/](https://nosrey.github.io/lokdis-launch-page/)
-
 ## Desarrollo
 
-Este proyecto fue creado con React y desplegado utilizando GitHub Pages.
+Este proyecto fue creado con React.
 
 Para ejecutar localmente:
 
 ```bash
 npm install
 npm start
-```
-
-Para desplegar:
-
-```bash
-npm run deploy
 ```

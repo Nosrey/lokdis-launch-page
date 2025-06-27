@@ -1752,7 +1752,9 @@ const LoginModal = ({ isOpen, onClose, language = 'es', onComplete }) => {
           <button className="modal-close" onClick={onClose}> 
             <span>×</span>
           </button>
-          {renderContent()}
+          <div className="login-modal-scrollable-content">
+            {renderContent()}
+          </div>
         </div>
       </div>
       <NotificationModal

@@ -140,7 +140,7 @@ function Navbar() {
       <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
         <div className="navbar-container">
           <div className="navbar-left">
-            <div className="navbar-logo-container">
+            <div className="navbar-logo-container" onClick={() => handleNavigation('/')} style={{ cursor: 'pointer' }}>
               <img src={logo} alt="Lokdis Logo" className="navbar-logo" />
               <h2 className="navbar-brand">LOKDIS</h2>
             </div>
@@ -225,7 +225,7 @@ function Navbar() {
         
         {/* Mobile menu overlay */}
         <div className={`navbar-mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
-          <img src={logo} alt="Lokdis Logo" className="navbar-mobile-menu-logo" />
+          <img src={logo} alt="Lokdis Logo" className="navbar-mobile-menu-logo" onClick={() => handleMobileNavigation('/')} style={{ cursor: 'pointer' }} />
           <div className="navbar-mobile-menu-content">
             <div className="navbar-mobile-language-container">
               <button className="navbar-mobile-link" onClick={toggleLanguageMenu}>
