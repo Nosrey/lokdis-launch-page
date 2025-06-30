@@ -134,13 +134,43 @@ function Navbar() {
     handleNavigation(path);
     setGoToMenuOpen(false);
   };
+
+  const handleLogoClick = () => {
+    console.log('Logo clicked, current path:', location.pathname);
+    
+    // Check if we're in PageView (path starts with /map/ and has parameters)
+    // PageView routes: /map/:country, /map/:country/:state, etc.
+    // MapPage route: /map (exactly)
+    const isInPageView = location.pathname.startsWith('/map/') && location.pathname !== '/map';
+    
+    if (isInPageView) {
+      console.log('In PageView, navigating to /map');
+      navigate('/map');
+    } else {
+      console.log('Not in PageView, scrolling to top');
+      // Force scroll to top immediately and then smooth
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      
+      // Also try smooth scroll as backup
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+    }
+    
+    // Close menus if open
+    if (mobileMenuOpen) setMobileMenuOpen(false);
+    if (languageMenuOpen) setLanguageMenuOpen(false);
+    if (goToMenuOpen) setGoToMenuOpen(false);
+  };
   
   return (
     <>
       <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
         <div className="navbar-container">
           <div className="navbar-left">
-            <div className="navbar-logo-container" onClick={() => handleNavigation('/')} style={{ cursor: 'pointer' }}>
+            <div className="navbar-logo-container" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
               <img src={logo} alt="Lokdis Logo" className="navbar-logo" />
               <h2 className="navbar-brand">LOKDIS</h2>
             </div>
@@ -225,7 +255,7 @@ function Navbar() {
         
         {/* Mobile menu overlay */}
         <div className={`navbar-mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
-          <img src={logo} alt="Lokdis Logo" className="navbar-mobile-menu-logo" onClick={() => handleMobileNavigation('/')} style={{ cursor: 'pointer' }} />
+          <img src={logo} alt="Lokdis Logo" className="navbar-mobile-menu-logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }} />
           <div className="navbar-mobile-menu-content">
             <div className="navbar-mobile-language-container">
               <button className="navbar-mobile-link" onClick={toggleLanguageMenu}>
